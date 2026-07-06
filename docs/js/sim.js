@@ -281,7 +281,10 @@ export function simulate({ teams, schedule, results = [], settings = {} }) {
   const winHist = abbrs.map(() => ({}));
   const sumWins = new Array(T).fill(0);
   const byFinalWins = {};                 // focus: finalWins -> {made, n}
-  const gameLev = focusGames.map(() => ({ winMade: 0, winN: 0, lossMade: 0, lossN: 0 }));
+  // paired counterfactual tallies: every iteration contributes one sample to
+  // BOTH branches (the season as played, and the season with that one game
+  // flipped), so winMade and lossMade are each out of n
+  const gameLev = focusGames.map(() => ({ winMade: 0, lossMade: 0 }));
 
   const outcome = new Array(games.length); // true = home team won
 
@@ -384,13 +387,47 @@ export function simulate({ teams, schedule, results = [], settings = {} }) {
       const bin = (byFinalWins[fw] = byFinalWins[fw] || { made: 0, n: 0 });
       bin.n++;
       if (made) bin.made++;
+
+      // Per-game leverage, measured CAUSALLY: inside this same simulated
+      // season, flip just this one game's outcome and re-rank the standings.
+      // Comparing "seasons where the team happened to win game X" against
+      // "seasons where it lost" would be badly confounded: with roster churn,
+      // winning any given game correlates with having drawn a hot roster all
+      // season, which inflates every game's apparent importance. The paired
+      // flip isolates what THIS game does, holding the rest of the season
+      // fixed.
       for (let fi = 0; fi < focusGames.length; fi++) {
         const g = focusGames[fi];
         const gi = games.indexOf(g);
         const focusWon = outcome[gi] === (g.home === focus);
+        const oppIdx = g.home === focus ? g.away : g.home;
+        const wIdx = focusWon ? focus : oppIdx;   // actual winner
+        const lIdx = focusWon ? oppIdx : focus;   // actual loser
+        const wa = abbrs[wIdx], la = abbrs[lIdx];
+
+        // flip: loser takes the 2 points and the head-to-head credit
+        entries[wIdx].pts -= 2;
+        entries[lIdx].pts += 2;
+        h2hPts[wa][la] -= 2;
+        h2hPts[la][wa] = (h2hPts[la][wa] || 0) + 2;
+
+        const flippedOrder = rankTeams(entries, h2hPts, h2hGames, rand);
+        const madeFlipped = flippedOrder.slice(0, 4).includes(abbrs[focus]);
+
+        // restore
+        entries[wIdx].pts += 2;
+        entries[lIdx].pts -= 2;
+        h2hPts[wa][la] += 2;
+        h2hPts[la][wa] -= 2;
+
         const t = gameLev[fi];
-        if (focusWon) { t.winN++; if (made) t.winMade++; }
-        else { t.lossN++; if (made) t.lossMade++; }
+        if (focusWon) {
+          t.winMade += made ? 1 : 0;
+          t.lossMade += madeFlipped ? 1 : 0;
+        } else {
+          t.lossMade += made ? 1 : 0;
+          t.winMade += madeFlipped ? 1 : 0;
+        }
       }
     }
   }
@@ -448,14 +485,14 @@ export function simulate({ teams, schedule, results = [], settings = {} }) {
       const home = g.home === focus;
       const winProb = home ? pGame[gi] : 1 - pGame[gi];
       const t = gameLev[fi];
-      const pWin = t.winN ? t.winMade / t.winN : 0;
-      const pLoss = t.lossN ? t.lossMade / t.lossN : 0;
       return {
         date: g.date,
         opp: abbrs[home ? g.away : g.home],
         homeAway: home ? "home" : "away",
         winProb,
-        leverage: (t.winN && t.lossN) ? Math.abs(pWin - pLoss) : 0,
+        // causal: P(playoffs | this game won) - P(playoffs | this game lost),
+        // all else in the season held fixed
+        leverage: Math.abs(t.winMade - t.lossMade) / n,
       };
     });
     out.lowell = { oddsByFinalWins, gameProbs };

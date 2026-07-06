@@ -181,6 +181,25 @@ test("scenario tools: forced outcomes and forced Lowell record", () => {
   assert.ok(forced.teams.LOW.expWins > baseline.teams.LOW.expWins, "a forced win nudges expected wins up");
 });
 
+test("leverage is causal: matches forcing the game won vs lost", () => {
+  const teams = () => SEED_TEAMS.map((t) => ({ ...t }));
+  const gi = SEED_SCHEDULE.findIndex((g) => g.h === "NSH" && g.a === "LOW");
+  const N = 8000;
+  const base = simulate({ teams: teams(), schedule: SEED_SCHEDULE, results: [],
+    settings: { nSims: N, seed: 21 } });
+  const lev = base.lowell.gameProbs[0].leverage;
+  // ground truth: two interventional runs on common seeds
+  const won = simulate({ teams: teams(), schedule: SEED_SCHEDULE, results: [],
+    settings: { nSims: N, seed: 21, forcedOutcomes: { [gi]: "away" } } });
+  const lost = simulate({ teams: teams(), schedule: SEED_SCHEDULE, results: [],
+    settings: { nSims: N, seed: 21, forcedOutcomes: { [gi]: "home" } } });
+  const direct = won.teams.LOW.playoffPct - lost.teams.LOW.playoffPct;
+  assert.ok(Math.abs(lev - direct) < 0.02,
+    `paired leverage ${lev} vs direct intervention ${direct}`);
+  // and it must be a sane single-game magnitude, not a churn-confounded one
+  assert.ok(lev > 0.005 && lev < 0.12, `leverage magnitude ${lev}`);
+});
+
 test("lowellForce is a TOTAL record: forced game wins count toward it", () => {
   const teams = SEED_TEAMS.map((t) => ({ ...t }));
   const idx = SEED_SCHEDULE.findIndex((g) => g.h === "NSH" && g.a === "LOW");
