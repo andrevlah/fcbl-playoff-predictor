@@ -1,0 +1,19 @@
+{
+  "name": "fcbl-playoff-predictor",
+  "version": "1.0.0",
+  "description": "FiveThirtyEight-style playoff predictor for the 2026 Futures Collegiate Baseball League",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "scrape": "node scripts/scrape.js",
+    "seed": "node scripts/seed.js",
+    "test": "node --test \"test/*.test.js\"",
+    "serve": "npx serve docs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0"
+  }
+}

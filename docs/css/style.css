@@ -1,0 +1,426 @@
+/* FCBL Playoff Predictor — FiveThirtyEight-inspired editorial styling */
+
+:root {
+  --bg: #ffffff;
+  --panel: #f7f7f7;
+  --ink: #222222;
+  --ink-soft: #666666;
+  --ink-faint: #999999;
+  --grid: #e0e0e0;
+  --lowell: #C8102E;
+  --lowell-tint: #fdf3f4;
+  --accent: #222222;
+  --radius: 6px;
+  --sans: "Helvetica Neue", Helvetica, Arial, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --mono: "SF Mono", SFMono-Regular, ui-monospace, "Roboto Mono", Menlo, monospace;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--sans);
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.45;
+}
+
+a { color: inherit; }
+
+main {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 0 20px 60px;
+}
+
+/* ---------- masthead ---------- */
+
+.masthead {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 44px 20px 8px;
+  border-bottom: 2px solid var(--ink);
+}
+
+.kicker {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--lowell);
+  margin: 0 0 6px;
+}
+
+.masthead h1 {
+  font-size: clamp(30px, 5.5vw, 46px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0 0 8px;
+}
+
+.dateline {
+  font-size: 14px;
+  color: var(--ink-soft);
+  margin: 0 0 4px;
+}
+
+.disclaimer {
+  font-size: 12px;
+  color: var(--ink-faint);
+  margin: 0 0 14px;
+}
+
+/* ---------- panels ---------- */
+
+.panel {
+  margin-top: 42px;
+}
+
+.panel h2 {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin: 0 0 6px;
+}
+
+.panel h3 {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0 0 6px;
+}
+
+.panel-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.panel-logo { width: 52px; height: 52px; object-fit: contain; }
+
+.section-note {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  margin: 0 0 16px;
+  max-width: 72ch;
+}
+
+.mini-note {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--ink-faint);
+}
+
+/* ---------- what-if banner ---------- */
+
+.whatif-banner[hidden], .scenario-delta[hidden] { display: none; }
+
+.whatif-banner {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 18px;
+  padding: 10px 14px;
+  background: #fff8e6;
+  border: 1px solid #f0d998;
+  border-radius: var(--radius);
+  font-size: 13.5px;
+}
+
+.btn-reset, .btn-small {
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border: 1px solid var(--ink);
+  background: var(--bg);
+  border-radius: 999px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-reset:hover, .btn-small:hover { background: var(--ink); color: #fff; }
+
+/* ---------- odds table ---------- */
+
+.table-scroll { overflow-x: auto; }
+
+.odds-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  min-width: 860px;
+}
+
+.odds-table th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+  padding: 8px 10px;
+  border-bottom: 2px solid var(--ink);
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.odds-table th.sorted::after { content: " ▾"; }
+.odds-table th.sorted.asc::after { content: " ▴"; }
+
+.odds-table td {
+  padding: 10px;
+  border-bottom: 1px solid var(--grid);
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+tr.row-lowell td {
+  background: var(--lowell-tint);
+}
+
+tr.row-lowell td:first-child {
+  box-shadow: inset 3px 0 0 var(--lowell);
+}
+
+.team-cell { display: flex; align-items: center; gap: 10px; min-width: 190px; }
+
+.team-logo, .logo-fallback {
+  width: 30px; height: 30px; flex: none;
+}
+.team-logo { object-fit: contain; }
+.logo-fallback {
+  border-radius: 50%;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.team-name { font-weight: 700; }
+.team-streak { font-size: 11px; color: var(--ink-faint); }
+
+.prob-cell { min-width: 150px; }
+
+.prob-num {
+  font-family: var(--mono);
+  font-size: 16px;
+  font-weight: 700;
+  display: inline-block;
+  min-width: 62px;
+}
+
+.prob-delta { font-size: 11px; font-weight: 600; margin-left: 2px; }
+.prob-delta.up { color: #1a7f37; }
+.prob-delta.down { color: #c22e2e; }
+
+.prob-bar-track {
+  height: 7px;
+  background: #eeeeee;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.prob-bar {
+  height: 100%;
+  border-radius: 4px;
+  width: 0%;
+  transition: width 650ms cubic-bezier(.25,.7,.3,1);
+}
+
+.seed-cell { font-family: var(--mono); font-size: 12.5px; color: var(--ink-soft); }
+.num-cell { font-family: var(--mono); font-size: 13px; }
+.proj-band { font-size: 11px; color: var(--ink-faint); display: block; }
+
+/* ---------- charts ---------- */
+
+.chart { width: 100%; }
+.chart svg { display: block; width: 100%; height: auto; }
+
+.chip-toggle { display: inline-flex; border: 1px solid var(--ink); border-radius: 999px; overflow: hidden; }
+.chip {
+  font: inherit; font-size: 12.5px; font-weight: 600;
+  border: none; background: var(--bg); padding: 5px 14px; cursor: pointer;
+}
+.chip.active { background: var(--ink); color: #fff; }
+
+.tooltip {
+  position: fixed;
+  z-index: 100;
+  pointer-events: none;
+  background: #fff;
+  border: 1px solid var(--ink);
+  border-radius: var(--radius);
+  padding: 8px 10px;
+  font-size: 12px;
+  box-shadow: 0 3px 12px rgba(0,0,0,.12);
+  max-width: 260px;
+}
+.tooltip .tt-row { display: flex; justify-content: space-between; gap: 14px; }
+.tooltip .tt-name { font-weight: 600; }
+
+/* ---------- Lowell panel ---------- */
+
+.lowell-panel {
+  background: var(--panel);
+  border-top: 3px solid var(--lowell);
+  border-radius: var(--radius);
+  padding: 22px 22px 26px;
+}
+
+.lowell-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-top: 14px;
+}
+
+.lowell-schedule { max-height: 420px; overflow-y: auto; }
+
+.lgame {
+  display: grid;
+  grid-template-columns: 84px 1fr 120px;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px;
+  font-size: 13px;
+  border-bottom: 1px solid var(--grid);
+  background: #fff;
+}
+.lgame:nth-child(odd) { background: #fcfcfc; }
+.lgame.flagged { box-shadow: inset 3px 0 0 var(--lowell); }
+.lgame-date { color: var(--ink-soft); font-size: 12px; }
+.lgame-opp { display: flex; align-items: center; gap: 6px; font-weight: 600; }
+.lgame-opp .ha { font-weight: 400; color: var(--ink-faint); font-size: 11px; }
+.lgame-flag { color: var(--lowell); }
+.lgame-prob { display: flex; align-items: center; gap: 8px; }
+.lgame-prob .prob-bar-track { flex: 1; margin: 0; }
+.lgame-prob .pnum { font-family: var(--mono); font-size: 12px; min-width: 34px; text-align: right; }
+
+.biggest-note {
+  margin: 10px 0 0;
+  font-size: 12.5px;
+  color: var(--ink-soft);
+}
+
+/* ---------- dials ---------- */
+
+#dials-panel {
+  background: var(--panel);
+  border-radius: var(--radius);
+  padding: 22px;
+}
+
+.sim-status { font-size: 12.5px; color: var(--ink-faint); min-height: 1em; }
+.sim-status.working::after { content: " simulating…"; color: var(--lowell); animation: pulse 1s infinite; }
+@keyframes pulse { 50% { opacity: 0.35; } }
+
+.news-notes {
+  border-left: 3px solid var(--ink);
+  background: #fff;
+  padding: 10px 14px;
+  margin-bottom: 18px;
+  font-size: 13px;
+}
+.news-notes p { margin: 3px 0; }
+.news-notes .nn-label {
+  font-size: 10.5px; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-faint);
+}
+
+.dials-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+.slider-row { display: block; margin: 12px 0; font-size: 13.5px; }
+.slider-label { display: flex; justify-content: space-between; margin-bottom: 3px; }
+.slider-label b { font-family: var(--mono); font-weight: 600; }
+
+input[type="range"] {
+  width: 100%;
+  accent-color: var(--lowell);
+}
+
+.check-row { display: flex; gap: 8px; align-items: flex-start; font-size: 13px; margin: 12px 0; }
+
+.team-dial { display: grid; grid-template-columns: 120px 1fr 52px; gap: 10px; align-items: center; margin: 7px 0; font-size: 13px; }
+.team-dial .td-name { display: flex; align-items: center; gap: 6px; font-weight: 600; }
+.team-dial .td-name img, .team-dial .td-name .logo-fallback { width: 20px; height: 20px; }
+.team-dial .td-val { font-family: var(--mono); font-size: 12px; text-align: right; color: var(--ink-soft); }
+
+/* ---------- scenario tool ---------- */
+
+.scenario-block { margin-top: 26px; border-top: 1px solid var(--grid); padding-top: 18px; }
+.scenario-lowell { max-width: 460px; }
+
+.scenario-delta {
+  margin: 10px 0;
+  padding: 10px 14px;
+  background: #fff;
+  border-radius: var(--radius);
+  border: 1px solid var(--grid);
+  font-size: 14px;
+}
+.scenario-delta b { font-family: var(--mono); }
+
+.scenario-controls { display: flex; gap: 14px; align-items: center; margin: 12px 0; font-size: 13px; flex-wrap: wrap; }
+.scenario-controls select { font: inherit; font-size: 13px; padding: 3px 6px; }
+
+.scenario-list { max-height: 340px; overflow-y: auto; background: #fff; border: 1px solid var(--grid); border-radius: var(--radius); }
+
+.sgame {
+  display: grid;
+  grid-template-columns: 84px 1fr auto;
+  gap: 10px;
+  align-items: center;
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--grid);
+  font-size: 13px;
+}
+.sgame-date { color: var(--ink-soft); font-size: 12px; }
+.sgame-note { color: var(--ink-faint); font-size: 11px; margin-left: 6px; }
+
+.outcome-toggle { display: inline-flex; border: 1px solid var(--grid); border-radius: 999px; overflow: hidden; }
+.outcome-toggle button {
+  font: inherit; font-size: 11.5px; font-weight: 600;
+  border: none; background: #fff; padding: 3px 10px; cursor: pointer; color: var(--ink-soft);
+}
+.outcome-toggle button.on { background: var(--ink); color: #fff; }
+
+/* ---------- methodology / footer ---------- */
+
+.methodology details { border-top: 2px solid var(--ink); padding-top: 14px; }
+.methodology summary { cursor: pointer; list-style: none; display: flex; align-items: center; gap: 8px; }
+.methodology summary::before { content: "▸"; font-size: 14px; }
+.methodology details[open] summary::before { content: "▾"; }
+.methodology summary h2 { display: inline; font-size: 18px; margin: 0; }
+.method-body { max-width: 76ch; font-size: 14px; color: var(--ink-soft); }
+.method-body strong { color: var(--ink); }
+
+.site-footer {
+  border-top: 1px solid var(--grid);
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 22px 20px 40px;
+  font-size: 12.5px;
+  color: var(--ink-faint);
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 760px) {
+  .lowell-grid, .dials-grid { grid-template-columns: 1fr; }
+  .masthead { padding-top: 28px; }
+  .whatif-banner { flex-direction: column; align-items: flex-start; }
+  .team-dial { grid-template-columns: 96px 1fr 46px; }
+}

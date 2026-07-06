@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FCBL Playoff Predictor — 2026 Futures League</title>
+<meta name="description" content="Live playoff and championship odds for the 2026 Futures Collegiate Baseball League, updated game by game. An unofficial Lowell Spinners fan project.">
+<link rel="preconnect" href="https://cdn.prestosports.com">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="https://cdn.prestosports.com/action/cdn/logos/id/t5qjkc7rx8vjsu24.png">
+</head>
+<body>
+
+<header class="masthead">
+  <p class="kicker">2026 FUTURES COLLEGIATE BASEBALL LEAGUE</p>
+  <h1>FCBL Playoff Predictor</h1>
+  <p class="dateline">Updated <span id="as-of">—</span> · <span id="games-completed">—</span> games played ·
+    data from <a href="https://thefuturesleague.com" target="_blank" rel="noopener">thefuturesleague.com</a></p>
+  <p class="disclaimer">An unofficial fan project. Not affiliated with the FCBL or any of its clubs.</p>
+</header>
+
+<main>
+
+<div id="whatif-banner" class="whatif-banner" hidden>
+  <span>🔧 You're viewing a <strong>what-if</strong> — the dials below are changing these numbers.
+  The odds-over-time chart still shows official odds.</span>
+  <button id="reset-official" class="btn-reset">Reset to official</button>
+</div>
+
+<section class="panel" id="odds-table-panel">
+  <h2>Who makes the playoffs?</h2>
+  <p class="section-note">Top 4 of 7 teams qualify, ranked by points percentage
+    (2 points per win, 1 for a Home-Run-Derby loss). Odds from
+    <span id="n-sims">25,000</span> season simulations.</p>
+  <div class="table-scroll">
+    <table class="odds-table" id="odds-table">
+      <thead>
+        <tr>
+          <th class="th-team" data-sort="name">Team</th>
+          <th data-sort="record">Record</th>
+          <th data-sort="ptsPct">Pts%</th>
+          <th data-sort="gb">GB</th>
+          <th class="th-big" data-sort="playoffPct">Make playoffs</th>
+          <th class="th-big" data-sort="titlePct">Win championship</th>
+          <th class="th-seed" data-sort="seed1">1st</th>
+          <th class="th-seed" data-sort="seed2">2nd</th>
+          <th class="th-seed" data-sort="seed3">3rd</th>
+          <th class="th-seed" data-sort="seed4">4th</th>
+          <th data-sort="expWins">Proj. finish</th>
+        </tr>
+      </thead>
+      <tbody id="odds-tbody"></tbody>
+    </table>
+  </div>
+</section>
+
+<section class="panel" id="history-panel">
+  <div class="panel-head">
+    <h2>Odds over time</h2>
+    <div class="chip-toggle" id="history-metric">
+      <button class="chip active" data-metric="playoffPct">Playoffs</button>
+      <button class="chip" data-metric="titlePct">Championship</button>
+    </div>
+  </div>
+  <p class="section-note">Official odds after each update that included a new final score. Hover for details.</p>
+  <div id="history-chart" class="chart"></div>
+</section>
+
+<section class="panel lowell-panel" id="lowell-panel">
+  <div class="panel-head">
+    <img id="lowell-logo" class="panel-logo" alt="Lowell Spinners logo">
+    <div>
+      <h2>Spinners Watch</h2>
+      <p class="section-note" id="lowell-summary">—</p>
+    </div>
+  </div>
+
+  <div class="lowell-grid">
+    <div class="lowell-col">
+      <h3>What record gets Lowell in?</h3>
+      <p class="mini-note">Playoff odds by final win total, from the same simulations. Faded bars = fewer than 100 simulated seasons landed there.</p>
+      <div id="lowell-curve" class="chart chart-small"></div>
+    </div>
+    <div class="lowell-col">
+      <h3>Remaining schedule <span class="mini-note">⚑ = biggest games left</span></h3>
+      <div id="lowell-schedule" class="lowell-schedule"></div>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="dials-panel">
+  <div class="panel-head">
+    <h2>Play GM</h2>
+    <span class="sim-status" id="sim-status"></span>
+  </div>
+  <p class="section-note">The model only sees runs scored, runs allowed, and the schedule.
+    It can't see roster moves — that's what these dials are for. Changes re-simulate instantly on your device.</p>
+
+  <div class="news-notes" id="news-notes"></div>
+
+  <div class="dials-grid">
+    <div class="dial-block">
+      <h3>League settings</h3>
+      <label class="slider-row">
+        <span class="slider-label">Home-field advantage <b id="hfa-val">+3.5%</b></span>
+        <input type="range" id="hfa-slider" min="0" max="0.08" step="0.005" value="0.035">
+      </label>
+      <label class="check-row">
+        <input type="checkbox" id="team-hfa-toggle" checked>
+        <span>Use each team's own home/away split (regressed) — e.g. Lowell has been far better at home</span>
+      </label>
+      <label class="slider-row">
+        <span class="slider-label">Simulations <b id="sims-val">10,000</b></span>
+        <input type="range" id="sims-slider" min="1000" max="50000" step="1000" value="10000">
+      </label>
+    </div>
+    <div class="dial-block">
+      <h3>Team strength <span class="mini-note">nudge for injuries / departures / hot rosters</span></h3>
+      <div id="team-dials"></div>
+    </div>
+  </div>
+
+  <div class="scenario-block">
+    <h3>Scenario tool</h3>
+    <p class="mini-note">Force outcomes of specific games, or set Lowell's rest-of-season record, and see how the odds move.</p>
+
+    <div class="scenario-lowell">
+      <label class="slider-row">
+        <span class="slider-label">Lowell goes <b id="lowell-force-val">— (off)</b> the rest of the way</span>
+        <input type="range" id="lowell-force-slider" min="-1" max="25" step="1" value="-1">
+      </label>
+      <div class="scenario-delta" id="scenario-delta" hidden></div>
+    </div>
+
+    <div class="scenario-games">
+      <div class="scenario-controls">
+        <label>Show games for
+          <select id="scenario-filter">
+            <option value="LOW" selected>Lowell Spinners</option>
+            <option value="ALL">All teams</option>
+          </select>
+        </label>
+        <button class="btn-small" id="clear-forced">Clear forced games</button>
+      </div>
+      <div id="scenario-list" class="scenario-list"></div>
+    </div>
+  </div>
+</section>
+
+<section class="panel methodology" id="methodology">
+  <details>
+    <summary><h2>How this works</h2></summary>
+    <div class="method-body">
+      <p><strong>The short version:</strong> we estimate how good each team is from its runs scored and
+      runs allowed (which predict the future better than win-loss record does), blend in the actual record,
+      and stay skeptical of small sample sizes. Then we play out every remaining game on the schedule
+      thousands of times on a virtual coin weighted by those strengths — plus a home-field bump — and count
+      how often each team finishes top-4 in points percentage and how often it wins the whole thing.</p>
+      <p><strong>The league's quirks are built in:</strong> standings use points percentage
+      (2 points per win, 1 point for losing a game decided by the Home Run Derby tiebreaker), ties break by
+      total points and then head-to-head, and the playoffs are best-of-3 semifinals (1v4, 2v3) and a
+      best-of-3 final where the higher seed hosts games 1 and 3.</p>
+      <p><strong>What the model can't see:</strong> roster moves, injuries, pitching matchups, or players
+      leaving for the MLB Draft and school commitments — a real factor in summer college ball. That's why
+      the "Play GM" dials exist: if you know a team just lost its ace, turn them down and see what happens.</p>
+      <p><strong>Honesty note:</strong> these are estimates, not promises. A 90% chance loses one time in
+      ten. Early-season odds move a lot; that's the math working, not breaking.</p>
+    </div>
+  </details>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <p>Data scraped politely from <a href="https://thefuturesleague.com" target="_blank" rel="noopener">thefuturesleague.com</a>
+    (PrestoSports) and updated automatically every 30 minutes during game hours.</p>
+  <p>An unofficial fan project by the Lowell Spinners front office. Go Spinners. ⚾</p>
+</footer>
+
+<div id="tooltip" class="tooltip" hidden></div>
+
+<script src="vendor/d3.v7.min.js"></script>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
