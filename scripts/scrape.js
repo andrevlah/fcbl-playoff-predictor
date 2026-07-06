@@ -194,6 +194,16 @@ async function main() {
 }
 
 main().catch((err) => {
+  // Rate limiting is weather, not breakage: the site will let the next
+  // scheduled run through, and the published data is untouched. Exit clean
+  // with a workflow warning so red X's stay meaningful (parse/validation
+  // failures, which need a human, still fail loudly).
+  if (/HTTP (403|405|429)/.test(err.message || "")) {
+    console.warn("\nSCRAPE SKIPPED: the league site is rate-limiting us right now.");
+    console.warn("Previous data left untouched; the next scheduled run will catch up.");
+    console.warn(`::warning::Scrape skipped (rate limited): ${err.message}`);
+    process.exit(0);
+  }
   console.error("\nSCRAPE FAILED: previous data left untouched.");
   console.error(err.stack || err.message);
   process.exit(1);
