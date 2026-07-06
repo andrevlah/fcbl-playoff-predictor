@@ -1,4 +1,4 @@
-/* FCBL Playoff Predictor — FiveThirtyEight-inspired editorial styling */
+/* FCBL Playoff Predictor: FiveThirtyEight-inspired editorial styling */
 
 :root {
   --bg: #ffffff;
@@ -207,7 +207,7 @@ tr.row-lowell td:first-child {
 .team-name { font-weight: 700; }
 .team-streak { font-size: 11px; color: var(--ink-faint); }
 
-.prob-cell { min-width: 150px; }
+.prob-cell { min-width: 170px; }
 
 .prob-num {
   font-family: var(--mono);
@@ -215,6 +215,7 @@ tr.row-lowell td:first-child {
   font-weight: 700;
   display: inline-block;
   min-width: 62px;
+  white-space: nowrap;
 }
 
 .prob-delta { font-size: 11px; font-weight: 600; margin-left: 2px; }

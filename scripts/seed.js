@@ -1,6 +1,6 @@
 // Regenerates docs/data/ from the embedded July 5 snapshot.
 // Run with:  npm run seed
-// You should never need this after the first live scrape — it exists so the
+// You should never need this after the first live scrape. It exists so the
 // site works out of the box and so the repo can be reset to a known state.
 
 import fs from "node:fs";

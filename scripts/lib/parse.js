@@ -1,6 +1,6 @@
 // HTML parsers for the two PrestoSports page types we rely on.
 // Both are deliberately defensive: the validation gate in data.js is the real
-// safety net — if the site's markup shifts and parsing goes wrong, records
+// safety net: if the site's markup shifts and parsing goes wrong, records
 // won't reconcile and the scraper refuses to publish.
 
 import * as cheerio from "cheerio";
@@ -103,7 +103,7 @@ export function parseSchedulePage(html, teamAbbr) {
     const gameId = gameIdM ? gameIdM[1] : null;
     const time = normalizeTime(rowText);
 
-    // Result like "W, 10-5" / "L 3-4" — first score is OUR runs (Presto style)
+    // Result like "W, 10-5" / "L 3-4"; first score is OUR runs (Presto style)
     const resM = rowText.match(/\b([WL])\s*,?\s+(\d+)\s*-\s*(\d+)/);
     const postponed = /\b(ppd|postponed|susp)\b/i.test(rowText);
     const cancelled = /\b(cancelled|canceled)\b/i.test(rowText);
@@ -186,7 +186,7 @@ export function parseStatsPage(html) {
 
   const missing = Object.keys(TEAMS).filter((a) => !out[a] || out[a].RS == null || out[a].RA == null);
   if (missing.length) {
-    throw new Error(`Stats page parse incomplete — missing RS/RA for: ${missing.join(", ")}`);
+    throw new Error(`Stats page parse incomplete, missing RS/RA for: ${missing.join(", ")}`);
   }
   return out;
 }

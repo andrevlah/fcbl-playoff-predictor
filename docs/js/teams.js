@@ -1,4 +1,4 @@
-// Team config — the single source of truth for team identity, colors, and IDs.
+// Team config: the single source of truth for team identity, colors, and IDs.
 // Shared by the browser (loaded directly) and the Node scraper (via config/teams.js).
 
 export const TEAMS = {
@@ -18,7 +18,7 @@ export function logoURL(abbr) {
 }
 
 // ---------------------------------------------------------------------------
-// MANUAL OVERRIDES — Andre, these two are yours to edit.
+// MANUAL OVERRIDES: Andre, these two are yours to edit.
 // ---------------------------------------------------------------------------
 
 // Home-Run-Derby losses. The league awards 1 point for a loss decided by the
@@ -28,9 +28,9 @@ export function logoURL(abbr) {
 export const derbyLossOverrides = {};
 
 // Roster news shown next to the team-strength dials. Plain text, one note per
-// line. Add / remove / edit freely — no code knowledge needed.
+// line. Add / remove / edit freely, no code knowledge needed.
 export const newsNotes = [
-  "MLB Draft July 11–12 — draft-eligible standouts may depart mid-July",
+  "MLB Draft July 11-12: draft-eligible standouts may depart mid-July",
   "Nashua: Navy players Steed & Gopal depart ~end of June/July (military obligations)",
-  "Westfield: 5 players in the June 30 Northeast Prospects Game — scout attention = departure risk; top arm Thomas Pirog is the needle-mover",
+  "Westfield: 5 players in the June 30 Northeast Prospects Game, so scout attention means departure risk; top arm Thomas Pirog is the needle-mover",
 ];

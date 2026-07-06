@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FCBL Playoff Predictor — 2026 Futures League</title>
+<title>FCBL Playoff Predictor: 2026 Futures League</title>
 <meta name="description" content="Live playoff and championship odds for the 2026 Futures Collegiate Baseball League, updated game by game. An unofficial Lowell Spinners fan project.">
 <link rel="preconnect" href="https://cdn.prestosports.com">
 <link rel="stylesheet" href="css/style.css">
@@ -14,7 +14,7 @@
 <header class="masthead">
   <p class="kicker">2026 FUTURES COLLEGIATE BASEBALL LEAGUE</p>
   <h1>FCBL Playoff Predictor</h1>
-  <p class="dateline">Updated <span id="as-of">—</span> · <span id="games-completed">—</span> games played ·
+  <p class="dateline">Updated <span id="as-of">...</span> · <span id="games-completed">...</span> games played ·
     data from <a href="https://thefuturesleague.com" target="_blank" rel="noopener">thefuturesleague.com</a></p>
   <p class="disclaimer">An unofficial fan project. Not affiliated with the FCBL or any of its clubs.</p>
 </header>
@@ -22,13 +22,19 @@
 <main>
 
 <div id="whatif-banner" class="whatif-banner" hidden>
-  <span>🔧 You're viewing a <strong>what-if</strong> — the dials below are changing these numbers.
+  <span>🔧 You're viewing a <strong>what-if</strong>: the dials below are changing these numbers.
   The odds-over-time chart still shows official odds.</span>
   <button id="reset-official" class="btn-reset">Reset to official</button>
 </div>
 
 <section class="panel" id="odds-table-panel">
-  <h2>Who makes the playoffs?</h2>
+  <div class="panel-head">
+    <h2>Who makes the playoffs?</h2>
+    <div class="chip-toggle" id="odds-format">
+      <button class="chip active" data-format="pct">Percent</button>
+      <button class="chip" data-format="american">American odds</button>
+    </div>
+  </div>
   <p class="section-note">Top 4 of 7 teams qualify, ranked by points percentage
     (2 points per win, 1 for a Home-Run-Derby loss). Odds from
     <span id="n-sims">25,000</span> season simulations.</p>
@@ -40,7 +46,7 @@
           <th data-sort="record">Record</th>
           <th data-sort="ptsPct">Pts%</th>
           <th data-sort="gb">GB</th>
-          <th data-sort="runDiff" title="Runs scored minus runs allowed — the main driver of the model's team strength">Run diff</th>
+          <th data-sort="runDiff" title="Runs scored minus runs allowed, the main driver of the model's team strength">Run diff</th>
           <th class="th-big" data-sort="playoffPct">Make playoffs</th>
           <th class="th-big" data-sort="titlePct">Win championship</th>
           <th class="th-seed" data-sort="seed1">1st</th>
@@ -72,7 +78,7 @@
     <img id="lowell-logo" class="panel-logo" alt="Lowell Spinners logo">
     <div>
       <h2>Spinners Watch</h2>
-      <p class="section-note" id="lowell-summary">—</p>
+      <p class="section-note" id="lowell-summary">...</p>
     </div>
   </div>
 
@@ -95,7 +101,7 @@
     <span class="sim-status" id="sim-status"></span>
   </div>
   <p class="section-note">The model only sees runs scored, runs allowed, and the schedule.
-    It can't see roster moves — that's what these dials are for. Changes re-simulate instantly on your device.</p>
+    It can't see roster moves. That's what these dials are for. Changes re-simulate instantly on your device.</p>
 
   <div class="news-notes" id="news-notes"></div>
 
@@ -108,7 +114,7 @@
       </label>
       <label class="check-row">
         <input type="checkbox" id="team-hfa-toggle" checked>
-        <span>Use each team's own home/away split (regressed) — e.g. Lowell has been far better at home</span>
+        <span>Use each team's own home/away split (regressed), e.g. Lowell has been far better at home</span>
       </label>
       <label class="slider-row">
         <span class="slider-label">Roster churn <b id="churn-val">±12%</b></span>
@@ -116,7 +122,7 @@
       </label>
       <p class="mini-note">How much team strength can swing mid-summer (draft departures, school
         commitments, a roster gelling). In 2025, Nashua fell from playoff position to 24–36 and a
-        sub-.500 Norwich won the title — set to 0 to see a "rosters never change" world.</p>
+        sub-.500 Norwich won the title. Set to 0 to see a "rosters never change" world.</p>
       <label class="slider-row">
         <span class="slider-label">Trust in run differential <b id="pyth-val">55%</b></span>
         <input type="range" id="pyth-slider" min="0" max="1" step="0.05" value="0.55">
@@ -140,7 +146,7 @@
 
     <div class="scenario-lowell">
       <label class="slider-row">
-        <span class="slider-label">Lowell goes <b id="lowell-force-val">— (off)</b> the rest of the way</span>
+        <span class="slider-label">Lowell goes <b id="lowell-force-val">Off</b> the rest of the way</span>
         <input type="range" id="lowell-force-slider" min="-1" max="25" step="1" value="-1">
       </label>
       <div class="scenario-delta" id="scenario-delta" hidden></div>
@@ -168,22 +174,22 @@
       <p><strong>The short version:</strong> we estimate how good each team is from its runs scored and
       runs allowed (which predict the future better than win-loss record does), blend in the actual record,
       and stay skeptical of small sample sizes. This is why a .500 team with a big positive run
-      differential can post playoff odds that look "too high" next to its record — the model is betting
+      differential can post playoff odds that look "too high" next to its record: the model is betting
       the runs are telling the truth and the record will catch up. Then we play out every remaining game on the schedule
-      thousands of times on a virtual coin weighted by those strengths — plus a home-field bump — and count
+      thousands of times on a virtual coin weighted by those strengths, plus a home-field bump, and count
       how often each team finishes top-4 in points percentage and how often it wins the whole thing.</p>
       <p><strong>The league's quirks are built in:</strong> standings use points percentage
       (2 points per win, 1 point for losing a game decided by the Home Run Derby tiebreaker), ties break by
       total points and then head-to-head, and the playoffs are best-of-3 semifinals (1v4, 2v3) and a
       best-of-3 final where the higher seed hosts games 1 and 3.</p>
-      <p><strong>Summer ball is chaos, and the model knows it:</strong> rosters turn over mid-season —
+      <p><strong>Summer ball is chaos, and the model knows it:</strong> rosters turn over mid-season:
       MLB Draft departures, school commitments, innings limits. In 2025, Nashua fell from playoff position
       to 24–36 while a sub-.500 Norwich took the 4-seed and won its third straight title. So in every
       simulated season, each team's strength gets a random mid-summer swing (the "roster churn" dial,
       default ±12%). Most seasons it's small; sometimes it's a full-on collapse or a hot-roster surge.
       That's why nobody here gets a 99.9% and nobody gets a 0.1% while there's still a month of baseball left.</p>
       <p><strong>What the model still can't see:</strong> <em>which</em> roster will be the one that
-      changes. Churn is random in the simulations; you may actually know things it doesn't — that's what
+      changes. Churn is random in the simulations; you may actually know things it doesn't. That's what
       the per-team strength dials are for. If you know a team just lost its ace, turn them down and watch.</p>
       <p><strong>Honesty note:</strong> these are estimates, not promises. A 90% chance loses one time in
       ten. Early-season odds move a lot; that's the math working, not breaking.</p>
@@ -202,6 +208,6 @@
 <div id="tooltip" class="tooltip" hidden></div>
 
 <script src="vendor/d3.v7.min.js"></script>
-<script type="module" src="js/app.js?v=3"></script>
+<script type="module" src="js/app.js?v=4"></script>
 </body>
 </html>

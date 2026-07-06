@@ -11,7 +11,7 @@ const VERMONT = { abbr: "VT", W: 22, L: 10, GP: 32, homeW: 13, homeL: 4, awayW: 
 
 // The original spec's reference parameters. Production defaults are softer
 // (pythWeight .55, prior 28, rosterChurn .12) after the July 5 recalibration
-// against 2025 league history — but the formulas must still reproduce the
+// against 2025 league history, but the formulas must still reproduce the
 // spec's hand-worked numbers when given the spec's parameters.
 const SPEC_PARAMS = { pythWeight: 0.70, regressPrior: 12 };
 

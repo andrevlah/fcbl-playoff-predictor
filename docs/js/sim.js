@@ -1,5 +1,5 @@
 // ---------------------------------------------------------------------------
-// FCBL Playoff Predictor — simulation engine (single source of truth).
+// FCBL Playoff Predictor: simulation engine (single source of truth).
 //
 // This exact file runs in two places:
 //   * Node (GitHub Actions scraper) via src/sim.js
@@ -24,13 +24,13 @@ export const DEFAULT_SETTINGS = {
   regressPrior: 90,      // games of .500 ball blended in. Empirically derived:
                          //   the 2026 standings spread (SD .103) is barely wider
                          //   than pure coin-flip noise over ~32 games (SD .087),
-                         //   so only ~28% of the observed gaps are real skill —
+                         //   so only ~28% of the observed gaps are real skill.
                          //   James-Stein shrinkage implies a prior of ~85-90
                          //   games. This league is far more even than its
                          //   standings look.
   rosterChurn: 0.12,     // per-simulation talent shock (std dev). Summer rosters
                          //   turn over mid-season (MLB draft, school, innings
-                         //   caps) — in 2025, Nashua fell from playoff position
+                         //   caps); in 2025, Nashua fell from playoff position
                          //   to 24-36 and a .459 Norwich won the title. This is
                          //   that reality, as a dial.
   dials: {},             // { ABBR: -0.10 .. +0.10 } manual strength adjustment
@@ -88,7 +88,7 @@ export function log5(pA, pB) {
 }
 
 // Team-specific HFA: half the (home win% - away win%) split, regressed VERY
-// hard toward the global value with a 300-game prior — a mid-season home/away
+// hard toward the global value with a 300-game prior: a mid-season home/away
 // split is ~16 games a side, which is nearly all noise, so a team's own split
 // should only ever nudge the league-average HFA, not replace it. Only the
 // HOME team's HFA is applied to a game.
@@ -110,7 +110,7 @@ export function gameWinProb(homeTeam, awayTeam, settings = {}) {
   return clamp(log5(th, ta) + hfa, 0.02, 0.98);
 }
 
-// standard normal draw (Box-Muller) from a uniform RNG — used for the
+// standard normal draw (Box-Muller) from a uniform RNG, used for the
 // roster-churn talent shocks
 export function gaussian(rand) {
   let u = 0, v = 0;
@@ -122,7 +122,7 @@ export function gaussian(rand) {
 // --- standings & tiebreakers -------------------------------------------------
 
 // entries: [{ abbr, pts, gp }]  (pts = 2*wins + derby losses; gp = games played)
-// h2hPts / h2hGames: { A: { B: number } } — points A earned vs B / games A-B.
+// h2hPts / h2hGames: { A: { B: number } }, points A earned vs B / games A-B.
 // rand: () => [0,1). Returns abbrs in seed order (1st = best).
 //
 // Tiebreakers in order: points% -> total points -> head-to-head points% among
@@ -155,7 +155,7 @@ export function rankTeams(entries, h2hPts, h2hGames, rand) {
     });
     scored.sort((a, b) => {
       // h2h points% desc via cross-multiply; teams with no h2h games sort as .5? No:
-      // a team with 0 h2h games has undefined pct — treat as 0.5 share.
+      // a team with 0 h2h games has undefined pct, so treat as 0.5 share.
       const pa = a.games ? a.pts / (2 * a.games) : 0.5;
       const pb = b.games ? b.pts / (2 * b.games) : 0.5;
       if (pa !== pb) return pb - pa;
@@ -319,7 +319,7 @@ export function simulate({ teams, schedule, results = [], settings = {} }) {
       h2hGames[la][wa] = (h2hGames[la][wa] || 0) + 1;
     }
 
-    // 3) final standings — points = 2*wins + derby losses
+    // 3) final standings: points = 2*wins + derby losses
     const entries = teams.map((t, ti) => ({
       abbr: t.abbr,
       pts: 2 * (t.W + simW[ti]) + (t.derbyLosses || 0),
@@ -339,7 +339,7 @@ export function simulate({ teams, schedule, results = [], settings = {} }) {
     }
 
     // 4) bracket: 1v4, 2v3 best-of-3; winners meet in a best-of-3 final.
-    //    Uses this season's shocked strengths — the roster that limps into
+    //    Uses this season's shocked strengths: the roster that limps into
     //    the playoffs is the roster that plays them.
     const semi1 = playBestOf3(seeds[0], seeds[3], mIter, rand);
     const semi2 = playBestOf3(seeds[1], seeds[2], mIter, rand);

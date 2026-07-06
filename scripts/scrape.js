@@ -1,4 +1,4 @@
-// FCBL Playoff Predictor — scheduled scraper.
+// FCBL Playoff Predictor: scheduled scraper.
 //
 // Flow: fetch 7 team schedule print pages + 1 stats page (+ composite pages
 // for today/yesterday as a corroborating signal) -> parse -> VALIDATE ->
@@ -151,11 +151,11 @@ async function main() {
     console.log("history.json: no newly-final games, nothing appended");
   }
 
-  console.log("done — dataset published");
+  console.log("done, dataset published");
 }
 
 main().catch((err) => {
-  console.error("\nSCRAPE FAILED — previous data left untouched.");
+  console.error("\nSCRAPE FAILED: previous data left untouched.");
   console.error(err.stack || err.message);
   process.exit(1);
 });

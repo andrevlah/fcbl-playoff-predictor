@@ -1,4 +1,4 @@
-// FCBL Playoff Predictor — main application.
+// FCBL Playoff Predictor: main application.
 // Loads the published data, renders everything, and re-simulates client-side
 // (in a Web Worker running the identical engine) whenever a dial moves.
 
@@ -24,6 +24,7 @@ const state = {
     lowellForce: null,
   },
   sort: { key: "playoffPct", asc: false },
+  oddsFormat: "pct", // "pct" | "american"
   historyMetric: "playoffPct",
   scenarioFilter: "LOW",
 };
@@ -33,6 +34,23 @@ const state = {
 // ---------------------------------------------------------------------------
 
 const fmtPct = (p) => (p * 100 < 0.05 && p > 0 ? "<0.1%" : (p * 100).toFixed(1) + "%");
+
+// American odds: negative for favorites (p >= 0.5), positive for underdogs.
+// Simulated probabilities can land exactly at 0 or 1 with enough sims; those
+// have no finite line, so show the conventional betting-market cap instead of
+// dividing by zero.
+const AMERICAN_CAP = 99900;
+function toAmericanOdds(p) {
+  if (p <= 0) return "+" + AMERICAN_CAP.toLocaleString();
+  if (p >= 1) return "-" + AMERICAN_CAP.toLocaleString();
+  if (p >= 0.5) {
+    const odds = Math.round(-100 * (p / (1 - p)));
+    return Math.max(odds, -AMERICAN_CAP).toLocaleString();
+  }
+  const odds = Math.round(100 * ((1 - p) / p));
+  return "+" + Math.min(odds, AMERICAN_CAP).toLocaleString();
+}
+const fmtAmerican = (p) => toAmericanOdds(p);
 const fmtDate = (iso) => {
   const [y, m, d] = iso.split("-").map(Number);
   return new Date(y, m - 1, d).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
@@ -55,7 +73,7 @@ function logoEl(abbr, cls = "team-logo") {
 }
 
 function animateNumber(el, from, to, fmt, ms = 650) {
-  // hidden tabs pause requestAnimationFrame — never leave the number blank
+  // hidden tabs pause requestAnimationFrame, so never leave the number blank
   el.textContent = fmt(from);
   if (document.hidden) { el.textContent = fmt(to); return; }
   const t0 = performance.now();
@@ -143,11 +161,12 @@ function renderTable() {
     // record / pts% / GB
     tr.insertAdjacentHTML("beforeend", `<td class="num-cell">${r.record}</td>`);
     tr.insertAdjacentHTML("beforeend", `<td class="num-cell">${r.ptsPct.toFixed(3).replace(/^0/, "")}</td>`);
-    tr.insertAdjacentHTML("beforeend", `<td class="num-cell">${r.gb === 0 ? "—" : r.gb}</td>`);
+    tr.insertAdjacentHTML("beforeend", `<td class="num-cell">${r.gb === 0 ? "-" : r.gb}</td>`);
     tr.insertAdjacentHTML("beforeend",
       `<td class="num-cell" style="color:${r.runDiff > 0 ? "#1a7f37" : r.runDiff < 0 ? "#c22e2e" : "#666"}">${r.runDiff > 0 ? "+" : ""}${r.runDiff}</td>`);
 
     // big prob cells
+    const fmt = state.oddsFormat === "american" ? fmtAmerican : fmtPct;
     for (const metric of ["playoffPct", "titlePct"]) {
       const td = document.createElement("td");
       td.className = "prob-cell";
@@ -155,7 +174,7 @@ function renderTable() {
       num.className = "prob-num";
       const prevKey = r.abbr + metric;
       const from = state.prevShown[prevKey] ?? 0;
-      animateNumber(num, from, r[metric], fmtPct);
+      animateNumber(num, from, r[metric], fmt);
       state.prevShown[prevKey] = r[metric];
       td.appendChild(num);
 
@@ -179,12 +198,13 @@ function renderTable() {
       td.appendChild(track);
       requestAnimationFrame(() => { bar.style.width = (r[metric] * 100).toFixed(1) + "%"; });
 
-      // hover: exact value + comparison to the previous official update
+      // hover: exact value in both formats + comparison to the previous official update
+      const both = (p) => `${fmtPct(p)} (${fmtAmerican(p)})`;
       td.title = whatIf
-        ? `${fmtPct(r[metric])} in this what-if (official: ${fmtPct(state.serverOdds.teams[r.abbr][metric])})`
+        ? `${both(r[metric])} in this what-if, official: ${both(state.serverOdds.teams[r.abbr][metric])}`
         : prevHist
-          ? `${fmtPct(r[metric])}, was ${fmtPct(prevHist.teams[r.abbr]?.[metric] ?? 0)} at the previous update`
-          : fmtPct(r[metric]);
+          ? `${both(r[metric])}, was ${both(prevHist.teams[r.abbr]?.[metric] ?? 0)} at the previous update`
+          : both(r[metric]);
       tr.appendChild(td);
     }
 
@@ -258,7 +278,7 @@ function renderLowell() {
     const f = flagged[0];
     const note = document.createElement("p");
     note.className = "biggest-note";
-    note.textContent = `⚑ Biggest game left: ${fmtDate(f.date)} ${f.homeAway === "home" ? "vs" : "at"} ${TEAMS[f.opp].name} — winning it swings Lowell's playoff odds by about ${(f.leverage * 100).toFixed(1)} percentage points.`;
+    note.textContent = `⚑ Biggest game left: ${fmtDate(f.date)} ${f.homeAway === "home" ? "vs" : "at"} ${TEAMS[f.opp].name}. Winning it swings Lowell's playoff odds by about ${(f.leverage * 100).toFixed(1)} percentage points.`;
     list.appendChild(note);
   }
 }
@@ -295,7 +315,7 @@ function buildDials() {
   }
 
   const news = $("news-notes");
-  news.innerHTML = `<p class="nn-label">Roster intel — why you might move these dials</p>` +
+  news.innerHTML = `<p class="nn-label">Roster intel: why you might move these dials</p>` +
     newsNotes.map((n) => `<p>· ${n}</p>`).join("");
 }
 
@@ -372,7 +392,7 @@ function wireControls() {
     const v = +lf.value;
     if (v < 0) {
       state.settings.lowellForce = null;
-      $("lowell-force-val").textContent = "— (off)";
+      $("lowell-force-val").textContent = "Off";
     } else {
       state.settings.lowellForce = { w: v };
       $("lowell-force-val").textContent = `${v}–${lowRemaining - v}`;
@@ -411,6 +431,18 @@ function wireControls() {
     renderHistoryChart($("history-chart"), state.history, state.historyMetric);
   });
 
+  $("odds-format").addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-format]");
+    if (!btn) return;
+    state.oddsFormat = btn.dataset.format;
+    document.querySelectorAll("#odds-format .chip").forEach((c) =>
+      c.classList.toggle("active", c === btn));
+    // prevShown holds the raw probability (not a formatted string), so on a
+    // pure format switch "from" equals "to" and animateNumber renders the
+    // new format immediately with no count-up motion
+    renderTable();
+  });
+
   window.addEventListener("resize", debounce(() => {
     renderHistoryChart($("history-chart"), state.history, state.historyMetric);
     if (state.odds?.lowell) {
@@ -443,7 +475,7 @@ function resetToOfficial() {
   $("sims-slider").value = 10000;
   $("sims-val").textContent = "10,000";
   $("lowell-force-slider").value = -1;
-  $("lowell-force-val").textContent = "— (off)";
+  $("lowell-force-val").textContent = "Off";
   document.querySelectorAll("#team-dials input").forEach((i) => {
     i.value = 0;
     i.parentElement.querySelector(".td-val").textContent = "0%";

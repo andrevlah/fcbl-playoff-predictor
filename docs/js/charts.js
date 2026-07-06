@@ -21,7 +21,7 @@ const fmtPct = (p) => (p * 100).toFixed(1) + "%";
 const parseTs = (s) => new Date(s);
 
 // ---------------------------------------------------------------------------
-// Odds over time — one line per team, logos as end labels.
+// Odds over time: one line per team, logos as end labels.
 // ---------------------------------------------------------------------------
 export function renderHistoryChart(el, history, metric) {
   el.innerHTML = "";
@@ -199,7 +199,7 @@ function renderStartingOdds(el, entry, metric) {
   const note = document.createElement("p");
   note.className = "mini-note";
   note.style.marginTop = "8px";
-  note.textContent = "Odds tracking starts here — this becomes a line chart as soon as new games go final.";
+  note.textContent = "Odds tracking starts here. This becomes a line chart as soon as new games go final.";
   el.appendChild(note);
 }
 
@@ -257,7 +257,7 @@ export function renderLowellCurve(el, oddsByFinalWins, currentWins) {
     .on("mousemove", (ev, b) => {
       showTip(
         `<b>Finish with ${b.w} wins</b><br>${fmtPct(b.pct)} playoff odds` +
-        `<br><span style="color:#999">${b.sims.toLocaleString()} simulated seasons${b.lowConfidence ? " — low confidence" : ""}</span>`,
+        `<br><span style="color:#999">${b.sims.toLocaleString()} simulated seasons${b.lowConfidence ? ", low confidence" : ""}</span>`,
         ev.clientX, ev.clientY);
     })
     .on("mouseleave", hideTip);

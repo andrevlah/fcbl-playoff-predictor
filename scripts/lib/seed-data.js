@@ -2,7 +2,7 @@
 // Used to generate the initial docs/data/ files so the site works before its
 // first live scrape. One game (Norwich at Vermont, Jul 5) was in progress at
 // snapshot time and is deliberately excluded from BOTH records and the
-// remaining schedule — the first scrape reconciles it automatically.
+// remaining schedule; the first scrape reconciles it automatically.
 
 export const SEED_AS_OF = "2026-07-05T12:00:00-04:00";
 

@@ -1,6 +1,6 @@
 # FCBL Playoff Predictor ⚾
 
-**Live playoff odds for the 2026 Futures League — with the Lowell Spinners front and center.**
+**Live playoff odds for the 2026 Futures League, with the Lowell Spinners front and center.**
 
 This is a website that answers one question all summer: *who's making the FCBL playoffs?*
 It watches thefuturesleague.com, updates itself after every game, re-runs 25,000 simulated
@@ -11,12 +11,12 @@ don't have to touch anything.**
 
 ## What you're looking at
 
-- **The big table** — every team's chance to make the playoffs and win the championship,
+- **The big table**: every team's chance to make the playoffs and win the championship,
   with seed odds and a projected final record.
-- **Odds over time** — how each team's chances have risen or fallen all season.
-- **Spinners Watch** — Lowell's remaining schedule with a win probability for every game,
+- **Odds over time**: how each team's chances have risen or fallen all season.
+- **Spinners Watch**: Lowell's remaining schedule with a win probability for every game,
   the "what record gets us in?" curve, and flags (⚑) on the biggest games left.
-- **Play GM** — sliders to ask "what if?": What if Vermont loses their ace to the draft?
+- **Play GM**: sliders to ask "what if?" What if Vermont loses their ace to the draft?
   What if Lowell sweeps Norwich? What if Lowell goes 18–7 the rest of the way?
   These run instantly in your browser and never change the official numbers.
 
@@ -24,7 +24,7 @@ don't have to touch anything.**
 
 ## One-time setup (about 15 minutes)
 
-You need a free [GitHub](https://github.com) account. That's it — GitHub hosts the site
+You need a free [GitHub](https://github.com) account. That's it: GitHub hosts the site
 AND runs the auto-updates, all on the free tier.
 
 **1. Create the repository**
@@ -50,7 +50,7 @@ AND runs the auto-updates, all on the free tier.
 - Under "Build and deployment" → Source: **Deploy from a branch**.
 - Branch: **main**, Folder: **/docs**. Click **Save**.
 - After a minute or two your site is live at
-  `https://YOUR-USERNAME.github.io/fcbl-playoff-predictor/` — bookmark it!
+  `https://YOUR-USERNAME.github.io/fcbl-playoff-predictor/`. Bookmark it!
 
 **4. Allow the robot to save updates**
 - **Settings → Actions → General** → scroll to "Workflow permissions" →
@@ -76,7 +76,7 @@ Actions tab → **Update FCBL data** → **Run workflow**.
 open `docs/js/teams.js`, find `newsNotes`, and edit the quoted lines. Commit the change
 (GitHub Desktop: write a summary, click Commit, then Push). The site updates in ~1 minute.
 
-**Record a Home-Run-Derby loss** (worth 1 standings point — the league site doesn't
+**Record a Home-Run-Derby loss** (worth 1 standings point; the league site doesn't
 mark these, so it's manual): in the same file, find `derbyLossOverrides` and follow the
 example in the comment. E.g. if Westfield loses a derby game:
 `export const derbyLossOverrides = { WF: 1 };`
@@ -84,7 +84,7 @@ example in the comment. E.g. if Westfield loses a derby game:
 **Turn it off after the season** (playoffs start Aug 10):
 Actions tab → **Update FCBL data** → the **···** menu (top right) → **Disable workflow**.
 The site stays up forever; it just stops checking for new games.
-(While it's on, the cost is nothing — ~28 short runs a day is comfortably inside
+(While it's on, the cost is nothing: ~28 short runs a day is comfortably inside
 GitHub's free allowance for public repos.)
 
 ---
@@ -97,8 +97,8 @@ GitHub's free allowance for public repos.)
    (it re-checks every team's record against the official schedule page before
    publishing), it **keeps the previous good data and stops** rather than publish
    garbage. Usually the next run fixes itself.
-3. Red X's for days in a row means the league site changed something structural —
-   that's the one case that needs a developer (or Claude) to look at
+3. Red X's for days in a row means the league site changed something structural.
+   That's the one case that needs a developer (or Claude) to look at
    `scripts/lib/parse.js`.
 4. Also note: the odds only *change* when a game goes final. A quiet Tuesday
    afternoon with no new finals = no new history point. That's normal.
@@ -111,16 +111,16 @@ Full write-up lives in the "How this works" section at the bottom of the site. T
 one-paragraph version: each team's strength is estimated from **runs scored and allowed**
 (more predictive than won-lost record), blended with the actual record, and regressed
 toward .500 because 30-odd games is a small sample. Every remaining game gets a win
-probability (including home-field advantage — Lowell's home/away split is notably real),
+probability (including home-field advantage, since Lowell's home/away split is notably real),
 and we simulate the rest of the season 25,000 times, applying the league's actual rules:
 points percentage standings, total-points and head-to-head tiebreakers, and best-of-3
 playoff series where the higher seed hosts games 1 and 3.
 
-Because summer-league rosters churn (MLB Draft, school commitments — see Nashua's 2025
+Because summer-league rosters churn (MLB Draft, school commitments; see Nashua's 2025
 fade from playoff position to 24-36, and .459 Norwich winning it all), every simulated
 season also gives each team a random mid-summer strength swing ("roster churn," default
 ±12%). That keeps the model humble: no team gets written off or crowned in early July.
-What it still can't know is *which* roster will change — if you have that intel, that's
+What it still can't know is *which* roster will change. If you have that intel, that's
 exactly what the "Play GM" strength dials are for.
 
 **Odds are estimates, not promises.** A 90% favorite loses one time in ten.
@@ -133,11 +133,11 @@ exactly what the "Play GM" strength dials are for.
 |---|---|
 | `docs/` | The website (GitHub Pages serves this folder). No build step, no framework. |
 | `docs/data/` | The published data: `teams`, `schedule`, `results`, `odds`, `history` (all JSON). |
-| `docs/js/sim.js` | The simulation engine — the **same file** runs on the server and in your browser. |
+| `docs/js/sim.js` | The simulation engine: the **same file** runs on the server and in your browser. |
 | `docs/js/teams.js` | Team config + the two manual overrides described above. |
 | `scripts/scrape.js` | The scraper (Node 20 + cheerio). Polite: 1 request/second, identifies itself, 8–10 pages per run. |
 | `.github/workflows/update.yml` | The every-30-minutes schedule. |
-| `test/` | `npm test` — 15 tests including the locked worked-example from the model spec. |
+| `test/` | `npm test`: the automated test suite, including the locked worked-example from the model spec. |
 
 Local development: `npm install`, `npm test`, `npm run scrape` (fetches live data),
 `npm run seed` (restores the built-in July 5 snapshot), and `npx serve docs` to preview.

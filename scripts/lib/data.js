@@ -1,4 +1,4 @@
-// Pure data-shaping helpers (no network, no HTML) — unit tested directly.
+// Pure data-shaping helpers (no network, no HTML), unit tested directly.
 
 // Canonical identity for one physical game. `seq` disambiguates doubleheader
 // games that share date/teams/time (numbered by row order on the source page,
@@ -76,7 +76,7 @@ export function validate(teams, results, schedule) {
     if (t.GP + remaining !== 60) {
       warnings.push(
         `${t.abbr}: GP (${t.GP}) + remaining (${remaining}) = ${t.GP + remaining}, not 60. ` +
-          `OK only if the league cancelled games — check the schedule page.`
+          `OK only if the league cancelled games; check the schedule page.`
       );
     }
     totalW += t.W;
