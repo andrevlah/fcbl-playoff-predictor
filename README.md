@@ -19,6 +19,10 @@ don't have to touch anything.**
 - **Play GM**: sliders to ask "what if?" What if Vermont loses their ace to the draft?
   What if Lowell sweeps Norwich? What if Lowell goes 18–7 the rest of the way?
   These run instantly in your browser and never change the official numbers.
+- **Props Lab**: hypothetical fair-value player props for the next Spinners game
+  (to record a hit, 2+ hits, 2+ total bases, home run), priced from each hitter's
+  season line, opponent pitching, and Trackman contact data when you've imported it.
+  For fun and dugout arguments, not for wagering.
 
 ---
 
@@ -80,6 +84,16 @@ open `docs/js/teams.js`, find `newsNotes`, and edit the quoted lines. Commit the
 mark these, so it's manual): in the same file, find `derbyLossOverrides` and follow the
 example in the comment. E.g. if Westfield loses a derby game:
 `export const derbyLossOverrides = { WF: 1 };`
+
+**Feed the Props Lab with Trackman data** (optional, but it makes the props smarter):
+1. Export game CSVs from Trackman (the standard pitch-by-pitch export).
+2. Create a folder named `trackman` next to this file and drop the CSVs in.
+3. Run `npm run trackman` in a terminal from this folder.
+4. Commit and push the updated `docs/data/trackman.json`.
+Hitters with 25+ tracked batted balls get a contact-quality adjustment
+(hard-hit rate vs a 35% baseline, capped at ±15%) and a 📡 marker on the site.
+The `trackman/` folder itself stays on your machine; only the anonymous
+summary file is published.
 
 **Turn it off after the season** (playoffs start Aug 10):
 Actions tab → **Update FCBL data** → the **···** menu (top right) → **Disable workflow**.

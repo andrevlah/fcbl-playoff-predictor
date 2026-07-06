@@ -202,6 +202,84 @@ export function parseSchedulePage(html, teamAbbr) {
   return { record, home, away, streak, completed, remaining };
 }
 
+// Parse a team's monospace player-statistics template into hitter lines.
+// Header: # | player | avg | gp | gs | ab | r | h | 2b | 3b | hr | rbi | tb |
+// slg% | bb | hbp | so | gdp. Names are dot-padded ("Bradley McCafferty..");
+// zeros render as "-". Returns [{ name, gp, ab, r, h, d2, t3, hr, rbi, tb,
+// bb, hbp, so }] for real players only (totals/opponent rows skipped).
+export function parsePlayersPage(html) {
+  const $ = cheerio.load(html);
+  const players = [];
+
+  $("table").each((_, table) => {
+    const headers = $(table).find("tr").first().find("th, td")
+      .map((_, c) => $(c).text().trim().toLowerCase()).get();
+    if (!(headers.includes("player") && headers.includes("ab") && headers.includes("avg"))) return;
+    const col = (h) => headers.indexOf(h);
+    const num = (cells, h) => {
+      const v = (cells[col(h)] || "").replace(/,/g, "");
+      if (v === "-" || v === "") return 0;
+      const n = parseInt(v, 10);
+      return Number.isFinite(n) ? n : 0;
+    };
+
+    $(table).find("tr").slice(1).each((_, tr) => {
+      const cells = $(tr).find("td, th").map((_, c) => $(c).text().replace(/\s+/g, " ").trim()).get();
+      if (cells.length < headers.length - 2) return;
+      const rawName = cells[col("player")] || "";
+      const name = rawName.replace(/\.+$/, "").trim();
+      if (!name || /^(total|opponent|team)s?\b/i.test(name)) return;
+      const ab = num(cells, "ab");
+      if (!ab) return;
+      players.push({
+        name,
+        gp: num(cells, "gp"),
+        ab,
+        r: num(cells, "r"),
+        h: num(cells, "h"),
+        d2: num(cells, "2b"),
+        t3: num(cells, "3b"),
+        hr: num(cells, "hr"),
+        rbi: num(cells, "rbi"),
+        tb: num(cells, "tb"),
+        bb: num(cells, "bb"),
+        hbp: num(cells, "hbp"),
+        so: num(cells, "so"),
+      });
+    });
+  });
+
+  return players;
+}
+
+// Sum the league-wide hitting table on the all-teams stats page into league
+// totals (used as the regression prior for player prop rates).
+// Returns { ab, h, d2, t3, hr, bb } or null if the table isn't found.
+export function parseLeagueHitting(html) {
+  const $ = cheerio.load(html);
+  let out = null;
+
+  $("table").each((_, table) => {
+    if (out) return;
+    const headers = $(table).find("tr").first().find("th, td")
+      .map((_, c) => $(c).text().trim().toLowerCase()).get();
+    const has = (h) => headers.includes(h);
+    if (!(has("ab") && has("avg") && has("hr"))) return; // hitting table only
+    const col = (h) => headers.indexOf(h);
+    const sum = { ab: 0, h: 0, d2: 0, t3: 0, hr: 0, bb: 0 };
+    $(table).find("tr").slice(1).each((_, tr) => {
+      const cells = $(tr).find("td, th").map((_, c) => $(c).text().trim()).get();
+      if (!matchTeamAbbr(cells.join(" "))) return;
+      const num = (h) => parseInt((cells[col(h)] || "0").replace(/,/g, ""), 10) || 0;
+      sum.ab += num("ab"); sum.h += num("h"); sum.d2 += num("2b");
+      sum.t3 += num("3b"); sum.hr += num("hr"); sum.bb += num("bb");
+    });
+    if (sum.ab > 0) out = sum;
+  });
+
+  return out;
+}
+
 // Parse the all-teams stats page. RS = "R" column of the baserunning table,
 // RA = "R" column of the pitching table.
 // Returns { ABBR: { RS, RA, GP } }

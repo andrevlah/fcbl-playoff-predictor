@@ -3,16 +3,67 @@
 :root {
   --bg: #ffffff;
   --panel: #f7f7f7;
+  --surface: #ffffff;
+  --surface-alt: #fcfcfc;
   --ink: #222222;
   --ink-soft: #666666;
   --ink-faint: #999999;
   --grid: #e0e0e0;
+  --bar-track: #eeeeee;
   --lowell: #C8102E;
   --lowell-tint: #fdf3f4;
+  --banner-bg: #fff8e6;
+  --banner-border: #f0d998;
+  --up: #1a7f37;
+  --down: #c22e2e;
+  --shadow: rgba(0, 0, 0, 0.12);
   --accent: #222222;
   --radius: 6px;
   --sans: "Helvetica Neue", Helvetica, Arial, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --mono: "SF Mono", SFMono-Regular, ui-monospace, "Roboto Mono", Menlo, monospace;
+}
+
+/* dark palette, applied by explicit choice (data-theme) or OS preference */
+html[data-theme="dark"] {
+  --bg: #131316;
+  --panel: #1c1c20;
+  --surface: #232329;
+  --surface-alt: #1e1e23;
+  --ink: #e8e8ea;
+  --ink-soft: #a6a6ad;
+  --ink-faint: #7c7c84;
+  --grid: #34343c;
+  --bar-track: #34343c;
+  --lowell: #f04a5e;
+  --lowell-tint: #2b171b;
+  --banner-bg: #2b2410;
+  --banner-border: #5a4a1e;
+  --up: #4ade80;
+  --down: #f87171;
+  --shadow: rgba(0, 0, 0, 0.5);
+  --accent: #e8e8ea;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme]) {
+    --bg: #131316;
+    --panel: #1c1c20;
+    --surface: #232329;
+    --surface-alt: #1e1e23;
+    --ink: #e8e8ea;
+    --ink-soft: #a6a6ad;
+    --ink-faint: #7c7c84;
+    --grid: #34343c;
+    --bar-track: #34343c;
+    --lowell: #f04a5e;
+    --lowell-tint: #2b171b;
+    --banner-bg: #2b2410;
+    --banner-border: #5a4a1e;
+    --up: #4ade80;
+    --down: #f87171;
+    --shadow: rgba(0, 0, 0, 0.5);
+    --accent: #e8e8ea;
+  }
 }
 
 * { box-sizing: border-box; }
@@ -41,7 +92,23 @@ main {
   margin: 0 auto;
   padding: 44px 20px 8px;
   border-bottom: 2px solid var(--ink);
+  position: relative;
 }
+
+.theme-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font: inherit;
+  font-size: 17px;
+  line-height: 1;
+  padding: 8px 10px;
+  border: 1px solid var(--grid);
+  border-radius: 999px;
+  background: var(--surface);
+  cursor: pointer;
+}
+.theme-toggle:hover { border-color: var(--ink); }
 
 .kicker {
   font-size: 12px;
@@ -125,8 +192,8 @@ main {
   gap: 12px;
   margin-top: 18px;
   padding: 10px 14px;
-  background: #fff8e6;
-  border: 1px solid #f0d998;
+  background: var(--banner-bg);
+  border: 1px solid var(--banner-border);
   border-radius: var(--radius);
   font-size: 13.5px;
 }
@@ -135,6 +202,7 @@ main {
   font: inherit;
   font-size: 13px;
   font-weight: 600;
+  color: var(--ink);
   padding: 6px 14px;
   border: 1px solid var(--ink);
   background: var(--bg);
@@ -143,7 +211,7 @@ main {
   white-space: nowrap;
 }
 
-.btn-reset:hover, .btn-small:hover { background: var(--ink); color: #fff; }
+.btn-reset:hover, .btn-small:hover { background: var(--ink); color: var(--bg); }
 
 /* ---------- odds table ---------- */
 
@@ -219,12 +287,12 @@ tr.row-lowell td:first-child {
 }
 
 .prob-delta { font-size: 11px; font-weight: 600; margin-left: 2px; }
-.prob-delta.up { color: #1a7f37; }
-.prob-delta.down { color: #c22e2e; }
+.prob-delta.up { color: var(--up); }
+.prob-delta.down { color: var(--down); }
 
 .prob-bar-track {
   height: 7px;
-  background: #eeeeee;
+  background: var(--bar-track);
   border-radius: 4px;
   overflow: hidden;
   margin-top: 4px;
@@ -237,6 +305,9 @@ tr.row-lowell td:first-child {
   transition: width 650ms cubic-bezier(.25,.7,.3,1);
 }
 
+.rd-pos { color: var(--up); }
+.rd-neg { color: var(--down); }
+
 .seed-cell { font-family: var(--mono); font-size: 12.5px; color: var(--ink-soft); }
 .num-cell { font-family: var(--mono); font-size: 13px; }
 .proj-band { font-size: 11px; color: var(--ink-faint); display: block; }
@@ -248,21 +319,21 @@ tr.row-lowell td:first-child {
 
 .chip-toggle { display: inline-flex; border: 1px solid var(--ink); border-radius: 999px; overflow: hidden; }
 .chip {
-  font: inherit; font-size: 12.5px; font-weight: 600;
+  font: inherit; font-size: 12.5px; font-weight: 600; color: var(--ink);
   border: none; background: var(--bg); padding: 5px 14px; cursor: pointer;
 }
-.chip.active { background: var(--ink); color: #fff; }
+.chip.active { background: var(--ink); color: var(--bg); }
 
 .tooltip {
   position: fixed;
   z-index: 100;
   pointer-events: none;
-  background: #fff;
+  background: var(--surface);
   border: 1px solid var(--ink);
   border-radius: var(--radius);
   padding: 8px 10px;
   font-size: 12px;
-  box-shadow: 0 3px 12px rgba(0,0,0,.12);
+  box-shadow: 0 3px 12px var(--shadow);
   max-width: 260px;
 }
 .tooltip .tt-row { display: flex; justify-content: space-between; gap: 14px; }
@@ -294,9 +365,9 @@ tr.row-lowell td:first-child {
   padding: 6px 8px;
   font-size: 13px;
   border-bottom: 1px solid var(--grid);
-  background: #fff;
+  background: var(--surface);
 }
-.lgame:nth-child(odd) { background: #fcfcfc; }
+.lgame:nth-child(odd) { background: var(--surface-alt); }
 .lgame.flagged { box-shadow: inset 3px 0 0 var(--lowell); }
 .lgame-date { color: var(--ink-soft); font-size: 12px; }
 .lgame-opp { display: flex; align-items: center; gap: 6px; font-weight: 600; }
@@ -326,7 +397,7 @@ tr.row-lowell td:first-child {
 
 .news-notes {
   border-left: 3px solid var(--ink);
-  background: #fff;
+  background: var(--surface);
   padding: 10px 14px;
   margin-bottom: 18px;
   font-size: 13px;
@@ -367,7 +438,7 @@ input[type="range"] {
 .scenario-delta {
   margin: 10px 0;
   padding: 10px 14px;
-  background: #fff;
+  background: var(--surface);
   border-radius: var(--radius);
   border: 1px solid var(--grid);
   font-size: 14px;
@@ -377,7 +448,7 @@ input[type="range"] {
 .scenario-controls { display: flex; gap: 14px; align-items: center; margin: 12px 0; font-size: 13px; flex-wrap: wrap; }
 .scenario-controls select { font: inherit; font-size: 13px; padding: 3px 6px; }
 
-.scenario-list { max-height: 340px; overflow-y: auto; background: #fff; border: 1px solid var(--grid); border-radius: var(--radius); }
+.scenario-list { max-height: 340px; overflow-y: auto; background: var(--surface); border: 1px solid var(--grid); border-radius: var(--radius); }
 
 .sgame {
   display: grid;
@@ -394,9 +465,9 @@ input[type="range"] {
 .outcome-toggle { display: inline-flex; border: 1px solid var(--grid); border-radius: 999px; overflow: hidden; }
 .outcome-toggle button {
   font: inherit; font-size: 11.5px; font-weight: 600;
-  border: none; background: #fff; padding: 3px 10px; cursor: pointer; color: var(--ink-soft);
+  border: none; background: var(--surface); padding: 3px 10px; cursor: pointer; color: var(--ink-soft);
 }
-.outcome-toggle button.on { background: var(--ink); color: #fff; }
+.outcome-toggle button.on { background: var(--ink); color: var(--bg); }
 
 /* ---------- methodology / footer ---------- */
 

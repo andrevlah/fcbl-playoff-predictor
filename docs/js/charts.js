@@ -2,7 +2,20 @@
 // curve. D3 v7 is vendored (docs/vendor/) and loaded as a classic script by
 // app.js before these functions run, so `d3` is a global here.
 
-import { TEAMS, logoURL } from "./teams.js";
+import { TEAMS, logoURL, chartColor } from "./teams.js";
+
+// grayscale palette read from the live CSS variables so charts follow the
+// active theme; called at render time, and charts re-render on theme toggle
+function pal() {
+  const cs = getComputedStyle(document.documentElement);
+  const v = (name, fallback) => (cs.getPropertyValue(name) || fallback).trim();
+  return {
+    grid: v("--grid", "#e0e0e0"),
+    faint: v("--ink-faint", "#999999"),
+    soft: v("--ink-soft", "#666666"),
+    ink: v("--ink", "#222222"),
+  };
+}
 
 const tooltip = () => document.getElementById("tooltip");
 
@@ -24,6 +37,7 @@ const parseTs = (s) => new Date(s);
 // Odds over time: one line per team, logos as end labels.
 // ---------------------------------------------------------------------------
 export function renderHistoryChart(el, history, metric) {
+  const P = pal();
   el.innerHTML = "";
   if (!history.length) return;
 
@@ -56,21 +70,21 @@ export function renderHistoryChart(el, history, metric) {
     .join("line")
     .attr("x1", m.left).attr("x2", width - m.right)
     .attr("y1", (d) => y(d)).attr("y2", (d) => y(d))
-    .attr("stroke", "#e0e0e0");
+    .attr("stroke", P.grid);
 
   svg.append("g")
     .attr("transform", `translate(${m.left},0)`)
     .call(d3.axisLeft(y).ticks(5).tickFormat((d) => d * 100 + "%").tickSize(0))
     .call((g) => g.select(".domain").remove())
-    .selectAll("text").attr("fill", "#999").style("font-size", "11px");
+    .selectAll("text").attr("fill", P.faint).style("font-size", "11px");
 
   const nDays = (x.domain()[1] - x.domain()[0]) / 86400_000;
   svg.append("g")
     .attr("transform", `translate(0,${height - m.bottom})`)
     .call(d3.axisBottom(x).ticks(Math.min(8, Math.max(2, Math.round(nDays))))
       .tickFormat(d3.timeFormat("%b %-d")).tickSize(0).tickPadding(8))
-    .call((g) => g.select(".domain").attr("stroke", "#222"))
-    .selectAll("text").attr("fill", "#666").style("font-size", "11px");
+    .call((g) => g.select(".domain").attr("stroke", P.ink))
+    .selectAll("text").attr("fill", P.soft).style("font-size", "11px");
 
   const line = d3.line()
     .x((d) => x(parseTs(d.timestamp)))
@@ -81,7 +95,7 @@ export function renderHistoryChart(el, history, metric) {
 
   for (const abbr of abbrs) {
     line.abbr = abbr;
-    const color = TEAMS[abbr].chart;
+    const color = chartColor(abbr);
     if (!single) {
       svg.append("path")
         .datum(history)
@@ -114,7 +128,7 @@ export function renderHistoryChart(el, history, metric) {
   // hover: nearest date, all teams
   const bisect = d3.bisector((d) => parseTs(d.timestamp)).center;
   const cursor = svg.append("line")
-    .attr("stroke", "#222").attr("stroke-dasharray", "3,3")
+    .attr("stroke", P.ink).attr("stroke-dasharray", "3,3")
     .attr("y1", m.top).attr("y2", height - m.bottom)
     .style("display", "none");
 
@@ -134,7 +148,7 @@ export function renderHistoryChart(el, history, metric) {
         .map((a) => ({ a, v: entry.teams[a]?.[metric] ?? 0 }))
         .sort((p, q) => q.v - p.v)
         .map(({ a, v }) =>
-          `<div class="tt-row"><span class="tt-name" style="color:${TEAMS[a].chart}">${TEAMS[a].name}</span><span>${fmtPct(v)}</span></div>`)
+          `<div class="tt-row"><span class="tt-name" style="color:${chartColor(a)}">${TEAMS[a].name}</span><span>${fmtPct(v)}</span></div>`)
         .join("");
       showTip(`<div><b>${d3.timeFormat("%B %-d")(parseTs(entry.timestamp))}</b> · ${entry.gamesCompleted} games</div>${rows}`, ev.clientX, ev.clientY);
     })
@@ -146,6 +160,7 @@ export function renderHistoryChart(el, history, metric) {
 // Single-entry fallback for the history chart: a lollipop plot of the current
 // odds, one row per team, sorted best-to-worst.
 function renderStartingOdds(el, entry, metric) {
+  const P = pal();
   const abbrs = Object.keys(TEAMS)
     .map((a) => ({ a, v: entry.teams[a]?.[metric] ?? 0 }))
     .sort((p, q) => q.v - p.v);
@@ -163,22 +178,22 @@ function renderStartingOdds(el, entry, metric) {
   svg.append("g").selectAll("line").data(x.ticks(5)).join("line")
     .attr("x1", (d) => x(d)).attr("x2", (d) => x(d))
     .attr("y1", m.top).attr("y2", height - m.bottom)
-    .attr("stroke", "#eeeeee");
+    .attr("stroke", P.grid);
   svg.append("g")
     .attr("transform", `translate(0,${height - m.bottom})`)
     .call(d3.axisBottom(x).ticks(5).tickFormat((d) => d * 100 + "%").tickSize(0).tickPadding(8))
-    .call((g) => g.select(".domain").attr("stroke", "#222"))
-    .selectAll("text").attr("fill", "#666").style("font-size", "11px");
+    .call((g) => g.select(".domain").attr("stroke", P.ink))
+    .selectAll("text").attr("fill", P.soft).style("font-size", "11px");
 
   abbrs.forEach(({ a, v }, i) => {
-    const color = TEAMS[a].chart;
+    const color = chartColor(a);
     svg.append("image")
       .attr("href", logoURL(a))
       .attr("x", 4).attr("y", y(i) - 12)
       .attr("width", 24).attr("height", 24);
     svg.append("text")
       .attr("x", 34).attr("y", y(i) + 4)
-      .attr("fill", "#222").style("font-size", "12.5px")
+      .attr("fill", P.ink).style("font-size", "12.5px")
       .style("font-weight", a === "LOW" ? 800 : 600)
       .text(TEAMS[a].shortName);
     svg.append("line")
@@ -189,7 +204,7 @@ function renderStartingOdds(el, entry, metric) {
       .attr("cx", x(v)).attr("cy", y(i)).attr("r", 6).attr("fill", color);
     svg.append("text")
       .attr("x", x(v) + 12).attr("y", y(i) + 4)
-      .attr("fill", "#222").style("font-size", "12.5px")
+      .attr("fill", P.ink).style("font-size", "12.5px")
       .style("font-family", "SF Mono, Menlo, monospace")
       .text(fmtPct(v));
   });
@@ -207,6 +222,7 @@ function renderStartingOdds(el, entry, metric) {
 // Lowell: playoff odds by final win total.
 // ---------------------------------------------------------------------------
 export function renderLowellCurve(el, oddsByFinalWins, currentWins) {
+  const P = pal();
   el.innerHTML = "";
   const bins = Object.entries(oddsByFinalWins)
     .map(([w, b]) => ({ w: +w, ...b }))
@@ -226,24 +242,24 @@ export function renderLowellCurve(el, oddsByFinalWins, currentWins) {
   svg.append("g").selectAll("line").data(y.ticks(4)).join("line")
     .attr("x1", m.left).attr("x2", width - m.right)
     .attr("y1", (d) => y(d)).attr("y2", (d) => y(d))
-    .attr("stroke", "#e0e0e0");
+    .attr("stroke", P.grid);
 
   svg.append("g")
     .attr("transform", `translate(${m.left},0)`)
     .call(d3.axisLeft(y).ticks(4).tickFormat((d) => d * 100 + "%").tickSize(0))
     .call((g) => g.select(".domain").remove())
-    .selectAll("text").attr("fill", "#999").style("font-size", "10.5px");
+    .selectAll("text").attr("fill", P.faint).style("font-size", "10.5px");
 
   const every = Math.ceil(bins.length / 12);
   svg.append("g")
     .attr("transform", `translate(0,${height - m.bottom})`)
     .call(d3.axisBottom(x).tickValues(x.domain().filter((_, i) => i % every === 0)).tickSize(0).tickPadding(6))
-    .call((g) => g.select(".domain").attr("stroke", "#222"))
-    .selectAll("text").attr("fill", "#666").style("font-size", "10.5px");
+    .call((g) => g.select(".domain").attr("stroke", P.ink))
+    .selectAll("text").attr("fill", P.soft).style("font-size", "10.5px");
 
   svg.append("text")
     .attr("x", (m.left + width - m.right) / 2).attr("y", height - 4)
-    .attr("text-anchor", "middle").attr("fill", "#999").style("font-size", "11px")
+    .attr("text-anchor", "middle").attr("fill", P.faint).style("font-size", "11px")
     .text(`Lowell final wins (currently ${currentWins})`);
 
   svg.append("g").selectAll("rect").data(bins).join("rect")
@@ -252,12 +268,12 @@ export function renderLowellCurve(el, oddsByFinalWins, currentWins) {
     .attr("y", (b) => y(b.pct))
     .attr("height", (b) => y(0) - y(b.pct))
     .attr("rx", 2)
-    .attr("fill", "#C8102E")
+    .attr("fill", chartColor("LOW"))
     .attr("opacity", (b) => (b.lowConfidence ? 0.28 : 0.9))
     .on("mousemove", (ev, b) => {
       showTip(
         `<b>Finish with ${b.w} wins</b><br>${fmtPct(b.pct)} playoff odds` +
-        `<br><span style="color:#999">${b.sims.toLocaleString()} simulated seasons${b.lowConfidence ? ", low confidence" : ""}</span>`,
+        `<br><span style="color:var(--ink-faint)">${b.sims.toLocaleString()} simulated seasons${b.lowConfidence ? ", low confidence" : ""}</span>`,
         ev.clientX, ev.clientY);
     })
     .on("mouseleave", hideTip);

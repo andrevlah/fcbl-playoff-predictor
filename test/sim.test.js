@@ -37,6 +37,18 @@ test("worked example from the spec reproduces within ±0.001 (spec parameters)",
   assert.ok(Math.abs(l5 - 0.315) < 0.001, `Lowell log5 = ${l5}`);
 });
 
+test("recent form blends into talent when the fields are present", () => {
+  const base = { abbr: "X", W: 15, L: 15, GP: 30, RS: 150, RA: 150 };
+  const hot = { ...base, recentRS: 80, recentRA: 40, recentGP: 12 };
+  const cold = { ...base, recentRS: 40, recentRA: 80, recentGP: 12 };
+  const opts = { recencyWeight: 0.3 };
+  assert.ok(talentFor(hot, 0, opts) > talentFor(base, 0, opts), "hot recent form raises talent");
+  assert.ok(talentFor(cold, 0, opts) < talentFor(base, 0, opts), "cold recent form lowers talent");
+  // without recent fields (or with weight 0) nothing changes
+  assert.equal(talentFor(base, 0, opts), talentFor(base, 0, { recencyWeight: 0 }));
+  assert.equal(talentFor(hot, 0, { recencyWeight: 0 }), talentFor(base, 0, { recencyWeight: 0 }));
+});
+
 test("roster churn widens the tails: underdogs gain, favorites lose certainty", () => {
   const teams = () => SEED_TEAMS.map((t) => ({ ...t }));
   const still = simulate({ teams: teams(), schedule: SEED_SCHEDULE, results: [],
@@ -167,4 +179,16 @@ test("scenario tools: forced outcomes and forced Lowell record", () => {
   const g0 = forced.lowell.gameProbs.find((g, i) => i === 0);
   assert.ok(g0, "focus game list still present");
   assert.ok(forced.teams.LOW.expWins > baseline.teams.LOW.expWins, "a forced win nudges expected wins up");
+});
+
+test("lowellForce is a TOTAL record: forced game wins count toward it", () => {
+  const teams = SEED_TEAMS.map((t) => ({ ...t }));
+  const idx = SEED_SCHEDULE.findIndex((g) => g.h === "NSH" && g.a === "LOW");
+  // "Lowell goes 15-10" plus a hand-forced win in one specific game must
+  // still produce exactly 13 + 15 = 28 total wins, not 29
+  const sim = simulate({
+    teams, schedule: SEED_SCHEDULE, results: [],
+    settings: { nSims: 2000, seed: 9, lowellForce: { w: 15 }, forcedOutcomes: { [idx]: "away" } },
+  });
+  assert.ok(Math.abs(sim.teams.LOW.expWins - 28) < 1e-9, `expWins = ${sim.teams.LOW.expWins}`);
 });

@@ -28,6 +28,11 @@ export const DEFAULT_SETTINGS = {
                          //   James-Stein shrinkage implies a prior of ~85-90
                          //   games. This league is far more even than its
                          //   standings look.
+  recencyWeight: 0.30,   // weight on each team's LAST-12-GAMES run rates vs
+                         //   full-season rates when estimating strength. Summer
+                         //   rosters change, so who a team is NOW can differ
+                         //   from who it was in June (July 2026: Lowell's
+                         //   last-12 run diff was +1.6/game vs -1.8 full-season)
   rosterChurn: 0.12,     // per-simulation talent shock (std dev). Summer rosters
                          //   turn over mid-season (MLB draft, school, innings
                          //   caps); in 2025, Nashua fell from playoff position
@@ -68,13 +73,26 @@ export function pythagenpat(RS, RA, GP) {
 
 // talent = blend of Pythagenpat and actual win%, regressed toward .500 with a
 // prior of `regressPrior` .500 games, then shifted by the user's strength dial.
-// pythWeight/regressPrior default to the model settings; pass them explicitly
-// to reproduce the original spec reference values (0.70 / 12).
+// When the team carries recent-form fields (recentRS/recentRA/recentGP, the
+// last ~12 games, computed by the scraper), the Pythagenpat input run rates
+// are blended toward recent form by `recencyWeight` — the "who are they NOW"
+// adjustment. pythWeight/regressPrior default to the model settings; pass
+// them explicitly to reproduce the original spec reference values (0.70 / 12).
 export function talentFor(team, dial = 0, opts = {}) {
   const w = opts.pythWeight ?? DEFAULT_SETTINGS.pythWeight;
   const prior = opts.regressPrior ?? DEFAULT_SETTINGS.regressPrior;
+  const recW = opts.recencyWeight ?? DEFAULT_SETTINGS.recencyWeight;
   if (!team.GP) return clamp(0.5 + dial, 0.05, 0.95);
-  const { pyth } = pythagenpat(team.RS, team.RA, team.GP);
+
+  let rsPG = team.RS / team.GP;
+  let raPG = team.RA / team.GP;
+  if (recW > 0 && team.recentGP > 0) {
+    // scale by sample size so 3 recent games can't swing everything
+    const rw = recW * Math.min(1, team.recentGP / 12);
+    rsPG = (1 - rw) * rsPG + rw * (team.recentRS / team.recentGP);
+    raPG = (1 - rw) * raPG + rw * (team.recentRA / team.recentGP);
+  }
+  const { pyth } = pythagenpat(rsPG * team.GP, raPG * team.GP, team.GP);
   const winPct = team.W / team.GP;
   const raw = w * pyth + (1 - w) * winPct;
   const talent = 0.5 + (raw - 0.5) * (team.GP / (team.GP + prior));
@@ -244,8 +262,17 @@ export function simulate({ teams, schedule, results = [], settings = {} }) {
   const focusGames = games.filter((g) => g.home === focus || g.away === focus);
   const forced = s.forcedOutcomes || {};
   const focusUnforced = focusGames.filter((g) => !(g.i in forced));
+  // lowellForce.w is the focus team's TOTAL rest-of-way win count. Wins the
+  // user already forced on specific games count toward that total, so
+  // "goes 15-10" plus a hand-picked forced win still means 15 wins, with the
+  // remaining 14 distributed across the un-forced games.
+  const focusForcedWins = focusGames.filter((g) => {
+    const f = forced[g.i];
+    return f && ((f === "home") === (g.home === focus));
+  }).length;
   const forceW = s.lowellForce && Number.isFinite(s.lowellForce.w)
-    ? clamp(Math.round(s.lowellForce.w), 0, focusUnforced.length) : null;
+    ? clamp(Math.round(s.lowellForce.w) - focusForcedWins, 0, focusUnforced.length)
+    : null;
 
   // tallies
   const playoffCount = new Array(T).fill(0);

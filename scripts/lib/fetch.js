@@ -26,7 +26,10 @@ export async function politeFetch(url, { tries = 3 } = {}) {
     } catch (err) {
       console.warn(`  fetch attempt ${attempt}/${tries} failed for ${url}: ${err.message}`);
       if (attempt === tries) throw new Error(`giving up on ${url}: ${err.message}`);
-      await sleep(2000 * 2 ** (attempt - 1)); // 2s, 4s backoff
+      // 403/405/429 are the site's rate-limiter talking (e.g. two update runs
+      // landing close together); give it a real cool-down, not seconds
+      const rateLimited = /HTTP (403|405|429)/.test(err.message);
+      await sleep(rateLimited ? 45000 * attempt : 2000 * 2 ** (attempt - 1));
     }
   }
 }

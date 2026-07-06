@@ -2,14 +2,16 @@
 // Loads the published data, renders everything, and re-simulates client-side
 // (in a Web Worker running the identical engine) whenever a dial moves.
 
-import { TEAMS, ABBRS, logoURL, newsNotes } from "./teams.js";
+import { TEAMS, ABBRS, logoURL, newsNotes, chartColor, isDarkTheme } from "./teams.js";
 import { DEFAULT_SETTINGS } from "./sim.js";
 import { renderHistoryChart, renderLowellCurve, hideTip } from "./charts.js";
+import { computeProps } from "./props.js";
 
 const $ = (id) => document.getElementById(id);
 
 const state = {
   teams: [], schedule: [], results: [], history: [],
+  players: null, trackman: {},
   serverOdds: null,   // official numbers from odds.json
   odds: null,         // what's currently displayed (server or what-if)
   prevShown: {},      // last displayed pcts, for count-up animation
@@ -19,6 +21,7 @@ const state = {
     useTeamHFA: true,
     pythWeight: DEFAULT_SETTINGS.pythWeight,
     rosterChurn: DEFAULT_SETTINGS.rosterChurn,
+    recencyWeight: DEFAULT_SETTINGS.recencyWeight,
     dials: {},
     forcedOutcomes: {},
     lowellForce: null,
@@ -36,19 +39,18 @@ const state = {
 const fmtPct = (p) => (p * 100 < 0.05 && p > 0 ? "<0.1%" : (p * 100).toFixed(1) + "%");
 
 // American odds: negative for favorites (p >= 0.5), positive for underdogs.
-// Simulated probabilities can land exactly at 0 or 1 with enough sims; those
-// have no finite line, so show the conventional betting-market cap instead of
+// No thousands separators, sportsbook style (-3164, not -3,164). Simulated
+// probabilities can land exactly at 0 or 1 with enough sims; those have no
+// finite line, so show the conventional betting-market cap instead of
 // dividing by zero.
 const AMERICAN_CAP = 99900;
 function toAmericanOdds(p) {
-  if (p <= 0) return "+" + AMERICAN_CAP.toLocaleString();
-  if (p >= 1) return "-" + AMERICAN_CAP.toLocaleString();
+  if (p <= 0) return "+" + AMERICAN_CAP;
+  if (p >= 1) return "-" + AMERICAN_CAP;
   if (p >= 0.5) {
-    const odds = Math.round(-100 * (p / (1 - p)));
-    return Math.max(odds, -AMERICAN_CAP).toLocaleString();
+    return String(Math.max(Math.round(-100 * (p / (1 - p))), -AMERICAN_CAP));
   }
-  const odds = Math.round(100 * ((1 - p) / p));
-  return "+" + Math.min(odds, AMERICAN_CAP).toLocaleString();
+  return "+" + Math.min(Math.round(100 * ((1 - p) / p)), AMERICAN_CAP);
 }
 const fmtAmerican = (p) => toAmericanOdds(p);
 const fmtDate = (iso) => {
@@ -91,6 +93,7 @@ function isOfficialSettings(s) {
     s.useTeamHFA === true &&
     s.pythWeight === DEFAULT_SETTINGS.pythWeight &&
     s.rosterChurn === DEFAULT_SETTINGS.rosterChurn &&
+    s.recencyWeight === DEFAULT_SETTINGS.recencyWeight &&
     Object.values(s.dials).every((v) => !v) &&
     Object.keys(s.forcedOutcomes).length === 0 &&
     !s.lowellForce;
@@ -163,7 +166,7 @@ function renderTable() {
     tr.insertAdjacentHTML("beforeend", `<td class="num-cell">${r.ptsPct.toFixed(3).replace(/^0/, "")}</td>`);
     tr.insertAdjacentHTML("beforeend", `<td class="num-cell">${r.gb === 0 ? "-" : r.gb}</td>`);
     tr.insertAdjacentHTML("beforeend",
-      `<td class="num-cell" style="color:${r.runDiff > 0 ? "#1a7f37" : r.runDiff < 0 ? "#c22e2e" : "#666"}">${r.runDiff > 0 ? "+" : ""}${r.runDiff}</td>`);
+      `<td class="num-cell ${r.runDiff > 0 ? "rd-pos" : r.runDiff < 0 ? "rd-neg" : ""}">${r.runDiff > 0 ? "+" : ""}${r.runDiff}</td>`);
 
     // big prob cells
     const fmt = state.oddsFormat === "american" ? fmtAmerican : fmtPct;
@@ -193,7 +196,7 @@ function renderTable() {
       track.className = "prob-bar-track";
       const bar = document.createElement("div");
       bar.className = "prob-bar";
-      bar.style.background = TEAMS[r.abbr].chart;
+      bar.style.background = chartColor(r.abbr);
       track.appendChild(bar);
       td.appendChild(track);
       requestAnimationFrame(() => { bar.style.width = (r[metric] * 100).toFixed(1) + "%"; });
@@ -265,7 +268,7 @@ function renderLowell() {
        ${topLev.includes(i) ? '<span class="lgame-flag" title="High-leverage game">⚑</span>' : ""}`);
     const probEl = document.createElement("div");
     probEl.className = "lgame-prob";
-    probEl.innerHTML = `<div class="prob-bar-track"><div class="prob-bar" style="background:${TEAMS.LOW.chart};width:${(g.winProb * 100).toFixed(0)}%"></div></div>
+    probEl.innerHTML = `<div class="prob-bar-track"><div class="prob-bar" style="background:${chartColor("LOW")};width:${(g.winProb * 100).toFixed(0)}%"></div></div>
       <span class="pnum">${(g.winProb * 100).toFixed(0)}%</span>`;
     div.title = `Win probability ${(g.winProb * 100).toFixed(1)}%. Leverage: winning this game swings Lowell's playoff odds by about ${(g.leverage * 100).toFixed(1)} points.`;
     div.append(dateEl, oppEl, probEl);
@@ -281,6 +284,48 @@ function renderLowell() {
     note.textContent = `⚑ Biggest game left: ${fmtDate(f.date)} ${f.homeAway === "home" ? "vs" : "at"} ${TEAMS[f.opp].name}. Winning it swings Lowell's playoff odds by about ${(f.leverage * 100).toFixed(1)} percentage points.`;
     list.appendChild(note);
   }
+}
+
+// ---------------------------------------------------------------------------
+// Props Lab
+// ---------------------------------------------------------------------------
+
+function renderProps() {
+  const panel = $("props-panel");
+  const data = computeProps({
+    players: state.players,
+    teams: state.teams,
+    schedule: state.schedule,
+    trackman: state.trackman,
+  });
+  if (!data) { panel.hidden = true; return; }
+  panel.hidden = false;
+
+  const fmt = state.oddsFormat === "american" ? fmtAmerican : fmtPct;
+  $("props-game").textContent =
+    `${fmtDate(data.game.date)} ${data.game.homeAway === "home" ? "vs" : "at"} ${TEAMS[data.game.opp].name}`;
+
+  const tbody = $("props-tbody");
+  tbody.innerHTML = "";
+  for (const r of data.rows) {
+    const tr = document.createElement("tr");
+    const flags = [
+      r.smallSample ? '<span class="mini-note" title="Under 60 plate appearances; heavily regressed">small sample</span>' : "",
+      r.usedTrackman ? '<span title="Includes Trackman contact-quality data">📡</span>' : "",
+    ].filter(Boolean).join(" ");
+    tr.innerHTML = `
+      <td><span class="team-name">${r.name}</span> ${flags}</td>
+      <td class="num-cell">${r.line}</td>
+      <td class="num-cell" title="${fmtPct(r.props.hit1)} (${fmtAmerican(r.props.hit1)})">${fmt(r.props.hit1)}</td>
+      <td class="num-cell" title="${fmtPct(r.props.hit2)} (${fmtAmerican(r.props.hit2)})">${fmt(r.props.hit2)}</td>
+      <td class="num-cell" title="${fmtPct(r.props.tb2)} (${fmtAmerican(r.props.tb2)})">${fmt(r.props.tb2)}</td>
+      <td class="num-cell" title="${fmtPct(r.props.hr1)} (${fmtAmerican(r.props.hr1)})">${fmt(r.props.hr1)}</td>`;
+    tbody.appendChild(tr);
+  }
+
+  $("props-footnote").textContent =
+    `Opponent pitching factor ${data.oppFactor.toFixed(2)} (over 1.00 = weaker-than-average staff inflates hitter odds). ` +
+    `Uses the Percent / American odds toggle from the standings table.`;
 }
 
 // ---------------------------------------------------------------------------
@@ -379,6 +424,12 @@ function wireControls() {
     queueSim();
   });
 
+  $("recency-slider").addEventListener("input", (e) => {
+    state.settings.recencyWeight = +e.target.value;
+    $("recency-val").textContent = Math.round(state.settings.recencyWeight * 100) + "%";
+    queueSim();
+  });
+
   $("sims-slider").addEventListener("input", (e) => {
     state.settings.nSims = +e.target.value;
     $("sims-val").textContent = state.settings.nSims.toLocaleString();
@@ -413,6 +464,19 @@ function wireControls() {
 
   $("reset-official").addEventListener("click", resetToOfficial);
 
+  const themeBtn = $("theme-toggle");
+  const syncThemeButton = () => { themeBtn.textContent = isDarkTheme() ? "☀️" : "🌙"; };
+  syncThemeButton();
+  themeBtn.addEventListener("click", () => {
+    const next = isDarkTheme() ? "light" : "dark";
+    document.documentElement.dataset.theme = next;
+    try { localStorage.setItem("fcbl-theme", next); } catch { /* ignore */ }
+    syncThemeButton();
+    // charts and bars bake colors in at render time, so re-render everything
+    updateAll();
+    renderHistoryChart($("history-chart"), state.history, state.historyMetric);
+  });
+
   document.querySelectorAll("#odds-table th").forEach((th) => {
     th.addEventListener("click", () => {
       const key = th.dataset.sort;
@@ -441,6 +505,7 @@ function wireControls() {
     // pure format switch "from" equals "to" and animateNumber renders the
     // new format immediately with no count-up motion
     renderTable();
+    renderProps();
   });
 
   window.addEventListener("resize", debounce(() => {
@@ -461,6 +526,7 @@ function resetToOfficial() {
     useTeamHFA: true,
     pythWeight: DEFAULT_SETTINGS.pythWeight,
     rosterChurn: DEFAULT_SETTINGS.rosterChurn,
+    recencyWeight: DEFAULT_SETTINGS.recencyWeight,
     dials: {},
     forcedOutcomes: {},
     lowellForce: null,
@@ -472,6 +538,8 @@ function resetToOfficial() {
   $("churn-val").textContent = "±" + Math.round(DEFAULT_SETTINGS.rosterChurn * 100) + "%";
   $("pyth-slider").value = DEFAULT_SETTINGS.pythWeight;
   $("pyth-val").textContent = Math.round(DEFAULT_SETTINGS.pythWeight * 100) + "%";
+  $("recency-slider").value = DEFAULT_SETTINGS.recencyWeight;
+  $("recency-val").textContent = Math.round(DEFAULT_SETTINGS.recencyWeight * 100) + "%";
   $("sims-slider").value = 10000;
   $("sims-val").textContent = "10,000";
   $("lowell-force-slider").value = -1;
@@ -543,9 +611,11 @@ function renderScenarioDelta() {
   const after = state.odds.teams.LOW.playoffPct;
   const arrow = after >= before ? "▲" : "▼";
   el.hidden = false;
+  const bothActive = state.settings.lowellForce && Object.keys(state.settings.forcedOutcomes).length;
   el.innerHTML = `In this scenario, Lowell's playoff odds go
     <b>${fmtPct(before)}</b> → <b>${fmtPct(after)}</b>
-    <span class="prob-delta ${after >= before ? "up" : "down"}">${arrow} ${Math.abs((after - before) * 100).toFixed(1)} pts</span>`;
+    <span class="prob-delta ${after >= before ? "up" : "down"}">${arrow} ${Math.abs((after - before) * 100).toFixed(1)} pts</span>
+    ${bothActive ? '<br><span class="mini-note">The record slider is Lowell\'s TOTAL rest-of-way record; wins you forced on specific games count toward it.</span>' : ""}`;
 }
 
 // ---------------------------------------------------------------------------
@@ -562,6 +632,7 @@ function updateAll() {
   $("whatif-banner").hidden = !whatIf;
   renderTable();
   renderLowell();
+  renderProps();
 }
 
 async function load(name) {
@@ -576,6 +647,10 @@ async function init() {
     load("odds.json"), load("history.json"),
   ]);
   Object.assign(state, { teams, schedule, results, history });
+  // optional data: player lines (Props Lab) and Trackman contact quality;
+  // both panels simply stay hidden until the files exist
+  state.players = await load("players.json").catch(() => null);
+  state.trackman = await load("trackman.json").catch(() => ({}));
   state.serverOdds = odds;
   state.odds = odds;
 

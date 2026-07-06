@@ -12,10 +12,13 @@
     "awayL": 15,
     "RS": 177,
     "RA": 239,
+    "recentRS": 76,
+    "recentRA": 57,
+    "recentGP": 12,
     "streak": "W1",
     "derbyLosses": 0,
     "gamesRemaining": 25,
-    "asOf": "2026-07-06T03:23:52.651Z"
+    "asOf": "2026-07-06T03:44:49.665Z"
   },
   {
     "abbr": "NSH",
@@ -30,10 +33,13 @@
     "awayL": 10,
     "RS": 200,
     "RA": 151,
+    "recentRS": 60,
+    "recentRA": 45,
+    "recentGP": 12,
     "streak": "W1",
     "derbyLosses": 0,
     "gamesRemaining": 28,
-    "asOf": "2026-07-06T03:23:52.651Z"
+    "asOf": "2026-07-06T03:44:49.665Z"
   },
   {
     "abbr": "NB",
@@ -48,10 +54,13 @@
     "awayL": 5,
     "RS": 162,
     "RA": 160,
+    "recentRS": 53,
+    "recentRA": 58,
+    "recentGP": 12,
     "streak": "L1",
     "derbyLosses": 0,
     "gamesRemaining": 28,
-    "asOf": "2026-07-06T03:23:52.651Z"
+    "asOf": "2026-07-06T03:44:49.665Z"
   },
   {
     "abbr": "NOR",
@@ -66,10 +75,13 @@
     "awayL": 11,
     "RS": 172,
     "RA": 203,
+    "recentRS": 56,
+    "recentRA": 87,
+    "recentGP": 12,
     "streak": "L2",
     "derbyLosses": 0,
     "gamesRemaining": 27,
-    "asOf": "2026-07-06T03:23:52.651Z"
+    "asOf": "2026-07-06T03:44:49.665Z"
   },
   {
     "abbr": "VT",
@@ -84,10 +96,13 @@
     "awayL": 6,
     "RS": 223,
     "RA": 181,
+    "recentRS": 87,
+    "recentRA": 69,
+    "recentGP": 12,
     "streak": "W5",
     "derbyLosses": 0,
     "gamesRemaining": 27,
-    "asOf": "2026-07-06T03:23:52.651Z"
+    "asOf": "2026-07-06T03:44:49.665Z"
   },
   {
     "abbr": "WF",
@@ -102,10 +117,13 @@
     "awayL": 7,
     "RS": 168,
     "RA": 218,
+    "recentRS": 41,
+    "recentRA": 87,
+    "recentGP": 12,
     "streak": "L1",
     "derbyLosses": 0,
     "gamesRemaining": 27,
-    "asOf": "2026-07-06T03:23:52.651Z"
+    "asOf": "2026-07-06T03:44:49.665Z"
   },
   {
     "abbr": "WOR",
@@ -120,9 +138,12 @@
     "awayL": 7,
     "RS": 243,
     "RA": 193,
+    "recentRS": 83,
+    "recentRA": 62,
+    "recentGP": 12,
     "streak": "W1",
     "derbyLosses": 0,
     "gamesRemaining": 26,
-    "asOf": "2026-07-06T03:23:52.651Z"
+    "asOf": "2026-07-06T03:44:49.665Z"
   }
 ]

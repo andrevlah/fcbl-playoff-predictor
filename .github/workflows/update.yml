@@ -50,5 +50,8 @@ jobs:
             echo "No data changes, nothing to commit."
           else
             git commit -m "data: auto-update $(date -u '+%Y-%m-%d %H:%M UTC')"
+            # another run may have pushed while we scraped; rebase our data
+            # commit on top rather than failing the push
+            git pull --rebase origin main
             git push
           fi
