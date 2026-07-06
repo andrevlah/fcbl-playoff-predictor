@@ -9,24 +9,47 @@ import { SEED_TEAMS, SEED_SCHEDULE } from "../scripts/lib/seed-data.js";
 const LOWELL = { abbr: "LOW", W: 13, L: 22, GP: 35, homeW: 8, homeL: 7, awayW: 5, awayL: 15, RS: 177, RA: 239 };
 const VERMONT = { abbr: "VT", W: 22, L: 10, GP: 32, homeW: 13, homeL: 4, awayW: 9, awayL: 6, RS: 214, RA: 180 };
 
-test("worked example from the spec reproduces within ±0.001", () => {
+// The original spec's reference parameters. Production defaults are softer
+// (pythWeight .55, prior 28, rosterChurn .12) after the July 5 recalibration
+// against 2025 league history — but the formulas must still reproduce the
+// spec's hand-worked numbers when given the spec's parameters.
+const SPEC_PARAMS = { pythWeight: 0.70, regressPrior: 12 };
+
+test("worked example from the spec reproduces within ±0.001 (spec parameters)", () => {
   const low = pythagenpat(LOWELL.RS, LOWELL.RA, LOWELL.GP);
   assert.ok(Math.abs(low.k - 2.035) < 0.001, `Lowell k = ${low.k}`);
   assert.ok(Math.abs(low.pyth - 0.352) < 0.001, `Lowell pyth = ${low.pyth}`);
-  assert.ok(Math.abs(talentFor(LOWELL) - 0.394) < 0.001, `Lowell talent = ${talentFor(LOWELL)}`);
+  assert.ok(Math.abs(talentFor(LOWELL, 0, SPEC_PARAMS) - 0.394) < 0.001,
+    `Lowell talent = ${talentFor(LOWELL, 0, SPEC_PARAMS)}`);
 
   const vt = pythagenpat(VERMONT.RS, VERMONT.RA, VERMONT.GP);
   assert.ok(Math.abs(vt.pyth - 0.588) < 0.001, `Vermont pyth = ${vt.pyth}`);
-  assert.ok(Math.abs(talentFor(VERMONT) - 0.586) < 0.001, `Vermont talent = ${talentFor(VERMONT)}`);
+  assert.ok(Math.abs(talentFor(VERMONT, 0, SPEC_PARAMS) - 0.586) < 0.001,
+    `Vermont talent = ${talentFor(VERMONT, 0, SPEC_PARAMS)}`);
 
   // Lowell at Vermont with GLOBAL HFA only: P(Vermont) = .720
-  const pVT = gameWinProb(VERMONT, LOWELL, { useTeamHFA: false, hfaGlobal: 0.035 });
+  const pVT = gameWinProb(VERMONT, LOWELL, { ...SPEC_PARAMS, useTeamHFA: false, hfaGlobal: 0.035 });
   assert.ok(Math.abs(pVT - 0.720) < 0.001, `P(Vermont home) = ${pVT}`);
   assert.ok(Math.abs((1 - pVT) - 0.280) < 0.001);
 
   // log5 of Lowell's side matches the spec's .315
-  const l5 = log5(talentFor(LOWELL), talentFor(VERMONT));
+  const l5 = log5(talentFor(LOWELL, 0, SPEC_PARAMS), talentFor(VERMONT, 0, SPEC_PARAMS));
   assert.ok(Math.abs(l5 - 0.315) < 0.001, `Lowell log5 = ${l5}`);
+});
+
+test("roster churn widens the tails: underdogs gain, favorites lose certainty", () => {
+  const teams = () => SEED_TEAMS.map((t) => ({ ...t }));
+  const still = simulate({ teams: teams(), schedule: SEED_SCHEDULE, results: [],
+    settings: { nSims: 6000, seed: 11, rosterChurn: 0 } });
+  const churned = simulate({ teams: teams(), schedule: SEED_SCHEDULE, results: [],
+    settings: { nSims: 6000, seed: 11, rosterChurn: 0.12 } });
+  assert.ok(churned.teams.LOW.playoffPct > still.teams.LOW.playoffPct + 0.02,
+    `LOW: ${still.teams.LOW.playoffPct} -> ${churned.teams.LOW.playoffPct}`);
+  assert.ok(churned.teams.VT.playoffPct <= still.teams.VT.playoffPct + 1e-9,
+    `VT: ${still.teams.VT.playoffPct} -> ${churned.teams.VT.playoffPct}`);
+  // even with churn the ordering stays sane
+  assert.ok(churned.teams.VT.playoffPct > 0.9);
+  assert.ok(churned.teams.NSH.playoffPct > churned.teams.LOW.playoffPct);
 });
 
 test("team-specific HFA regresses Lowell's extreme split sanely", () => {

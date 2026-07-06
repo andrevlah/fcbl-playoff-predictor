@@ -17,6 +17,8 @@ const state = {
     nSims: 10000,
     hfaGlobal: DEFAULT_SETTINGS.hfaGlobal,
     useTeamHFA: true,
+    pythWeight: DEFAULT_SETTINGS.pythWeight,
+    rosterChurn: DEFAULT_SETTINGS.rosterChurn,
     dials: {},
     forcedOutcomes: {},
     lowellForce: null,
@@ -66,6 +68,8 @@ function animateNumber(el, from, to, fmt, ms = 650) {
 function isOfficialSettings(s) {
   return s.hfaGlobal === DEFAULT_SETTINGS.hfaGlobal &&
     s.useTeamHFA === true &&
+    s.pythWeight === DEFAULT_SETTINGS.pythWeight &&
+    s.rosterChurn === DEFAULT_SETTINGS.rosterChurn &&
     Object.values(s.dials).every((v) => !v) &&
     Object.keys(s.forcedOutcomes).length === 0 &&
     !s.lowellForce;
@@ -340,6 +344,18 @@ function wireControls() {
     queueSim();
   });
 
+  $("churn-slider").addEventListener("input", (e) => {
+    state.settings.rosterChurn = +e.target.value;
+    $("churn-val").textContent = "±" + Math.round(state.settings.rosterChurn * 100) + "%";
+    queueSim();
+  });
+
+  $("pyth-slider").addEventListener("input", (e) => {
+    state.settings.pythWeight = +e.target.value;
+    $("pyth-val").textContent = Math.round(state.settings.pythWeight * 100) + "%";
+    queueSim();
+  });
+
   $("sims-slider").addEventListener("input", (e) => {
     state.settings.nSims = +e.target.value;
     $("sims-val").textContent = state.settings.nSims.toLocaleString();
@@ -408,6 +424,8 @@ function resetToOfficial() {
     nSims: 10000,
     hfaGlobal: DEFAULT_SETTINGS.hfaGlobal,
     useTeamHFA: true,
+    pythWeight: DEFAULT_SETTINGS.pythWeight,
+    rosterChurn: DEFAULT_SETTINGS.rosterChurn,
     dials: {},
     forcedOutcomes: {},
     lowellForce: null,
@@ -415,6 +433,10 @@ function resetToOfficial() {
   $("hfa-slider").value = DEFAULT_SETTINGS.hfaGlobal;
   $("hfa-val").textContent = "+3.5%";
   $("team-hfa-toggle").checked = true;
+  $("churn-slider").value = DEFAULT_SETTINGS.rosterChurn;
+  $("churn-val").textContent = "±" + Math.round(DEFAULT_SETTINGS.rosterChurn * 100) + "%";
+  $("pyth-slider").value = DEFAULT_SETTINGS.pythWeight;
+  $("pyth-val").textContent = Math.round(DEFAULT_SETTINGS.pythWeight * 100) + "%";
   $("sims-slider").value = 10000;
   $("sims-val").textContent = "10,000";
   $("lowell-force-slider").value = -1;

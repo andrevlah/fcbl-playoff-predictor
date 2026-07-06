@@ -111,6 +111,19 @@
         <span>Use each team's own home/away split (regressed) — e.g. Lowell has been far better at home</span>
       </label>
       <label class="slider-row">
+        <span class="slider-label">Roster churn <b id="churn-val">±12%</b></span>
+        <input type="range" id="churn-slider" min="0" max="0.25" step="0.01" value="0.12">
+      </label>
+      <p class="mini-note">How much team strength can swing mid-summer (draft departures, school
+        commitments, a roster gelling). In 2025, Nashua fell from playoff position to 24–36 and a
+        sub-.500 Norwich won the title — set to 0 to see a "rosters never change" world.</p>
+      <label class="slider-row">
+        <span class="slider-label">Trust in run differential <b id="pyth-val">55%</b></span>
+        <input type="range" id="pyth-slider" min="0" max="1" step="0.05" value="0.55">
+      </label>
+      <p class="mini-note">How much team strength leans on runs scored/allowed vs. plain win-loss
+        record. 0% = records only.</p>
+      <label class="slider-row">
         <span class="slider-label">Simulations <b id="sims-val">10,000</b></span>
         <input type="range" id="sims-slider" min="1000" max="50000" step="1000" value="10000">
       </label>
@@ -163,9 +176,15 @@
       (2 points per win, 1 point for losing a game decided by the Home Run Derby tiebreaker), ties break by
       total points and then head-to-head, and the playoffs are best-of-3 semifinals (1v4, 2v3) and a
       best-of-3 final where the higher seed hosts games 1 and 3.</p>
-      <p><strong>What the model can't see:</strong> roster moves, injuries, pitching matchups, or players
-      leaving for the MLB Draft and school commitments — a real factor in summer college ball. That's why
-      the "Play GM" dials exist: if you know a team just lost its ace, turn them down and see what happens.</p>
+      <p><strong>Summer ball is chaos, and the model knows it:</strong> rosters turn over mid-season —
+      MLB Draft departures, school commitments, innings limits. In 2025, Nashua fell from playoff position
+      to 24–36 while a sub-.500 Norwich took the 4-seed and won its third straight title. So in every
+      simulated season, each team's strength gets a random mid-summer swing (the "roster churn" dial,
+      default ±12%). Most seasons it's small; sometimes it's a full-on collapse or a hot-roster surge.
+      That's why nobody here gets a 99.9% and nobody gets a 0.1% while there's still a month of baseball left.</p>
+      <p><strong>What the model still can't see:</strong> <em>which</em> roster will be the one that
+      changes. Churn is random in the simulations; you may actually know things it doesn't — that's what
+      the per-team strength dials are for. If you know a team just lost its ace, turn them down and watch.</p>
       <p><strong>Honesty note:</strong> these are estimates, not promises. A 90% chance loses one time in
       ten. Early-season odds move a lot; that's the math working, not breaking.</p>
     </div>

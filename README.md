@@ -116,9 +116,12 @@ and we simulate the rest of the season 25,000 times, applying the league's actua
 points percentage standings, total-points and head-to-head tiebreakers, and best-of-3
 playoff series where the higher seed hosts games 1 and 3.
 
-The model **cannot** see injuries, roster departures, or pitching matchups — in summer
-college ball, players really do leave mid-season (MLB Draft, school). That's exactly what
-the "Play GM" strength dials are for.
+Because summer-league rosters churn (MLB Draft, school commitments — see Nashua's 2025
+fade from playoff position to 24-36, and .459 Norwich winning it all), every simulated
+season also gives each team a random mid-summer strength swing ("roster churn," default
+±12%). That keeps the model humble: no team gets written off or crowned in early July.
+What it still can't know is *which* roster will change — if you have that intel, that's
+exactly what the "Play GM" strength dials are for.
 
 **Odds are estimates, not promises.** A 90% favorite loses one time in ten.
 

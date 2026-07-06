@@ -20,6 +20,13 @@ export const DEFAULT_SETTINGS = {
   nSims: 10000,
   hfaGlobal: 0.035,      // global home-field advantage (added to home win prob)
   useTeamHFA: true,      // blend in each team's own home/away split (regressed)
+  pythWeight: 0.55,      // weight on Pythagenpat vs actual win% in talent
+  regressPrior: 28,      // games of .500 ball blended in (small-sample skepticism)
+  rosterChurn: 0.12,     // per-simulation talent shock (std dev). Summer rosters
+                         //   turn over mid-season (MLB draft, school, innings
+                         //   caps) — in 2025, Nashua fell from playoff position
+                         //   to 24-36 and a .459 Norwich won the title. This is
+                         //   that reality, as a dial.
   dials: {},             // { ABBR: -0.10 .. +0.10 } manual strength adjustment
   forcedOutcomes: {},    // { scheduleIndex: "home" | "away" } scenario tool
   lowellForce: null,     // { w: N } force Lowell to win exactly N of its
@@ -53,14 +60,18 @@ export function pythagenpat(RS, RA, GP) {
   return { k, pyth: rsk / (rsk + rak) };
 }
 
-// talent = 0.70*pyth + 0.30*win%, regressed toward .500 with a 12-game prior,
-// then shifted by the user's strength dial and clamped.
-export function talentFor(team, dial = 0) {
+// talent = blend of Pythagenpat and actual win%, regressed toward .500 with a
+// prior of `regressPrior` .500 games, then shifted by the user's strength dial.
+// pythWeight/regressPrior default to the model settings; pass them explicitly
+// to reproduce the original spec reference values (0.70 / 12).
+export function talentFor(team, dial = 0, opts = {}) {
+  const w = opts.pythWeight ?? DEFAULT_SETTINGS.pythWeight;
+  const prior = opts.regressPrior ?? DEFAULT_SETTINGS.regressPrior;
   if (!team.GP) return clamp(0.5 + dial, 0.05, 0.95);
   const { pyth } = pythagenpat(team.RS, team.RA, team.GP);
   const winPct = team.W / team.GP;
-  const raw = 0.70 * pyth + 0.30 * winPct;
-  const talent = 0.5 + (raw - 0.5) * (team.GP / (team.GP + 12));
+  const raw = w * pyth + (1 - w) * winPct;
+  const talent = 0.5 + (raw - 0.5) * (team.GP / (team.GP + prior));
   return clamp(talent + dial, 0.05, 0.95);
 }
 
@@ -85,10 +96,19 @@ export function teamHFA(team, hfaGlobal, useTeamHFA) {
 // P(home team wins a single game).
 export function gameWinProb(homeTeam, awayTeam, settings = {}) {
   const s = { ...DEFAULT_SETTINGS, ...settings };
-  const th = talentFor(homeTeam, s.dials[homeTeam.abbr] || 0);
-  const ta = talentFor(awayTeam, s.dials[awayTeam.abbr] || 0);
+  const th = talentFor(homeTeam, s.dials[homeTeam.abbr] || 0, s);
+  const ta = talentFor(awayTeam, s.dials[awayTeam.abbr] || 0, s);
   const hfa = teamHFA(homeTeam, s.hfaGlobal, s.useTeamHFA);
   return clamp(log5(th, ta) + hfa, 0.02, 0.98);
+}
+
+// standard normal draw (Box-Muller) from a uniform RNG — used for the
+// roster-churn talent shocks
+export function gaussian(rand) {
+  let u = 0, v = 0;
+  while (u === 0) u = rand();
+  while (v === 0) v = rand();
+  return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
 }
 
 // --- standings & tiebreakers -------------------------------------------------
@@ -183,18 +203,21 @@ export function simulate({ teams, schedule, results = [], settings = {} }) {
   const remaining = new Array(T).fill(0);
   for (const g of games) { remaining[g.home]++; remaining[g.away]++; }
 
-  const talents = teams.map((t) => talentFor(t, s.dials[t.abbr] || 0));
+  const talents = teams.map((t) => talentFor(t, s.dials[t.abbr] || 0, s));
   const hfas = teams.map((t) => teamHFA(t, s.hfaGlobal, s.useTeamHFA));
 
-  // pMatrix[h][a] = P(home team h beats away team a)
-  const pMatrix = [];
-  for (let h = 0; h < T; h++) {
-    pMatrix[h] = [];
-    for (let a = 0; a < T; a++) {
-      pMatrix[h][a] = h === a ? 0.5
-        : clamp(log5(talents[h], talents[a]) + hfas[h], 0.02, 0.98);
+  // matrix[h][a] = P(home team h beats away team a) for a given talent vector
+  const buildMatrix = (tal) => {
+    const m = [];
+    for (let h = 0; h < T; h++) {
+      m[h] = [];
+      for (let a = 0; a < T; a++) {
+        m[h][a] = h === a ? 0.5 : clamp(log5(tal[h], tal[a]) + hfas[h], 0.02, 0.98);
+      }
     }
-  }
+    return m;
+  };
+  const pMatrix = buildMatrix(talents);              // mean (no-shock) view
   const pGame = games.map((g) => pMatrix[g.home][g.away]);
 
   // base head-to-head from actual results (winner earns 2 points)
@@ -228,10 +251,20 @@ export function simulate({ teams, schedule, results = [], settings = {} }) {
   const outcome = new Array(games.length); // true = home team won
 
   for (let iter = 0; iter < n; iter++) {
+    // 0) roster churn: this simulated season, each team's true strength gets
+    //    a mid-summer shock (draft departures, school commitments, a roster
+    //    that gels). One draw per team per season, not per game.
+    let mIter = pMatrix, pIter = pGame;
+    if (s.rosterChurn > 0) {
+      const shocked = talents.map((t) => clamp(t + s.rosterChurn * gaussian(rand), 0.05, 0.95));
+      mIter = buildMatrix(shocked);
+      pIter = games.map((g) => mIter[g.home][g.away]);
+    }
+
     // 1) play the season
     for (let gi = 0; gi < games.length; gi++) {
       const f = forced[games[gi].i];
-      outcome[gi] = f ? f === "home" : rand() < pGame[gi];
+      outcome[gi] = f ? f === "home" : rand() < pIter[gi];
     }
 
     // optional: force the focus team's aggregate record, distributing wins
@@ -239,7 +272,7 @@ export function simulate({ teams, schedule, results = [], settings = {} }) {
     if (forceW !== null && focusUnforced.length) {
       const pool = focusUnforced.map((g) => {
         const gi = games.indexOf(g);
-        const pFocusWin = g.home === focus ? pGame[gi] : 1 - pGame[gi];
+        const pFocusWin = g.home === focus ? pIter[gi] : 1 - pIter[gi];
         return { gi, g, w: pFocusWin };
       });
       for (const p of pool) outcome[p.gi] = p.g.home !== focus; // start all losses
@@ -297,14 +330,16 @@ export function simulate({ teams, schedule, results = [], settings = {} }) {
       winHist[ti][fw] = (winHist[ti][fw] || 0) + 1;
     }
 
-    // 4) bracket: 1v4, 2v3 best-of-3; winners meet in a best-of-3 final
-    const semi1 = playBestOf3(seeds[0], seeds[3], pMatrix, rand);
-    const semi2 = playBestOf3(seeds[1], seeds[2], pMatrix, rand);
+    // 4) bracket: 1v4, 2v3 best-of-3; winners meet in a best-of-3 final.
+    //    Uses this season's shocked strengths — the roster that limps into
+    //    the playoffs is the roster that plays them.
+    const semi1 = playBestOf3(seeds[0], seeds[3], mIter, rand);
+    const semi2 = playBestOf3(seeds[1], seeds[2], mIter, rand);
     // higher regular-season seed hosts the final
     const s1 = seeds.indexOf(semi1), s2 = seeds.indexOf(semi2);
     const champ = s1 < s2
-      ? playBestOf3(semi1, semi2, pMatrix, rand)
-      : playBestOf3(semi2, semi1, pMatrix, rand);
+      ? playBestOf3(semi1, semi2, mIter, rand)
+      : playBestOf3(semi2, semi1, mIter, rand);
     titleCount[champ]++;
 
     // 5) focus-team extras
@@ -339,6 +374,9 @@ export function simulate({ teams, schedule, results = [], settings = {} }) {
     settings: {
       hfaGlobal: s.hfaGlobal,
       useTeamHFA: s.useTeamHFA,
+      pythWeight: s.pythWeight,
+      regressPrior: s.regressPrior,
+      rosterChurn: s.rosterChurn,
       dials: s.dials,
       forcedOutcomes: s.forcedOutcomes,
       lowellForce: s.lowellForce,
