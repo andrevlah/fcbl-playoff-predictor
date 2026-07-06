@@ -5,32 +5,32 @@
     "gamesCompleted": 115,
     "teams": {
       "VT": {
-        "playoffPct": 0.9866,
-        "titlePct": 0.31068
+        "playoffPct": 0.96936,
+        "titlePct": 0.2496
       },
       "WOR": {
-        "playoffPct": 0.87324,
-        "titlePct": 0.21128
+        "playoffPct": 0.82072,
+        "titlePct": 0.2022
       },
       "NB": {
-        "playoffPct": 0.75536,
-        "titlePct": 0.1352
+        "playoffPct": 0.75896,
+        "titlePct": 0.16392
       },
       "NSH": {
-        "playoffPct": 0.76972,
-        "titlePct": 0.21556
+        "playoffPct": 0.68052,
+        "titlePct": 0.18688
       },
       "NOR": {
-        "playoffPct": 0.33832,
-        "titlePct": 0.06664
+        "playoffPct": 0.39936,
+        "titlePct": 0.09628
       },
       "WF": {
-        "playoffPct": 0.126,
-        "titlePct": 0.02748
+        "playoffPct": 0.18768,
+        "titlePct": 0.0504
       },
       "LOW": {
-        "playoffPct": 0.15076,
-        "titlePct": 0.03316
+        "playoffPct": 0.1834,
+        "titlePct": 0.05072
       }
     }
   }

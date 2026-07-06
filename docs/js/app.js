@@ -55,6 +55,9 @@ function logoEl(abbr, cls = "team-logo") {
 }
 
 function animateNumber(el, from, to, fmt, ms = 650) {
+  // hidden tabs pause requestAnimationFrame — never leave the number blank
+  el.textContent = fmt(from);
+  if (document.hidden) { el.textContent = fmt(to); return; }
   const t0 = performance.now();
   const ease = (t) => 1 - Math.pow(1 - t, 3);
   const step = (now) => {

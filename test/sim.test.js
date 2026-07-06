@@ -54,8 +54,10 @@ test("roster churn widens the tails: underdogs gain, favorites lose certainty", 
 
 test("team-specific HFA regresses Lowell's extreme split sanely", () => {
   const hfa = teamHFA(LOWELL, 0.035, true);
-  // raw split (.533-.250)/2 ≈ .142 -> regressed to ≈ .074 at GP=35
-  assert.ok(hfa > 0.06 && hfa < 0.09, `Lowell HFA = ${hfa}`);
+  // raw split (.533-.250)/2 ≈ .142 -> with the 300-game prior this only
+  // nudges the league HFA: ≈ .046 at GP=35. A 16-games-a-side split is
+  // nearly all noise and must never dominate.
+  assert.ok(hfa > 0.04 && hfa < 0.06, `Lowell HFA = ${hfa}`);
   assert.equal(teamHFA(LOWELL, 0.035, false), 0.035);
 });
 

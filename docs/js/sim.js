@@ -21,7 +21,13 @@ export const DEFAULT_SETTINGS = {
   hfaGlobal: 0.035,      // global home-field advantage (added to home win prob)
   useTeamHFA: true,      // blend in each team's own home/away split (regressed)
   pythWeight: 0.55,      // weight on Pythagenpat vs actual win% in talent
-  regressPrior: 28,      // games of .500 ball blended in (small-sample skepticism)
+  regressPrior: 90,      // games of .500 ball blended in. Empirically derived:
+                         //   the 2026 standings spread (SD .103) is barely wider
+                         //   than pure coin-flip noise over ~32 games (SD .087),
+                         //   so only ~28% of the observed gaps are real skill —
+                         //   James-Stein shrinkage implies a prior of ~85-90
+                         //   games. This league is far more even than its
+                         //   standings look.
   rosterChurn: 0.12,     // per-simulation talent shock (std dev). Summer rosters
                          //   turn over mid-season (MLB draft, school, innings
                          //   caps) — in 2025, Nashua fell from playoff position
@@ -81,16 +87,18 @@ export function log5(pA, pB) {
   return (pA - pA * pB) / den;
 }
 
-// Team-specific HFA: half the (home win% - away win%) split, regressed hard
-// toward the global value with a 60-game prior. Only the HOME team's HFA is
-// applied to a game.
+// Team-specific HFA: half the (home win% - away win%) split, regressed VERY
+// hard toward the global value with a 300-game prior — a mid-season home/away
+// split is ~16 games a side, which is nearly all noise, so a team's own split
+// should only ever nudge the league-average HFA, not replace it. Only the
+// HOME team's HFA is applied to a game.
 export function teamHFA(team, hfaGlobal, useTeamHFA) {
   if (!useTeamHFA) return hfaGlobal;
   const hg = team.homeW + team.homeL;
   const ag = team.awayW + team.awayL;
   if (!hg || !ag) return hfaGlobal;
   const raw = (team.homeW / hg - team.awayW / ag) / 2;
-  return hfaGlobal + (raw - hfaGlobal) * (team.GP / (team.GP + 60));
+  return hfaGlobal + (raw - hfaGlobal) * (team.GP / (team.GP + 300));
 }
 
 // P(home team wins a single game).
