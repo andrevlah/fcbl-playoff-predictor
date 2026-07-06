@@ -3,752 +3,752 @@
     "date": "2026-07-06",
     "home": "NSH",
     "away": "LOW",
-    "time": null,
-    "gameId": null,
+    "time": "6:03 PM",
+    "gameId": "20260706_u6su",
     "note": ""
   },
   {
     "date": "2026-07-06",
     "home": "WF",
     "away": "NB",
-    "time": null,
-    "gameId": null,
+    "time": "6:30 PM",
+    "gameId": "20260706_if9h",
     "note": ""
   },
   {
     "date": "2026-07-06",
     "home": "VT",
     "away": "NOR",
-    "time": null,
-    "gameId": null,
-    "note": ""
-  },
-  {
-    "date": "2026-07-07",
-    "home": "LOW",
-    "away": "NB",
-    "time": null,
-    "gameId": null,
+    "time": "6:35 PM",
+    "gameId": "20260706_7ljb",
     "note": ""
   },
   {
     "date": "2026-07-07",
     "home": "NSH",
     "away": "VT",
-    "time": null,
-    "gameId": null,
+    "time": "6:03 PM",
+    "gameId": "20260707_mk6j",
     "note": ""
   },
   {
     "date": "2026-07-07",
     "home": "WF",
     "away": "WOR",
-    "time": null,
-    "gameId": null,
+    "time": "6:30 PM",
+    "gameId": "20260707_7ihx",
+    "note": ""
+  },
+  {
+    "date": "2026-07-07",
+    "home": "LOW",
+    "away": "NB",
+    "time": "7:00 PM",
+    "gameId": "20260707_01q3",
+    "note": ""
+  },
+  {
+    "date": "2026-07-08",
+    "home": "NSH",
+    "away": "VT",
+    "time": "6:03 PM",
+    "gameId": "20260708_k5kj",
+    "note": ""
+  },
+  {
+    "date": "2026-07-08",
+    "home": "NOR",
+    "away": "WF",
+    "time": "6:30 PM",
+    "gameId": "20260708_52q2",
     "note": ""
   },
   {
     "date": "2026-07-08",
     "home": "LOW",
     "away": "WOR",
-    "time": null,
-    "gameId": null,
-    "note": ""
-  },
-  {
-    "date": "2026-07-08",
-    "home": "NSH",
-    "away": "VT",
-    "time": null,
-    "gameId": null,
-    "note": ""
-  },
-  {
-    "date": "2026-07-08",
-    "home": "NOR",
-    "away": "WF",
-    "time": null,
-    "gameId": null,
-    "note": ""
-  },
-  {
-    "date": "2026-07-09",
-    "home": "LOW",
-    "away": "NB",
-    "time": null,
-    "gameId": null,
+    "time": "7:00 PM",
+    "gameId": "20260708_54p8",
     "note": ""
   },
   {
     "date": "2026-07-09",
     "home": "NOR",
     "away": "WOR",
-    "time": null,
-    "gameId": null,
-    "note": "Doubleheader game 1"
+    "time": "4:00 PM",
+    "gameId": "20260709_he1e",
+    "note": "Postponed from 6/22"
   },
   {
     "date": "2026-07-09",
     "home": "NOR",
     "away": "WOR",
-    "time": null,
-    "gameId": null,
-    "note": "Doubleheader game 2"
+    "time": "6:30 PM",
+    "gameId": "20260709_1se7",
+    "note": ""
+  },
+  {
+    "date": "2026-07-09",
+    "home": "LOW",
+    "away": "NB",
+    "time": "7:00 PM",
+    "gameId": "20260709_zmwc",
+    "note": ""
   },
   {
     "date": "2026-07-10",
     "home": "NSH",
     "away": "NB",
-    "time": null,
-    "gameId": null,
+    "time": "6:03 PM",
+    "gameId": "20260710_r9ih",
     "note": ""
   },
   {
     "date": "2026-07-10",
     "home": "WOR",
     "away": "NOR",
-    "time": null,
-    "gameId": null,
+    "time": "6:30 PM",
+    "gameId": "20260710_1xpa",
     "note": ""
   },
   {
     "date": "2026-07-10",
     "home": "VT",
     "away": "WF",
-    "time": null,
-    "gameId": null,
+    "time": "6:35 PM",
+    "gameId": "20260710_sa9t",
     "note": ""
   },
   {
     "date": "2026-07-11",
     "home": "LOW",
     "away": "NSH",
-    "time": null,
-    "gameId": null,
-    "note": ""
-  },
-  {
-    "date": "2026-07-11",
-    "home": "NB",
-    "away": "WOR",
-    "time": null,
-    "gameId": null,
+    "time": "5:00 PM",
+    "gameId": "20260711_q8es",
     "note": ""
   },
   {
     "date": "2026-07-11",
     "home": "VT",
     "away": "WF",
-    "time": null,
-    "gameId": null,
+    "time": "6:05 PM",
+    "gameId": "20260711_x1jy",
+    "note": ""
+  },
+  {
+    "date": "2026-07-11",
+    "home": "NB",
+    "away": "WOR",
+    "time": "6:35 PM",
+    "gameId": "20260711_rppr",
+    "note": ""
+  },
+  {
+    "date": "2026-07-12",
+    "home": "NSH",
+    "away": "NB",
+    "time": "3:00 PM",
+    "gameId": "20260712_tlu5",
     "note": ""
   },
   {
     "date": "2026-07-12",
     "home": "LOW",
     "away": "NOR",
-    "time": null,
-    "gameId": null,
-    "note": ""
-  },
-  {
-    "date": "2026-07-12",
-    "home": "NSH",
-    "away": "NB",
-    "time": null,
-    "gameId": null,
+    "time": "5:00 PM",
+    "gameId": "20260712_okak",
     "note": ""
   },
   {
     "date": "2026-07-12",
     "home": "VT",
     "away": "WF",
-    "time": null,
-    "gameId": null,
+    "time": "5:05 PM",
+    "gameId": "20260712_6m4k",
     "note": ""
   },
   {
     "date": "2026-07-13",
     "home": "NOR",
     "away": "LOW",
-    "time": null,
-    "gameId": null,
-    "note": ""
-  },
-  {
-    "date": "2026-07-13",
-    "home": "NB",
-    "away": "VT",
-    "time": null,
-    "gameId": null,
+    "time": "6:30 PM",
+    "gameId": "20260713_gw5p",
     "note": ""
   },
   {
     "date": "2026-07-13",
     "home": "WOR",
     "away": "WF",
-    "time": null,
-    "gameId": null,
+    "time": "6:30 PM",
+    "gameId": "20260713_ho0s",
+    "note": ""
+  },
+  {
+    "date": "2026-07-13",
+    "home": "NB",
+    "away": "VT",
+    "time": "6:35 PM",
+    "gameId": "20260713_p504",
+    "note": ""
+  },
+  {
+    "date": "2026-07-14",
+    "home": "NOR",
+    "away": "NSH",
+    "time": "6:30 PM",
+    "gameId": "20260714_n7wg",
+    "note": ""
+  },
+  {
+    "date": "2026-07-14",
+    "home": "NB",
+    "away": "VT",
+    "time": "6:35 PM",
+    "gameId": "20260714_r2xm",
     "note": ""
   },
   {
     "date": "2026-07-14",
     "home": "LOW",
     "away": "WF",
-    "time": null,
-    "gameId": null,
-    "note": ""
-  },
-  {
-    "date": "2026-07-14",
-    "home": "NOR",
-    "away": "NSH",
-    "time": null,
-    "gameId": null,
-    "note": ""
-  },
-  {
-    "date": "2026-07-14",
-    "home": "NB",
-    "away": "VT",
-    "time": null,
-    "gameId": null,
-    "note": ""
-  },
-  {
-    "date": "2026-07-15",
-    "home": "LOW",
-    "away": "NOR",
-    "time": null,
-    "gameId": null,
-    "note": ""
-  },
-  {
-    "date": "2026-07-15",
-    "home": "NSH",
-    "away": "WOR",
-    "time": null,
-    "gameId": null,
+    "time": "7:00 PM",
+    "gameId": "20260714_li00",
     "note": ""
   },
   {
     "date": "2026-07-15",
     "home": "WF",
     "away": "VT",
-    "time": null,
-    "gameId": null,
+    "time": "11:00 AM",
+    "gameId": "20260715_1cmg",
     "note": ""
   },
   {
-    "date": "2026-07-16",
-    "home": "NB",
-    "away": "NSH",
-    "time": null,
-    "gameId": null,
+    "date": "2026-07-15",
+    "home": "NSH",
+    "away": "WOR",
+    "time": "6:03 PM",
+    "gameId": "20260715_fyaz",
+    "note": ""
+  },
+  {
+    "date": "2026-07-15",
+    "home": "LOW",
+    "away": "NOR",
+    "time": "7:00 PM",
+    "gameId": "20260715_v6mp",
     "note": ""
   },
   {
     "date": "2026-07-16",
     "home": "NOR",
     "away": "VT",
-    "time": null,
-    "gameId": null,
+    "time": "6:30 PM",
+    "gameId": "20260716_ubfz",
     "note": ""
   },
   {
     "date": "2026-07-16",
     "home": "WOR",
     "away": "WF",
-    "time": null,
-    "gameId": null,
+    "time": "6:30 PM",
+    "gameId": "20260716_pv3x",
     "note": ""
   },
   {
-    "date": "2026-07-17",
+    "date": "2026-07-16",
     "home": "NB",
-    "away": "LOW",
-    "time": null,
-    "gameId": null,
+    "away": "NSH",
+    "time": "6:35 PM",
+    "gameId": "20260716_gu29",
     "note": ""
   },
   {
     "date": "2026-07-17",
     "home": "NSH",
     "away": "WOR",
-    "time": null,
-    "gameId": null,
+    "time": "6:03 PM",
+    "gameId": "20260717_jkra",
     "note": ""
   },
   {
     "date": "2026-07-17",
     "home": "NOR",
     "away": "VT",
-    "time": null,
-    "gameId": null,
+    "time": "6:30 PM",
+    "gameId": "20260717_fseu",
     "note": ""
   },
   {
-    "date": "2026-07-18",
-    "home": "NOR",
+    "date": "2026-07-17",
+    "home": "NB",
     "away": "LOW",
-    "time": null,
-    "gameId": null,
+    "time": "6:35 PM",
+    "gameId": "20260717_f28t",
     "note": ""
   },
   {
     "date": "2026-07-18",
     "home": "NSH",
     "away": "WF",
-    "time": null,
-    "gameId": null,
+    "time": "6:03 PM",
+    "gameId": "20260718_ylt9",
+    "note": ""
+  },
+  {
+    "date": "2026-07-18",
+    "home": "NOR",
+    "away": "LOW",
+    "time": "6:30 PM",
+    "gameId": "20260718_d3oq",
     "note": ""
   },
   {
     "date": "2026-07-18",
     "home": "NB",
     "away": "WOR",
-    "time": null,
-    "gameId": null,
+    "time": "6:35 PM",
+    "gameId": "20260718_od6c",
     "note": ""
   },
   {
     "date": "2026-07-19",
-    "home": "VT",
-    "away": "NSH",
-    "time": null,
-    "gameId": null,
-    "note": "Doubleheader game 1"
-  },
-  {
-    "date": "2026-07-19",
-    "home": "VT",
-    "away": "NSH",
-    "time": null,
-    "gameId": null,
-    "note": "Doubleheader game 2"
+    "home": "NOR",
+    "away": "WF",
+    "time": "1:00 PM",
+    "gameId": "20260719_flbj",
+    "note": ""
   },
   {
     "date": "2026-07-19",
     "home": "WOR",
     "away": "NB",
-    "time": null,
-    "gameId": null,
+    "time": "4:00 PM",
+    "gameId": "20260719_uhfb",
     "note": ""
   },
   {
     "date": "2026-07-19",
-    "home": "NOR",
+    "home": "VT",
+    "away": "NSH",
+    "time": "4:05 PM",
+    "gameId": "20260719_e7v3",
+    "note": "Postponed from 6/19"
+  },
+  {
+    "date": "2026-07-19",
+    "home": "VT",
+    "away": "NSH",
+    "time": "6:35 PM",
+    "gameId": "20260719_l8as",
+    "note": ""
+  },
+  {
+    "date": "2026-07-23",
+    "home": "WOR",
     "away": "WF",
-    "time": null,
-    "gameId": null,
+    "time": "10:30 AM",
+    "gameId": "20260723_kej5",
+    "note": ""
+  },
+  {
+    "date": "2026-07-23",
+    "home": "NB",
+    "away": "NSH",
+    "time": "6:35 PM",
+    "gameId": "20260723_mqcs",
     "note": ""
   },
   {
     "date": "2026-07-23",
     "home": "LOW",
     "away": "VT",
-    "time": null,
-    "gameId": null,
-    "note": ""
-  },
-  {
-    "date": "2026-07-23",
-    "home": "NB",
-    "away": "NSH",
-    "time": null,
-    "gameId": null,
-    "note": ""
-  },
-  {
-    "date": "2026-07-23",
-    "home": "WOR",
-    "away": "WF",
-    "time": null,
-    "gameId": null,
-    "note": ""
-  },
-  {
-    "date": "2026-07-24",
-    "home": "NB",
-    "away": "LOW",
-    "time": null,
-    "gameId": null,
+    "time": "7:00 PM",
+    "gameId": "20260723_a2j0",
     "note": ""
   },
   {
     "date": "2026-07-24",
     "home": "NOR",
     "away": "NSH",
-    "time": null,
-    "gameId": null,
+    "time": "6:30 PM",
+    "gameId": "20260724_hfvr",
     "note": ""
   },
   {
     "date": "2026-07-24",
     "home": "WOR",
     "away": "VT",
-    "time": null,
-    "gameId": null,
+    "time": "6:30 PM",
+    "gameId": "20260724_x6rf",
     "note": ""
   },
   {
-    "date": "2026-07-25",
-    "home": "NOR",
-    "away": "NB",
-    "time": null,
-    "gameId": null,
+    "date": "2026-07-24",
+    "home": "NB",
+    "away": "LOW",
+    "time": "6:35 PM",
+    "gameId": "20260724_0qwe",
     "note": ""
   },
   {
     "date": "2026-07-25",
     "home": "WF",
     "away": "NSH",
-    "time": null,
-    "gameId": null,
+    "time": "6:30 PM",
+    "gameId": "20260725_1iwk",
+    "note": ""
+  },
+  {
+    "date": "2026-07-25",
+    "home": "NOR",
+    "away": "NB",
+    "time": "6:30 PM",
+    "gameId": "20260725_xbas",
     "note": ""
   },
   {
     "date": "2026-07-25",
     "home": "WOR",
     "away": "VT",
-    "time": null,
-    "gameId": null,
+    "time": "6:30 PM",
+    "gameId": "20260725_a1b1",
     "note": ""
   },
   {
     "date": "2026-07-26",
     "home": "NOR",
     "away": "LOW",
-    "time": null,
-    "gameId": null,
+    "time": "1:00 PM",
+    "gameId": "20260726_53sr",
     "note": ""
+  },
+  {
+    "date": "2026-07-26",
+    "home": "NB",
+    "away": "WF",
+    "time": "1:35 PM",
+    "gameId": "20260726_4zzs",
+    "note": ""
+  },
+  {
+    "date": "2026-07-26",
+    "home": "NB",
+    "away": "WF",
+    "time": "12:00 PM",
+    "gameId": "20260726_82nb",
+    "note": "Postponed from 6/23"
   },
   {
     "date": "2026-07-26",
     "home": "WOR",
     "away": "NSH",
-    "time": null,
-    "gameId": null,
-    "note": ""
-  },
-  {
-    "date": "2026-07-26",
-    "home": "NB",
-    "away": "WF",
-    "time": null,
-    "gameId": null,
-    "note": "Doubleheader game 1"
-  },
-  {
-    "date": "2026-07-26",
-    "home": "NB",
-    "away": "WF",
-    "time": null,
-    "gameId": null,
-    "note": "Doubleheader game 2"
-  },
-  {
-    "date": "2026-07-27",
-    "home": "LOW",
-    "away": "WOR",
-    "time": null,
-    "gameId": null,
+    "time": "4:00 PM",
+    "gameId": "20260726_8uox",
     "note": ""
   },
   {
     "date": "2026-07-27",
     "home": "NB",
     "away": "NSH",
-    "time": null,
-    "gameId": null,
+    "time": "6:35 PM",
+    "gameId": "20260727_oc1v",
     "note": ""
   },
   {
     "date": "2026-07-27",
     "home": "VT",
     "away": "WF",
-    "time": null,
-    "gameId": null,
+    "time": "6:35 PM",
+    "gameId": "20260727_3x4v",
+    "note": ""
+  },
+  {
+    "date": "2026-07-27",
+    "home": "LOW",
+    "away": "WOR",
+    "time": "7:00 PM",
+    "gameId": "20260727_f617",
+    "note": ""
+  },
+  {
+    "date": "2026-07-28",
+    "home": "WOR",
+    "away": "NB",
+    "time": "6:30 PM",
+    "gameId": "20260728_y9ys",
+    "note": ""
+  },
+  {
+    "date": "2026-07-28",
+    "home": "VT",
+    "away": "WF",
+    "time": "6:35 PM",
+    "gameId": "20260728_qinp",
     "note": ""
   },
   {
     "date": "2026-07-28",
     "home": "LOW",
     "away": "NOR",
-    "time": null,
-    "gameId": null,
-    "note": ""
-  },
-  {
-    "date": "2026-07-28",
-    "home": "WOR",
-    "away": "NB",
-    "time": null,
-    "gameId": null,
-    "note": ""
-  },
-  {
-    "date": "2026-07-28",
-    "home": "VT",
-    "away": "WF",
-    "time": null,
-    "gameId": null,
+    "time": "7:00 PM",
+    "gameId": "20260728_hq2i",
     "note": ""
   },
   {
     "date": "2026-07-29",
     "home": "LOW",
     "away": "NSH",
-    "time": null,
-    "gameId": null,
-    "note": ""
-  },
-  {
-    "date": "2026-07-29",
-    "home": "VT",
-    "away": "NB",
-    "time": null,
-    "gameId": null,
+    "time": "11:00 AM",
+    "gameId": "20260729_jcut",
     "note": ""
   },
   {
     "date": "2026-07-29",
     "home": "NOR",
     "away": "WF",
-    "time": null,
-    "gameId": null,
+    "time": "6:30 PM",
+    "gameId": "20260729_quwq",
+    "note": ""
+  },
+  {
+    "date": "2026-07-29",
+    "home": "VT",
+    "away": "NB",
+    "time": "6:35 PM",
+    "gameId": "20260729_jye3",
     "note": ""
   },
   {
     "date": "2026-07-30",
     "home": "NSH",
     "away": "NOR",
-    "time": null,
-    "gameId": null,
-    "note": ""
-  },
-  {
-    "date": "2026-07-30",
-    "home": "VT",
-    "away": "NB",
-    "time": null,
-    "gameId": null,
+    "time": "6:03 PM",
+    "gameId": "20260730_b7tq",
     "note": ""
   },
   {
     "date": "2026-07-30",
     "home": "WOR",
     "away": "WF",
-    "time": null,
-    "gameId": null,
+    "time": "6:30 PM",
+    "gameId": "20260730_0890",
     "note": ""
   },
   {
-    "date": "2026-07-31",
-    "home": "LOW",
+    "date": "2026-07-30",
+    "home": "VT",
     "away": "NB",
-    "time": null,
-    "gameId": null,
+    "time": "6:35 PM",
+    "gameId": "20260730_l8mx",
     "note": ""
   },
   {
     "date": "2026-07-31",
     "home": "WF",
     "away": "NSH",
-    "time": null,
-    "gameId": null,
+    "time": "6:30 PM",
+    "gameId": "20260731_esja",
     "note": ""
   },
   {
     "date": "2026-07-31",
     "home": "NOR",
     "away": "WOR",
-    "time": null,
-    "gameId": null,
+    "time": "6:30 PM",
+    "gameId": "20260731_1hw8",
+    "note": ""
+  },
+  {
+    "date": "2026-07-31",
+    "home": "LOW",
+    "away": "NB",
+    "time": "7:00 PM",
+    "gameId": "20260731_qnzv",
     "note": ""
   },
   {
     "date": "2026-08-01",
     "home": "LOW",
     "away": "WF",
-    "time": null,
-    "gameId": null,
+    "time": "5:00 PM",
+    "gameId": "20260801_j39k",
     "note": ""
   },
   {
     "date": "2026-08-01",
     "home": "NSH",
     "away": "VT",
-    "time": null,
-    "gameId": null,
+    "time": "6:03 PM",
+    "gameId": "20260801_nvyu",
     "note": ""
   },
   {
     "date": "2026-08-01",
     "home": "NB",
     "away": "NOR",
-    "time": null,
-    "gameId": null,
-    "note": ""
-  },
-  {
-    "date": "2026-08-02",
-    "home": "VT",
-    "away": "LOW",
-    "time": null,
-    "gameId": null,
-    "note": ""
-  },
-  {
-    "date": "2026-08-02",
-    "home": "NSH",
-    "away": "WF",
-    "time": null,
-    "gameId": null,
+    "time": "6:35 PM",
+    "gameId": "20260801_sypd",
     "note": ""
   },
   {
     "date": "2026-08-02",
     "home": "NB",
     "away": "WOR",
-    "time": null,
-    "gameId": null,
+    "time": "1:35 PM",
+    "gameId": "20260802_8hjp",
     "note": ""
   },
   {
-    "date": "2026-08-03",
+    "date": "2026-08-02",
+    "home": "NSH",
+    "away": "WF",
+    "time": "3:00 PM",
+    "gameId": "20260802_tyct",
+    "note": ""
+  },
+  {
+    "date": "2026-08-02",
     "home": "VT",
     "away": "LOW",
-    "time": null,
-    "gameId": null,
+    "time": "5:05 PM",
+    "gameId": "20260802_9rg3",
     "note": ""
   },
   {
     "date": "2026-08-03",
     "home": "NSH",
     "away": "NOR",
-    "time": null,
-    "gameId": null,
+    "time": "6:03 PM",
+    "gameId": "20260803_mzy9",
     "note": ""
   },
   {
     "date": "2026-08-03",
     "home": "WOR",
     "away": "WF",
-    "time": null,
-    "gameId": null,
+    "time": "6:30 PM",
+    "gameId": "20260803_yazd",
     "note": ""
   },
   {
-    "date": "2026-08-04",
+    "date": "2026-08-03",
     "home": "VT",
     "away": "LOW",
-    "time": null,
-    "gameId": null,
+    "time": "6:35 PM",
+    "gameId": "20260803_3orl",
     "note": ""
   },
   {
     "date": "2026-08-04",
     "home": "NOR",
     "away": "NB",
-    "time": null,
-    "gameId": null,
+    "time": "6:30 PM",
+    "gameId": "20260804_zaqi",
+    "note": ""
+  },
+  {
+    "date": "2026-08-04",
+    "home": "VT",
+    "away": "LOW",
+    "time": "6:35 PM",
+    "gameId": "20260804_sr4k",
     "note": ""
   },
   {
     "date": "2026-08-05",
-    "home": "LOW",
-    "away": "WOR",
-    "time": null,
-    "gameId": null,
+    "home": "NOR",
+    "away": "WF",
+    "time": "6:30 PM",
+    "gameId": "20260805_pukz",
     "note": ""
   },
   {
     "date": "2026-08-05",
     "home": "NB",
     "away": "NSH",
-    "time": null,
-    "gameId": null,
+    "time": "6:35 PM",
+    "gameId": "20260805_qdn3",
     "note": ""
   },
   {
     "date": "2026-08-05",
-    "home": "NOR",
-    "away": "WF",
-    "time": null,
-    "gameId": null,
+    "home": "LOW",
+    "away": "WOR",
+    "time": "7:00 PM",
+    "gameId": "20260805_uvdg",
     "note": ""
   },
   {
     "date": "2026-08-06",
     "home": "NSH",
     "away": "WF",
-    "time": null,
-    "gameId": null,
+    "time": "6:03 PM",
+    "gameId": "20260806_bset",
     "note": ""
   },
   {
     "date": "2026-08-06",
     "home": "NOR",
     "away": "NB",
-    "time": null,
-    "gameId": null,
+    "time": "6:30 PM",
+    "gameId": "20260806_otds",
     "note": ""
   },
   {
     "date": "2026-08-06",
     "home": "VT",
     "away": "WOR",
-    "time": null,
-    "gameId": null,
+    "time": "6:35 PM",
+    "gameId": "20260806_xczr",
+    "note": ""
+  },
+  {
+    "date": "2026-08-07",
+    "home": "NSH",
+    "away": "NOR",
+    "time": "6:03 PM",
+    "gameId": "20260807_ez0k",
+    "note": ""
+  },
+  {
+    "date": "2026-08-07",
+    "home": "VT",
+    "away": "WOR",
+    "time": "6:35 PM",
+    "gameId": "20260807_zdkp",
     "note": ""
   },
   {
     "date": "2026-08-07",
     "home": "LOW",
     "away": "NB",
-    "time": null,
-    "gameId": null,
-    "note": ""
-  },
-  {
-    "date": "2026-08-07",
-    "home": "NSH",
-    "away": "NOR",
-    "time": null,
-    "gameId": null,
-    "note": ""
-  },
-  {
-    "date": "2026-08-07",
-    "home": "VT",
-    "away": "WOR",
-    "time": null,
-    "gameId": null,
-    "note": ""
-  },
-  {
-    "date": "2026-08-08",
-    "home": "WOR",
-    "away": "LOW",
-    "time": null,
-    "gameId": null,
+    "time": "7:00 PM",
+    "gameId": "20260807_cabz",
     "note": ""
   },
   {
     "date": "2026-08-08",
     "home": "VT",
     "away": "NSH",
-    "time": null,
-    "gameId": null,
+    "time": "6:05 PM",
+    "gameId": "20260808_wmsu",
+    "note": ""
+  },
+  {
+    "date": "2026-08-08",
+    "home": "WOR",
+    "away": "LOW",
+    "time": "6:30 PM",
+    "gameId": "20260808_fknn",
     "note": ""
   },
   {
     "date": "2026-08-08",
     "home": "WF",
     "away": "NOR",
-    "time": null,
-    "gameId": null,
+    "time": "6:30 PM",
+    "gameId": "20260808_990i",
     "note": ""
   }
 ]

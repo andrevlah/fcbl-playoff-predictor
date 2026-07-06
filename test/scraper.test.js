@@ -100,6 +100,29 @@ test("validation gate rejects records that don't reconcile", () => {
   ], []), /total wins/);
 });
 
+test("REAL live-site schedule page parses and reconciles (captured Jul 5, 2026)", () => {
+  const p = parseSchedulePage(read("real-schedule-lowell.html"), "LOW");
+  assert.deepEqual(p.record, { W: 13, L: 22 });
+  assert.deepEqual(p.home, { W: 8, L: 7 });
+  assert.deepEqual(p.away, { W: 5, L: 15 });
+  assert.equal(p.streak, "W1");
+  assert.equal(p.completed.length, 35);
+  assert.equal(p.remaining.length, 25);
+  assert.equal(p.completed.length + p.remaining.length, 60);
+  const wins = p.completed.filter((g) => g.winner === "LOW").length;
+  assert.equal(wins, 13, "parsed wins must reproduce the Overall line");
+  // the live site pre-assigns box-score ids to future games
+  assert.ok(p.remaining.every((g) => g.gameId), "remaining games carry gameIds");
+  assert.ok(p.remaining.every((g) => g.date >= "2026-07-06"), "no stale dates in remaining");
+});
+
+test("REAL live-site stats page parses all 7 teams (captured Jul 5, 2026)", () => {
+  const stats = parseStatsPage(read("real-stats.html"));
+  assert.equal(Object.keys(stats).length, 7);
+  assert.equal(stats.LOW.RS, 177);
+  assert.equal(stats.LOW.RA, 239);
+});
+
 test("stats page: RS from baserunning table, RA from pitching table", () => {
   const stats = parseStatsPage(read("stats.html"));
   assert.equal(stats.VT.RS, 214);

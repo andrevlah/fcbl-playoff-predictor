@@ -58,15 +58,37 @@ function extractRecord(text, label) {
   return m ? { W: parseInt(m[1], 10), L: parseInt(m[2], 10) } : null;
 }
 
-// Parse one team's schedule print page.
+const MONTH_NUM = {
+  january: "01", february: "02", march: "03", april: "04", may: "05",
+  june: "06", july: "07", august: "08", september: "09", october: "10",
+  november: "11", december: "12",
+};
+
+// Parse one team's schedule page (verified against the live PrestoSports
+// markup on thefuturesleague.com, July 2026):
+//   * the schedule is split into per-month sections (<div id="may-collapse">)
+//     whose rows carry only a day number ("Wed. 27"), so the month comes from
+//     the section id
+//   * the overall record lives in an aria-label ("Overall record: 13-22");
+//     Home / Away / Streak are visible label-value pairs
+//   * results render as "W , 8-2" with the WINNER's score first; the W/L
+//     letter is authoritative for orientation
+//   * postponed originals are removed from the page entirely; the makeup row
+//     carries a "Postponed from 6/30" note and is a REAL game (completed or
+//     upcoming), so only standalone ppd/postponed markers exclude a row
 // Returns { record, home, away, streak, completed: [...], remaining: [...] }
 // completed:  { date, home, away, homeR, awayR, winner, gameId, innings, time }
-// remaining:  { date, home, away, time, gameId: null, note }
+// remaining:  { date, home, away, time, gameId, note }
 export function parseSchedulePage(html, teamAbbr) {
   const $ = cheerio.load(html);
   const pageText = $("body").text().replace(/\s+/g, " ");
 
-  const record = extractRecord(pageText, "Overall");
+  let record = null;
+  const aria = $('[aria-label*="verall record"]').attr("aria-label") || "";
+  const ariaM = aria.match(/(\d+)\s*-\s*(\d+)/);
+  if (ariaM) record = { W: parseInt(ariaM[1], 10), L: parseInt(ariaM[2], 10) };
+  if (!record) record = extractRecord(pageText, "Overall");
+
   const home = extractRecord(pageText, "Home");
   const away = extractRecord(pageText, "Away");
   const streakM = pageText.match(/Streak[^A-Za-z0-9]{0,5}([WL])\s*-?\s*(\d+)/i);
@@ -75,7 +97,11 @@ export function parseSchedulePage(html, teamAbbr) {
   const completed = [];
   const remaining = [];
 
-  $("tr").each((_, tr) => {
+  // On days with two games (doubleheaders, makeups) only the FIRST row
+  // carries a date; later rows have an empty date cell and inherit it.
+  let lastDate = null;
+
+  const processRow = (tr, monthNum) => {
     const cells = $(tr).find("td, th").map((_, c) => $(c).text().replace(/\s+/g, " ").trim()).get();
     const rowText = cells.join(" | ");
     if (!cells.length) return;
@@ -92,8 +118,25 @@ export function parseSchedulePage(html, teamAbbr) {
     }
     if (oppCell === null) return; // header/filler row
 
-    const date = parseDate(rowText);
+    // date resolution, in priority order:
+    //   1. the row's own DATE CELL ("Wed. 27" in month sections, a full date
+    //      in flat tables). Never the full row text first: notes like
+    //      "Postponed from 6/22" contain misleading dates.
+    //   2. inherit the previous row's date (doubleheader/makeup rows leave
+    //      the date cell empty to mean "same day")
+    //   3. last resort: parse a full date anywhere in the row
+    let date = null;
+    const dateCellText = $(tr).find("td.date").text() || cells[0] || "";
+    if (monthNum) {
+      const dayM = dateCellText.match(/(\d{1,2})/);
+      if (dayM) date = `${SEASON_YEAR}-${monthNum}-${dayM[1].padStart(2, "0")}`;
+    } else {
+      date = parseDate(dateCellText);
+    }
+    if (!date) date = lastDate;
+    if (!date) date = parseDate(rowText);
     if (!date) return;
+    lastDate = date;
 
     const opp = matchTeamAbbr(oppCell);
     const homeAbbr = isHome ? teamAbbr : opp;
@@ -103,17 +146,18 @@ export function parseSchedulePage(html, teamAbbr) {
     const gameId = gameIdM ? gameIdM[1] : null;
     const time = normalizeTime(rowText);
 
-    // Result like "W, 10-5" / "L 3-4"; first score is OUR runs (Presto style)
+    // Result like "W, 10-5" / "W , 8-2" / "L 3-4"; the live site lists the
+    // WINNER's runs first, so the W/L letter decides orientation
     const resM = rowText.match(/\b([WL])\s*,?\s+(\d+)\s*-\s*(\d+)/);
-    const postponed = /\b(ppd|postponed|susp)\b/i.test(rowText);
+    const isMakeup = /postponed\s+from/i.test(rowText);
+    const postponed = !isMakeup && /\b(ppd|postponed|susp)\b/i.test(rowText);
     const cancelled = /\b(cancelled|canceled)\b/i.test(rowText);
+    const makeupNote = isMakeup ? (rowText.match(/postponed\s+from\s+[0-9/]+/i)?.[0] ?? "Makeup game") : "";
 
     if (resM) {
       const won = resM[1].toUpperCase() === "W";
       const ourR = parseInt(resM[2], 10);
       const theirR = parseInt(resM[3], 10);
-      // scores are listed winner-first on some templates; the W/L letter is
-      // authoritative, so orient runs to make it consistent
       const [hi, lo] = ourR >= theirR ? [ourR, theirR] : [theirR, ourR];
       const ourRuns = won ? hi : lo;
       const theirRuns = won ? lo : hi;
@@ -136,12 +180,24 @@ export function parseSchedulePage(html, teamAbbr) {
         away: awayAbbr,
         time,
         gameId,
-        note: "",
+        note: makeupNote,
       });
     }
-    // postponed/cancelled originals are intentionally dropped: the makeup
-    // game shows up as its own (often doubleheader) row on the new date
-  });
+  };
+
+  // primary path: per-month collapse sections from the live site
+  const sections = $('[id$="-collapse"]').toArray()
+    .filter((sec) => MONTH_NUM[($(sec).attr("id") || "").replace(/-collapse$/, "").toLowerCase()]);
+  if (sections.length) {
+    for (const sec of sections) {
+      const monthNum = MONTH_NUM[$(sec).attr("id").replace(/-collapse$/, "").toLowerCase()];
+      lastDate = null; // date inheritance never crosses a month boundary
+      $(sec).find("tr").each((_, tr) => processRow(tr, monthNum));
+    }
+  } else {
+    // fallback: flat table with full dates in each row
+    $("tr").each((_, tr) => processRow(tr, null));
+  }
 
   return { record, home, away, streak, completed, remaining };
 }

@@ -20,8 +20,11 @@ import { assignSeq, dedupeSchedule, dedupeResults, detectNewlyFinal, validate } 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dataDir = path.join(root, "docs", "data");
 
+// NOTE: the futuresleague.prestosports.com subdomain 403s non-browser
+// clients; the identical PrestoSports pages on the main domain accept our
+// polite User-Agent, so all fetches go through thefuturesleague.com.
 const SCHEDULE_URL = (teamId) =>
-  `https://futuresleague.prestosports.com/sports/bsb/2026/schedule?teamId=${teamId}&dec=printer-decorator`;
+  `https://thefuturesleague.com/sports/bsb/2026/schedule?teamId=${teamId}&dec=printer-decorator`;
 const STATS_URL = "https://thefuturesleague.com/sports/bsb/2026/teams?sort=r&r=0&pos=br";
 const COMPOSITE_URL = (d) => `https://thefuturesleague.com/composite?d=${d}`;
 
