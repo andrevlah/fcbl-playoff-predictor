@@ -1,0 +1,42 @@
+# Publishes docs/ to GitHub Pages via the official Actions pipeline.
+#
+# Why this exists instead of the default "deploy from a branch" setting:
+# the data scraper commits to docs/data/ as often as every 30 minutes, and
+# during heavy editing several commits can land close together. The legacy
+# branch deploy fires one build PER commit with no coordination, which can
+# pile up and wedge Pages. The concurrency group below collapses a burst of
+# commits into a single deploy (newer cancels older), so the site always
+# publishes the latest data exactly once.
+
+name: Deploy site to Pages
+
+on:
+  push:
+    branches: [main]
+    paths: ["docs/**"]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# one deploy at a time; a newer push cancels an in-flight older deploy
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+      - id: deployment
+        uses: actions/deploy-pages@v4
