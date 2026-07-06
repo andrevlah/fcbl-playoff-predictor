@@ -2,13 +2,13 @@
 // Shared by the browser (loaded directly) and the Node scraper (via config/teams.js).
 
 export const TEAMS = {
-  LOW: { name: "Lowell Spinners",       teamId: "t5qjkc7rx8vjsu24", primary: "#C8102E", secondary: "#8DB9CA", chart: "#C8102E" },
-  NSH: { name: "Nashua Silver Knights", teamId: "j5erfjk6t2kb66yc", primary: "#1A1A1A", secondary: "#C8102E", chart: "#1A1A1A" },
-  NB:  { name: "New Britain Bees",      teamId: "lwmmi7lzr16uegj9", primary: "#FDB913", secondary: "#101820", chart: "#E0A800" },
-  NOR: { name: "Norwich Sea Unicorns",  teamId: "h9yhw99erz9r8n9s", primary: "#0C2340", secondary: "#FFC72C", chart: "#0C2340" },
-  VT:  { name: "Vermont Lake Monsters", teamId: "dol7ec9h5ajz5i3t", primary: "#0B2E4F", secondary: "#84BD00", chart: "#84BD00" },
-  WF:  { name: "Westfield Starfires",   teamId: "8zu7i09aj67rkv31", primary: "#003087", secondary: "#FFC72C", chart: "#3366CC" },
-  WOR: { name: "Worcester Bravehearts", teamId: "dz3zpsm7jzrzugyv", primary: "#13294B", secondary: "#007A33", chart: "#007A33" },
+  LOW: { name: "Lowell Spinners",       shortName: "Spinners",       teamId: "t5qjkc7rx8vjsu24", primary: "#C8102E", secondary: "#8DB9CA", chart: "#C8102E" },
+  NSH: { name: "Nashua Silver Knights", shortName: "Silver Knights", teamId: "j5erfjk6t2kb66yc", primary: "#1A1A1A", secondary: "#C8102E", chart: "#1A1A1A" },
+  NB:  { name: "New Britain Bees",      shortName: "Bees",           teamId: "lwmmi7lzr16uegj9", primary: "#FDB913", secondary: "#101820", chart: "#E0A800" },
+  NOR: { name: "Norwich Sea Unicorns",  shortName: "Sea Unicorns",   teamId: "h9yhw99erz9r8n9s", primary: "#0C2340", secondary: "#FFC72C", chart: "#0C2340" },
+  VT:  { name: "Vermont Lake Monsters", shortName: "Lake Monsters",  teamId: "dol7ec9h5ajz5i3t", primary: "#0B2E4F", secondary: "#84BD00", chart: "#84BD00" },
+  WF:  { name: "Westfield Starfires",   shortName: "Starfires",      teamId: "8zu7i09aj67rkv31", primary: "#003087", secondary: "#FFC72C", chart: "#3366CC" },
+  WOR: { name: "Worcester Bravehearts", shortName: "Bravehearts",    teamId: "dz3zpsm7jzrzugyv", primary: "#13294B", secondary: "#007A33", chart: "#007A33" },
 };
 
 export const ABBRS = Object.keys(TEAMS);

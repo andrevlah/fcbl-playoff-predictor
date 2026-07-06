@@ -27,6 +27,13 @@ export function renderHistoryChart(el, history, metric) {
   el.innerHTML = "";
   if (!history.length) return;
 
+  // A time-series with one point is not a chart. Until a second update lands,
+  // show today's odds as a clean sorted dot plot instead.
+  if (history.length < 2) {
+    renderStartingOdds(el, history[0], metric);
+    return;
+  }
+
   const width = Math.max(el.clientWidth || 900, 320);
   const height = Math.min(440, Math.max(300, width * 0.42));
   const m = { top: 16, right: 56, bottom: 28, left: 40 };
@@ -134,6 +141,66 @@ export function renderHistoryChart(el, history, metric) {
     .on("mouseleave", () => { cursor.style("display", "none"); hideTip(); });
 
   el.appendChild(svg.node());
+}
+
+// Single-entry fallback for the history chart: a lollipop plot of the current
+// odds, one row per team, sorted best-to-worst.
+function renderStartingOdds(el, entry, metric) {
+  const abbrs = Object.keys(TEAMS)
+    .map((a) => ({ a, v: entry.teams[a]?.[metric] ?? 0 }))
+    .sort((p, q) => q.v - p.v);
+
+  const width = Math.max(el.clientWidth || 900, 320);
+  const rowH = 40;
+  const m = { top: 8, right: 70, bottom: 30, left: 150 };
+  const height = m.top + rowH * abbrs.length + m.bottom;
+
+  const svg = d3.create("svg").attr("viewBox", `0 0 ${width} ${height}`);
+  const x = d3.scaleLinear().domain([0, 1]).range([m.left, width - m.right]);
+  const y = (i) => m.top + rowH * i + rowH / 2;
+
+  // vertical gridlines + bottom axis
+  svg.append("g").selectAll("line").data(x.ticks(5)).join("line")
+    .attr("x1", (d) => x(d)).attr("x2", (d) => x(d))
+    .attr("y1", m.top).attr("y2", height - m.bottom)
+    .attr("stroke", "#eeeeee");
+  svg.append("g")
+    .attr("transform", `translate(0,${height - m.bottom})`)
+    .call(d3.axisBottom(x).ticks(5).tickFormat((d) => d * 100 + "%").tickSize(0).tickPadding(8))
+    .call((g) => g.select(".domain").attr("stroke", "#222"))
+    .selectAll("text").attr("fill", "#666").style("font-size", "11px");
+
+  abbrs.forEach(({ a, v }, i) => {
+    const color = TEAMS[a].chart;
+    svg.append("image")
+      .attr("href", logoURL(a))
+      .attr("x", 4).attr("y", y(i) - 12)
+      .attr("width", 24).attr("height", 24);
+    svg.append("text")
+      .attr("x", 34).attr("y", y(i) + 4)
+      .attr("fill", "#222").style("font-size", "12.5px")
+      .style("font-weight", a === "LOW" ? 800 : 600)
+      .text(TEAMS[a].shortName);
+    svg.append("line")
+      .attr("x1", x(0)).attr("x2", x(v))
+      .attr("y1", y(i)).attr("y2", y(i))
+      .attr("stroke", color).attr("stroke-width", 3).attr("stroke-linecap", "round");
+    svg.append("circle")
+      .attr("cx", x(v)).attr("cy", y(i)).attr("r", 6).attr("fill", color);
+    svg.append("text")
+      .attr("x", x(v) + 12).attr("y", y(i) + 4)
+      .attr("fill", "#222").style("font-size", "12.5px")
+      .style("font-family", "SF Mono, Menlo, monospace")
+      .text(fmtPct(v));
+  });
+
+  el.appendChild(svg.node());
+
+  const note = document.createElement("p");
+  note.className = "mini-note";
+  note.style.marginTop = "8px";
+  note.textContent = "Odds tracking starts here — this becomes a line chart as soon as new games go final.";
+  el.appendChild(note);
 }
 
 // ---------------------------------------------------------------------------

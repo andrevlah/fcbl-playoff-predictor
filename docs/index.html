@@ -40,6 +40,7 @@
           <th data-sort="record">Record</th>
           <th data-sort="ptsPct">Pts%</th>
           <th data-sort="gb">GB</th>
+          <th data-sort="runDiff" title="Runs scored minus runs allowed — the main driver of the model's team strength">Run diff</th>
           <th class="th-big" data-sort="playoffPct">Make playoffs</th>
           <th class="th-big" data-sort="titlePct">Win championship</th>
           <th class="th-seed" data-sort="seed1">1st</th>
@@ -153,7 +154,9 @@
     <div class="method-body">
       <p><strong>The short version:</strong> we estimate how good each team is from its runs scored and
       runs allowed (which predict the future better than win-loss record does), blend in the actual record,
-      and stay skeptical of small sample sizes. Then we play out every remaining game on the schedule
+      and stay skeptical of small sample sizes. This is why a .500 team with a big positive run
+      differential can post playoff odds that look "too high" next to its record — the model is betting
+      the runs are telling the truth and the record will catch up. Then we play out every remaining game on the schedule
       thousands of times on a virtual coin weighted by those strengths — plus a home-field bump — and count
       how often each team finishes top-4 in points percentage and how often it wins the whole thing.</p>
       <p><strong>The league's quirks are built in:</strong> standings use points percentage

@@ -89,6 +89,7 @@ function tableRows() {
       streak: t.streak,
       ptsPct: (2 * t.W + (t.derbyLosses || 0)) / (2 * t.GP),
       gb: ((leader.W - t.W) + (t.L - leader.L)) / 2,
+      runDiff: t.RS - t.RA,
       playoffPct: o.playoffPct,
       titlePct: o.titlePct,
       seed1: o.seedPct[0], seed2: o.seedPct[1], seed3: o.seedPct[2], seed4: o.seedPct[3],
@@ -136,6 +137,8 @@ function renderTable() {
     tr.insertAdjacentHTML("beforeend", `<td class="num-cell">${r.record}</td>`);
     tr.insertAdjacentHTML("beforeend", `<td class="num-cell">${r.ptsPct.toFixed(3).replace(/^0/, "")}</td>`);
     tr.insertAdjacentHTML("beforeend", `<td class="num-cell">${r.gb === 0 ? "—" : r.gb}</td>`);
+    tr.insertAdjacentHTML("beforeend",
+      `<td class="num-cell" style="color:${r.runDiff > 0 ? "#1a7f37" : r.runDiff < 0 ? "#c22e2e" : "#666"}">${r.runDiff > 0 ? "+" : ""}${r.runDiff}</td>`);
 
     // big prob cells
     for (const metric of ["playoffPct", "titlePct"]) {
@@ -230,7 +233,7 @@ function renderLowell() {
     oppEl.className = "lgame-opp";
     oppEl.appendChild(logoEl(g.opp, "team-logo"));
     oppEl.insertAdjacentHTML("beforeend",
-      `<span>${g.homeAway === "home" ? "vs" : "at"} ${TEAMS[g.opp].name.split(" ").slice(-1)[0]}</span>
+      `<span>${g.homeAway === "home" ? "vs" : "at"} ${TEAMS[g.opp].shortName}</span>
        <span class="ha">${g.homeAway === "home" ? "HOME" : "AWAY"}</span>
        ${topLev.includes(i) ? '<span class="lgame-flag" title="High-leverage game">⚑</span>' : ""}`);
     const probEl = document.createElement("div");
@@ -298,7 +301,7 @@ function buildScenarioList() {
     const row = document.createElement("div");
     row.className = "sgame";
     row.innerHTML = `<div class="sgame-date">${fmtDate(g.date)}</div>
-      <div>${TEAMS[g.away].name.split(" ").slice(-1)[0]} at <b>${TEAMS[g.home].name.split(" ").slice(-1)[0]}</b>
+      <div>${TEAMS[g.away].shortName} at <b>${TEAMS[g.home].shortName}</b>
         ${g.note ? `<span class="sgame-note">${g.note}</span>` : ""}</div>`;
     const toggle = document.createElement("div");
     toggle.className = "outcome-toggle";
