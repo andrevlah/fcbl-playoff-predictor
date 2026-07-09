@@ -2,7 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
   pythagenpat, talentFor, log5, clamp, teamHFA, gameWinProb,
-  rankTeams, simulate, mulberry32,
+  rankTeams, simulate, mulberry32, remainingSoS,
 } from "../src/sim.js";
 import { SEED_TEAMS, SEED_SCHEDULE } from "../scripts/lib/seed-data.js";
 
@@ -35,6 +35,30 @@ test("worked example from the spec reproduces within ±0.001 (spec parameters)",
   // log5 of Lowell's side matches the spec's .315
   const l5 = log5(talentFor(LOWELL, 0, SPEC_PARAMS), talentFor(VERMONT, 0, SPEC_PARAMS));
   assert.ok(Math.abs(l5 - 0.315) < 0.001, `Lowell log5 = ${l5}`);
+});
+
+test("remaining SoS: tougher opponents and road games raise difficulty", () => {
+  const strong = { abbr: "ST", W: 24, L: 8, GP: 32, homeW: 12, homeL: 4, awayW: 12, awayL: 4, RS: 230, RA: 150 };
+  const weak = { abbr: "WK", W: 8, L: 24, GP: 32, homeW: 4, homeL: 12, awayW: 4, awayL: 12, RS: 150, RA: 230 };
+  const me = { abbr: "ME", W: 16, L: 16, GP: 32, homeW: 8, homeL: 8, awayW: 8, awayL: 8, RS: 190, RA: 190 };
+  const teams = [strong, weak, me];
+
+  const vsStrong = remainingSoS("ME", teams, [
+    { date: "2026-08-01", home: "ME", away: "ST" }, { date: "2026-08-02", home: "ST", away: "ME" },
+  ]);
+  const vsWeak = remainingSoS("ME", teams, [
+    { date: "2026-08-01", home: "ME", away: "WK" }, { date: "2026-08-02", home: "WK", away: "ME" },
+  ]);
+  assert.ok(vsStrong.sos > 0.5 && vsWeak.sos < 0.5, `strong ${vsStrong.sos}, weak ${vsWeak.sos}`);
+  assert.ok(vsStrong.sos > vsWeak.sos);
+  assert.equal(vsStrong.games, 2);
+  assert.equal(vsStrong.home, 1);
+  assert.equal(vsStrong.away, 1);
+
+  // same opponent, road game must be harder than home game
+  const atHome = remainingSoS("ME", teams, [{ date: "2026-08-01", home: "ME", away: "ST" }]);
+  const onRoad = remainingSoS("ME", teams, [{ date: "2026-08-01", home: "ST", away: "ME" }]);
+  assert.ok(onRoad.sos > atHome.sos, `road ${onRoad.sos} vs home ${atHome.sos}`);
 });
 
 test("recent form blends into talent when the fields are present", () => {

@@ -15,7 +15,7 @@
 })();
 </script>
 <link rel="preconnect" href="https://cdn.prestosports.com">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css?v=7">
 <link rel="icon" href="https://cdn.prestosports.com/action/cdn/logos/id/t5qjkc7rx8vjsu24.png">
 </head>
 <body>
@@ -83,6 +83,15 @@
   <div id="history-chart" class="chart"></div>
 </section>
 
+<section class="panel" id="sos-panel">
+  <h2>Remaining strength of schedule</h2>
+  <p class="section-note">How tough each team's remaining slate is: the chance an exactly-average
+    team would lose each remaining game, averaged (so .500 means a league-average schedule; higher is
+    harder). Road games count as harder because the opponent gets the home edge. Follows the
+    Play GM dials.</p>
+  <div id="sos-list" class="sos-list"></div>
+</section>
+
 <section class="panel lowell-panel" id="lowell-panel">
   <div class="panel-head">
     <img id="lowell-logo" class="panel-logo" alt="Lowell Spinners logo">
@@ -99,7 +108,14 @@
       <div id="lowell-curve" class="chart chart-small"></div>
     </div>
     <div class="lowell-col">
-      <h3>Remaining schedule <span class="mini-note">⚑ = biggest games left</span></h3>
+      <h3>Remaining games
+        <span class="chip-toggle chip-toggle-small" id="lowell-sort">
+          <button class="chip active" data-sort="importance">By importance</button>
+          <button class="chip" data-sort="date">By date</button>
+        </span>
+      </h3>
+      <p class="mini-note">Importance = how many percentage points of playoff probability swing
+        between winning and losing that game, straight from the simulations.</p>
       <div id="lowell-schedule" class="lowell-schedule"></div>
     </div>
   </div>
@@ -228,6 +244,6 @@
 <div id="tooltip" class="tooltip" hidden></div>
 
 <script src="vendor/d3.v7.min.js"></script>
-<script type="module" src="js/app.js?v=6"></script>
+<script type="module" src="js/app.js?v=7"></script>
 </body>
 </html>

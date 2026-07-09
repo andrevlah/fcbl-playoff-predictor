@@ -2,9 +2,9 @@
 // Loads the published data, renders everything, and re-simulates client-side
 // (in a Web Worker running the identical engine) whenever a dial moves.
 
-import { TEAMS, ABBRS, logoURL, newsNotes, chartColor, isDarkTheme } from "./teams.js";
-import { DEFAULT_SETTINGS } from "./sim.js";
-import { renderHistoryChart, renderLowellCurve, hideTip } from "./charts.js";
+import { TEAMS, ABBRS, logoURL, newsNotes, chartColor, isDarkTheme } from "./teams.js?v=7";
+import { DEFAULT_SETTINGS, remainingSoS } from "./sim.js?v=7";
+import { renderHistoryChart, renderLowellCurve, hideTip } from "./charts.js?v=7";
 
 const $ = (id) => document.getElementById(id);
 
@@ -26,6 +26,7 @@ const state = {
   },
   sort: { key: "playoffPct", asc: false },
   oddsFormat: "pct", // "pct" | "american"
+  lowellSort: "importance", // "importance" | "date"
   historyMetric: "playoffPct",
   scenarioFilter: "LOW",
 };
@@ -242,46 +243,111 @@ function renderLowell() {
 
   renderLowellCurve($("lowell-curve"), lw.oddsByFinalWins, low.W);
 
-  // schedule with win-prob bars; flag the top-3 leverage games
+  // remaining games, ranked by importance (playoff-probability swing) or by
+  // date; the importance rank sticks to each game in both views
   const list = $("lowell-schedule");
   list.innerHTML = "";
-  const topLev = [...lw.gameProbs]
-    .map((g, i) => ({ ...g, i }))
-    .sort((a, b) => b.leverage - a.leverage)
-    .slice(0, 3)
-    .map((g) => g.i);
 
-  lw.gameProbs.forEach((g, i) => {
+  const byImportance = [...lw.gameProbs].sort((a, b) => b.leverage - a.leverage);
+  const rankOf = new Map(byImportance.map((g, i) => [g, i + 1]));
+  const maxLev = Math.max(...lw.gameProbs.map((g) => g.leverage), 0.001);
+  const games = state.lowellSort === "date"
+    ? [...lw.gameProbs].sort((a, b) => a.date.localeCompare(b.date))
+    : byImportance;
+
+  const tier = (lev) => {
+    const pts = lev * 100;
+    if (pts >= 6) return { label: "season-changer", cls: "t-max" };
+    if (pts >= 4) return { label: "big", cls: "t-big" };
+    if (pts >= 2) return { label: "notable", cls: "t-mid" };
+    return { label: "routine", cls: "t-low" };
+  };
+
+  for (const g of games) {
+    const rank = rankOf.get(g);
+    const t = tier(g.leverage);
     const div = document.createElement("div");
-    div.className = "lgame" + (topLev.includes(i) ? " flagged" : "");
+    div.className = "lgame" + (rank <= 3 ? " flagged" : "");
+
+    const rankEl = document.createElement("div");
+    rankEl.className = "lgame-rank " + t.cls;
+    rankEl.textContent = "#" + rank;
+
     const dateEl = document.createElement("div");
     dateEl.className = "lgame-date";
     dateEl.textContent = fmtDate(g.date);
+
     const oppEl = document.createElement("div");
     oppEl.className = "lgame-opp";
     oppEl.appendChild(logoEl(g.opp, "team-logo"));
     oppEl.insertAdjacentHTML("beforeend",
       `<span>${g.homeAway === "home" ? "vs" : "at"} ${TEAMS[g.opp].shortName}</span>
-       <span class="ha">${g.homeAway === "home" ? "HOME" : "AWAY"}</span>
-       ${topLev.includes(i) ? '<span class="lgame-flag" title="High-leverage game">⚑</span>' : ""}`);
-    const probEl = document.createElement("div");
-    probEl.className = "lgame-prob";
-    probEl.innerHTML = `<div class="prob-bar-track"><div class="prob-bar" style="background:${chartColor("LOW")};width:${(g.winProb * 100).toFixed(0)}%"></div></div>
-      <span class="pnum">${(g.winProb * 100).toFixed(0)}%</span>`;
-    div.title = `Win probability ${(g.winProb * 100).toFixed(1)}%. Leverage: winning this game swings Lowell's playoff odds by about ${(g.leverage * 100).toFixed(1)} points.`;
-    div.append(dateEl, oppEl, probEl);
-    list.appendChild(div);
-  });
+       <span class="ha">${g.homeAway === "home" ? "HOME" : "AWAY"}</span>`);
 
-  // one-line explanation of the biggest series
-  const flagged = topLev.map((i) => lw.gameProbs[i]).sort((a, b) => b.leverage - a.leverage);
-  if (flagged.length) {
-    const f = flagged[0];
+    const impEl = document.createElement("div");
+    impEl.className = "lgame-imp";
+    impEl.innerHTML = `<div class="prob-bar-track"><div class="prob-bar ${t.cls}" style="width:${(100 * g.leverage / maxLev).toFixed(0)}%"></div></div>
+      <span class="pnum">${(g.leverage * 100).toFixed(1)} pts</span>`;
+
+    div.title = `Win probability ${(g.winProb * 100).toFixed(0)}%. Importance: winning vs losing this game swings Lowell's playoff odds by ${(g.leverage * 100).toFixed(1)} percentage points (${t.label}).`;
+    div.append(rankEl, dateEl, oppEl, impEl);
+    list.appendChild(div);
+  }
+
+  const top = byImportance[0];
+  if (top) {
     const note = document.createElement("p");
     note.className = "biggest-note";
-    note.textContent = `⚑ Biggest game left: ${fmtDate(f.date)} ${f.homeAway === "home" ? "vs" : "at"} ${TEAMS[f.opp].name}. Winning it swings Lowell's playoff odds by about ${(f.leverage * 100).toFixed(1)} percentage points.`;
+    note.textContent = `#1 game left: ${fmtDate(top.date)} ${top.homeAway === "home" ? "vs" : "at"} ${TEAMS[top.opp].name}. Win it and Lowell's playoff odds jump ${(top.leverage * 100).toFixed(1)} points versus losing it.`;
     list.appendChild(note);
   }
+}
+
+// ---------------------------------------------------------------------------
+// remaining strength of schedule
+// ---------------------------------------------------------------------------
+
+function renderSoS() {
+  const wrap = $("sos-list");
+  if (!wrap) return;
+  wrap.innerHTML = "";
+
+  const rows = state.teams
+    .map((t) => ({ abbr: t.abbr, ...remainingSoS(t.abbr, state.teams, state.schedule, state.settings) }))
+    .sort((a, b) => b.sos - a.sos);
+
+  // bar scale: spread the observed range so differences are visible
+  const lo = Math.min(...rows.map((r) => r.sos));
+  const hi = Math.max(...rows.map((r) => r.sos));
+  const span = Math.max(hi - lo, 0.02);
+
+  rows.forEach((r, i) => {
+    const div = document.createElement("div");
+    div.className = "sos-row" + (r.abbr === "LOW" ? " sos-lowell" : "");
+    const pct = ((r.sos - lo) / span) * 88 + 12; // 12-100% so the easiest still shows a bar
+
+    const rank = document.createElement("div");
+    rank.className = "sos-rank";
+    rank.textContent = "#" + (i + 1);
+
+    const team = document.createElement("div");
+    team.className = "sos-team";
+    team.appendChild(logoEl(r.abbr, "team-logo"));
+    team.insertAdjacentHTML("beforeend", `<span class="team-name">${TEAMS[r.abbr].shortName}</span>`);
+
+    const bar = document.createElement("div");
+    bar.className = "sos-bar";
+    bar.innerHTML = `<div class="prob-bar-track"><div class="prob-bar" style="background:${chartColor(r.abbr)};width:${pct.toFixed(0)}%"></div></div>`;
+
+    const val = document.createElement("div");
+    val.className = "sos-val num-cell";
+    val.innerHTML = `${r.sos.toFixed(3).replace(/^0/, "")}
+      <span class="proj-band">${r.games} left · ${r.home} home / ${r.away} road</span>`;
+
+    div.title = `${TEAMS[r.abbr].name}: an average team would lose ${(r.sos * 100).toFixed(1)}% of these ${r.games} games. ${i === 0 ? "Hardest remaining schedule in the league." : ""}`;
+    div.append(rank, team, bar, val);
+    wrap.appendChild(div);
+  });
 }
 
 // ---------------------------------------------------------------------------
@@ -467,6 +533,15 @@ function wireControls() {
     });
   });
 
+  $("lowell-sort").addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-sort]");
+    if (!btn) return;
+    state.lowellSort = btn.dataset.sort;
+    document.querySelectorAll("#lowell-sort .chip").forEach((c) =>
+      c.classList.toggle("active", c === btn));
+    renderLowell();
+  });
+
   $("history-metric").addEventListener("click", (e) => {
     const btn = e.target.closest("button[data-metric]");
     if (!btn) return;
@@ -538,7 +613,7 @@ function resetToOfficial() {
 // worker plumbing
 // ---------------------------------------------------------------------------
 
-const worker = new Worker("js/worker.js", { type: "module" });
+const worker = new Worker("js/worker.js?v=7", { type: "module" });
 let simId = 0;
 let simTimer = null;
 
@@ -612,6 +687,7 @@ function updateAll() {
   $("whatif-banner").hidden = !whatIf;
   renderTable();
   renderLowell();
+  renderSoS();
 }
 
 async function load(name) {

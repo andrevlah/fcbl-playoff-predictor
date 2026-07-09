@@ -359,7 +359,7 @@ tr.row-lowell td:first-child {
 
 .lgame {
   display: grid;
-  grid-template-columns: 84px 1fr 120px;
+  grid-template-columns: 38px 84px 1fr 128px;
   align-items: center;
   gap: 10px;
   padding: 6px 8px;
@@ -367,6 +367,23 @@ tr.row-lowell td:first-child {
   border-bottom: 1px solid var(--grid);
   background: var(--surface);
 }
+
+.lgame-rank { font-family: var(--mono); font-size: 12px; font-weight: 700; }
+.lgame-rank.t-max { color: var(--lowell); }
+.lgame-rank.t-big { color: #e8842c; }
+.lgame-rank.t-mid { color: #c9a227; }
+.lgame-rank.t-low { color: var(--ink-faint); }
+
+.lgame-imp { display: flex; align-items: center; gap: 8px; }
+.lgame-imp .prob-bar-track { flex: 1; margin: 0; }
+.lgame-imp .pnum { font-family: var(--mono); font-size: 11.5px; min-width: 48px; text-align: right; }
+.lgame-imp .prob-bar.t-max { background: var(--lowell); }
+.lgame-imp .prob-bar.t-big { background: #e8842c; }
+.lgame-imp .prob-bar.t-mid { background: #c9a227; }
+.lgame-imp .prob-bar.t-low { background: var(--ink-faint); }
+
+.chip-toggle-small { margin-left: 8px; vertical-align: middle; }
+.chip-toggle-small .chip { font-size: 11px; padding: 3px 10px; font-weight: 600; }
 .lgame:nth-child(odd) { background: var(--surface-alt); }
 .lgame.flagged { box-shadow: inset 3px 0 0 var(--lowell); }
 .lgame-date { color: var(--ink-soft); font-size: 12px; }
@@ -381,6 +398,35 @@ tr.row-lowell td:first-child {
   margin: 10px 0 0;
   font-size: 12.5px;
   color: var(--ink-soft);
+}
+
+/* ---------- remaining strength of schedule ---------- */
+
+.sos-list { max-width: 720px; }
+
+.sos-row {
+  display: grid;
+  grid-template-columns: 34px 170px 1fr 150px;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--grid);
+}
+
+.sos-row.sos-lowell {
+  background: var(--lowell-tint);
+  box-shadow: inset 3px 0 0 var(--lowell);
+  border-radius: 3px;
+}
+
+.sos-rank { font-family: var(--mono); font-size: 12.5px; font-weight: 700; color: var(--ink-soft); }
+.sos-team { display: flex; align-items: center; gap: 8px; }
+.sos-bar .prob-bar-track { margin: 0; }
+.sos-val { white-space: nowrap; }
+
+@media (max-width: 640px) {
+  .sos-row { grid-template-columns: 30px 120px 1fr 120px; gap: 8px; }
+  .lgame { grid-template-columns: 32px 74px 1fr 108px; gap: 6px; }
 }
 
 /* ---------- dials ---------- */

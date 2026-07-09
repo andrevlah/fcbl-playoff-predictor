@@ -128,6 +128,33 @@ export function gameWinProb(homeTeam, awayTeam, settings = {}) {
   return clamp(log5(th, ta) + hfa, 0.02, 0.98);
 }
 
+// Remaining strength of schedule for one team, venue-adjusted, on a
+// win-percentage scale. Defined as the average probability that an exactly
+// league-average (.500) team would LOSE each of the remaining games: for a
+// .500 reference team, log5 collapses to the opponent's talent, so each
+// game's difficulty is opponent talent plus their home-field edge when we're
+// on the road, minus the standard home edge when we host. .500 = an average
+// slate; higher = harder. Respects the same settings/dials as everything else.
+export function remainingSoS(abbr, teams, schedule, settings = {}) {
+  const s = { ...DEFAULT_SETTINGS, ...settings };
+  const byAbbr = Object.fromEntries(teams.map((t) => [t.abbr, t]));
+  let sum = 0, n = 0, home = 0, away = 0;
+  for (const g of schedule) {
+    if (g.home !== abbr && g.away !== abbr) continue;
+    const isHome = g.home === abbr;
+    const opp = byAbbr[isHome ? g.away : g.home];
+    if (!opp) continue;
+    const oppTalent = talentFor(opp, s.dials[opp.abbr] || 0, s);
+    const difficulty = isHome
+      ? oppTalent - s.hfaGlobal
+      : oppTalent + teamHFA(opp, s.hfaGlobal, s.useTeamHFA);
+    sum += clamp(difficulty, 0.02, 0.98);
+    n++;
+    if (isHome) home++; else away++;
+  }
+  return { sos: n ? sum / n : 0.5, games: n, home, away };
+}
+
 // standard normal draw (Box-Muller) from a uniform RNG, used for the
 // roster-churn talent shocks
 export function gaussian(rand) {
