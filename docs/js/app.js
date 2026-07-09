@@ -2,9 +2,9 @@
 // Loads the published data, renders everything, and re-simulates client-side
 // (in a Web Worker running the identical engine) whenever a dial moves.
 
-import { TEAMS, ABBRS, logoURL, newsNotes, chartColor, isDarkTheme } from "./teams.js?v=8";
-import { DEFAULT_SETTINGS, remainingSoS } from "./sim.js?v=8";
-import { renderHistoryChart, renderLowellCurve, hideTip } from "./charts.js?v=8";
+import { TEAMS, ABBRS, logoURL, newsNotes, chartColor, isDarkTheme } from "./teams.js?v=9";
+import { DEFAULT_SETTINGS, remainingSoS } from "./sim.js?v=9";
+import { renderHistoryChart, renderLowellCurve, hideTip } from "./charts.js?v=9";
 
 const $ = (id) => document.getElementById(id);
 
@@ -20,6 +20,7 @@ const state = {
     pythWeight: DEFAULT_SETTINGS.pythWeight,
     rosterChurn: DEFAULT_SETTINGS.rosterChurn,
     recencyWeight: DEFAULT_SETTINGS.recencyWeight,
+    rosterWeight: DEFAULT_SETTINGS.rosterWeight,
     dials: {},
     forcedOutcomes: {},
     lowellForce: null,
@@ -95,6 +96,7 @@ function isOfficialSettings(s) {
     s.pythWeight === DEFAULT_SETTINGS.pythWeight &&
     s.rosterChurn === DEFAULT_SETTINGS.rosterChurn &&
     s.recencyWeight === DEFAULT_SETTINGS.recencyWeight &&
+    s.rosterWeight === DEFAULT_SETTINGS.rosterWeight &&
     Object.values(s.dials).every((v) => !v) &&
     Object.keys(s.forcedOutcomes).length === 0 &&
     !s.lowellForce;
@@ -128,6 +130,7 @@ function tableRows() {
       // the 4th seed
       cutGB: inPlayoffs.has(t.abbr) ? gbVs(fifth, t) : -gbVs(t, fourth),
       runDiff: t.RS - t.RA,
+      rqi: t.rqi ?? null,
       playoffPct: o.playoffPct,
       titlePct: o.titlePct,
       seed1: o.seedPct[0], seed2: o.seedPct[1], seed3: o.seedPct[2], seed4: o.seedPct[3],
@@ -179,6 +182,10 @@ function renderTable() {
       `<td class="num-cell ${r.cutGB >= 0 ? "rd-pos" : "rd-neg"}" title="${r.cutGB >= 0 ? "Cushion ahead of the first team outside the playoffs" : "Games behind the 4th playoff spot"}">${r.cutGB >= 0 ? "+" + fmtGB(r.cutGB) : fmtGB(-r.cutGB)}</td>`);
     tr.insertAdjacentHTML("beforeend",
       `<td class="num-cell ${r.runDiff > 0 ? "rd-pos" : r.runDiff < 0 ? "rd-neg" : ""}">${r.runDiff > 0 ? "+" : ""}${r.runDiff}</td>`);
+    tr.insertAdjacentHTML("beforeend",
+      r.rqi == null
+        ? `<td class="num-cell">-</td>`
+        : `<td class="num-cell ${r.rqi > 0.5 ? "rd-pos" : r.rqi < 0.5 ? "rd-neg" : ""}">${r.rqi.toFixed(3).replace(/^0/, "")}</td>`);
 
     // big prob cells
     const fmt = state.oddsFormat === "american" ? fmtAmerican : fmtPct;
@@ -490,6 +497,12 @@ function wireControls() {
     queueSim();
   });
 
+  $("roster-slider").addEventListener("input", (e) => {
+    state.settings.rosterWeight = +e.target.value;
+    $("roster-val").textContent = Math.round(state.settings.rosterWeight * 100) + "%";
+    queueSim();
+  });
+
   $("sims-slider").addEventListener("input", (e) => {
     state.settings.nSims = +e.target.value;
     $("sims-val").textContent = state.settings.nSims.toLocaleString();
@@ -595,6 +608,7 @@ function resetToOfficial() {
     pythWeight: DEFAULT_SETTINGS.pythWeight,
     rosterChurn: DEFAULT_SETTINGS.rosterChurn,
     recencyWeight: DEFAULT_SETTINGS.recencyWeight,
+    rosterWeight: DEFAULT_SETTINGS.rosterWeight,
     dials: {},
     forcedOutcomes: {},
     lowellForce: null,
@@ -608,6 +622,8 @@ function resetToOfficial() {
   $("pyth-val").textContent = Math.round(DEFAULT_SETTINGS.pythWeight * 100) + "%";
   $("recency-slider").value = DEFAULT_SETTINGS.recencyWeight;
   $("recency-val").textContent = Math.round(DEFAULT_SETTINGS.recencyWeight * 100) + "%";
+  $("roster-slider").value = DEFAULT_SETTINGS.rosterWeight;
+  $("roster-val").textContent = Math.round(DEFAULT_SETTINGS.rosterWeight * 100) + "%";
   $("sims-slider").value = 10000;
   $("sims-val").textContent = "10,000";
   $("lowell-force-slider").value = -1;
@@ -626,7 +642,7 @@ function resetToOfficial() {
 // worker plumbing
 // ---------------------------------------------------------------------------
 
-const worker = new Worker("js/worker.js?v=8", { type: "module" });
+const worker = new Worker("js/worker.js?v=9", { type: "module" });
 let simId = 0;
 let simTimer = null;
 

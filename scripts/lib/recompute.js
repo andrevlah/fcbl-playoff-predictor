@@ -61,9 +61,12 @@ export function teamStatsFromResults(abbr, results, schedule) {
 
 // Full rebuild. Returns { teams, odds } ready to write. asOf/nSims injected by
 // the caller so this stays free of Date.now() (keeps it testable).
-export function rebuild(results, schedule, { asOf, nSims = 25000 } = {}) {
+// rqiByTeam: optional { ABBR: number } roster-quality indexes (from
+// docs/data/rosters.json) merged onto the team objects so the model sees them.
+export function rebuild(results, schedule, { asOf, nSims = 25000, rqiByTeam = {} } = {}) {
   const teams = ABBRS.map((abbr) => ({
     ...teamStatsFromResults(abbr, results, schedule),
+    ...(rqiByTeam[abbr] != null ? { rqi: rqiByTeam[abbr] } : {}),
     asOf,
   }));
   const sim = simulate({ teams, schedule, results, settings: { nSims } });

@@ -97,6 +97,13 @@ async function main() {
     return { recentRS, recentRA, recentGP: games.length };
   };
 
+  // roster quality indexes (optional; published by npm run rosters)
+  let rqiByTeam = {};
+  try {
+    const rosters = readJSON("rosters.json", null);
+    if (rosters) rqiByTeam = Object.fromEntries(Object.entries(rosters.teams).map(([a, t]) => [a, t.rqi]));
+  } catch { /* optional */ }
+
   const teams = ABBRS.map((abbr) => {
     const p = pages[abbr];
     // splits: prefer the page's Home/Away lines; fall back to counting results
@@ -117,6 +124,7 @@ async function main() {
       RS: stats[abbr].RS,
       RA: stats[abbr].RA,
       ...recentForm(abbr),
+      ...(rqiByTeam[abbr] != null ? { rqi: rqiByTeam[abbr] } : {}),
       streak: p.streak || "",
       derbyLosses: derbyLossOverrides[abbr] || 0,
       gamesRemaining: schedule.filter((g) => g.home === abbr || g.away === abbr).length,

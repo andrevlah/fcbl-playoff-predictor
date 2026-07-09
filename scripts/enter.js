@@ -140,7 +140,13 @@ function undoLast() {
 function publish(results, schedule) {
   const prevResults = readJSON("results.json");
   const asOf = new Date().toISOString();
-  const { teams, odds } = rebuild(results, schedule, { asOf, nSims: 25000 });
+  // roster quality indexes ride along when rosters.json exists
+  let rqiByTeam = {};
+  try {
+    const rosters = readJSON("rosters.json");
+    rqiByTeam = Object.fromEntries(Object.entries(rosters.teams).map(([a, t]) => [a, t.rqi]));
+  } catch { /* optional file */ }
+  const { teams, odds } = rebuild(results, schedule, { asOf, nSims: 25000, rqiByTeam });
 
   writeJSON("teams.json", teams.map((t) => ({ ...t, asOf })));
   writeJSON("schedule.json", schedule);

@@ -1,0 +1,94 @@
+{
+  "asOf": "2026-07-08",
+  "teams": {
+    "LOW": {
+      "rqi": 0.471,
+      "dHit": -0.27,
+      "dPitch": -0.06,
+      "activePAShare": 0.88,
+      "activeIPShare": 0.95,
+      "hitters": 15,
+      "pitchers": 13
+    },
+    "NSH": {
+      "rqi": 0.519,
+      "dHit": 0.19,
+      "dPitch": 0.02,
+      "activePAShare": 0.97,
+      "activeIPShare": 0.82,
+      "hitters": 14,
+      "pitchers": 15
+    },
+    "NB": {
+      "rqi": 0.514,
+      "dHit": 0.06,
+      "dPitch": 0.09,
+      "activePAShare": 0.83,
+      "activeIPShare": 0.89,
+      "hitters": 16,
+      "pitchers": 17
+    },
+    "NOR": {
+      "rqi": 0.503,
+      "dHit": -0.04,
+      "dPitch": 0.08,
+      "activePAShare": 0.88,
+      "activeIPShare": 0.85,
+      "hitters": 16,
+      "pitchers": 18
+    },
+    "VT": {
+      "rqi": 0.558,
+      "dHit": 0.58,
+      "dPitch": 0.07,
+      "activePAShare": 0.92,
+      "activeIPShare": 0.74,
+      "hitters": 13,
+      "pitchers": 14
+    },
+    "WF": {
+      "rqi": 0.427,
+      "dHit": -0.71,
+      "dPitch": -0.1,
+      "activePAShare": 0.77,
+      "activeIPShare": 0.84,
+      "hitters": 13,
+      "pitchers": 13
+    },
+    "WOR": {
+      "rqi": 0.545,
+      "dHit": 0.44,
+      "dPitch": 0.05,
+      "activePAShare": 0.61,
+      "activeIPShare": 0.66,
+      "hitters": 12,
+      "pitchers": 10
+    }
+  },
+  "league": {
+    "woba": 0.3233053055423969,
+    "fipCore": 0.22112885258076487
+  },
+  "tierCalibration": {
+    "hitting": {
+      "0": 0.3233053055423969,
+      "1": 0.3254880756739265,
+      "2": 0.31945404758728685,
+      "3": 0.32655367012748604,
+      "4": 0.32771224546392747
+    },
+    "pitching": {
+      "0": 0.22112885258076487,
+      "1": -0.0481025887460872,
+      "2": 0.3450816275190557,
+      "3": 0.1350585693548931,
+      "4": 0.24960392837760081
+    }
+  },
+  "matchRate": 1,
+  "counts": {
+    "hitters": 125,
+    "pitchers": 125,
+    "roster": 386
+  }
+}

@@ -28,6 +28,11 @@ export const DEFAULT_SETTINGS = {
                          //   James-Stein shrinkage implies a prior of ~85-90
                          //   games. This league is far more even than its
                          //   standings look.
+  rosterWeight: 0.15,    // pull toward each team's roster-quality index (RQI:
+                         //   player-by-player production regressed with
+                         //   school-tier priors, ACTIVE players only). This is
+                         //   how mid-season departures reach the odds before
+                         //   the record shows them.
   recencyWeight: 0.30,   // weight on each team's LAST-12-GAMES run rates vs
                          //   full-season rates when estimating strength. Summer
                          //   rosters change, so who a team is NOW can differ
@@ -95,7 +100,13 @@ export function talentFor(team, dial = 0, opts = {}) {
   const { pyth } = pythagenpat(rsPG * team.GP, raPG * team.GP, team.GP);
   const winPct = team.W / team.GP;
   const raw = w * pyth + (1 - w) * winPct;
-  const talent = 0.5 + (raw - 0.5) * (team.GP / (team.GP + prior));
+  let talent = 0.5 + (raw - 0.5) * (team.GP / (team.GP + prior));
+
+  // roster quality: shifts talent toward what the CURRENT active roster is
+  // worth (team.rqi, from docs/data/rosters.json), independent of results
+  const rw = opts.rosterWeight ?? DEFAULT_SETTINGS.rosterWeight;
+  if (rw > 0 && team.rqi != null) talent += rw * (team.rqi - 0.5);
+
   return clamp(talent + dial, 0.05, 0.95);
 }
 

@@ -8,6 +8,7 @@
     "scrape": "node scripts/scrape.js",
     "seed": "node scripts/seed.js",
     "enter": "node scripts/enter.js",
+    "rosters": "node scripts/build-rosters.js",
     "test": "node --test",
     "serve": "npx serve docs"
   },

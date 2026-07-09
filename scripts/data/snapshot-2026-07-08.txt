@@ -1,0 +1,638 @@
+=== ROSTERS ===
+LOW~Dylan Izenman~RHP~Active~Mount Saint Mary's
+LOW~Marco Zirpolo~OF~Active~Colby
+LOW~Matthew Hall~UTL~Active~Assumption
+LOW~Patrick Connors~OF~Inactive~Boston College
+LOW~Finn Ramseyer~RHP~Inactive~Saint Anselm
+LOW~Quincy Kerr~INF~Active~Northeastern
+LOW~Jack Quigley~OF~Active~UMaine
+LOW~Brett Gallo~C/1B~Active~Northeastern
+LOW~Josh Bryant~RHP~Active~Saint Anselm
+LOW~Andrew Johnston~C~Active~
+LOW~Bradley McCafferty~C~Inactive~Virginia
+LOW~Max Diamond~UTL~Inactive~Colby
+LOW~Anthony Mateo~RHP~Active~Alabama A&M
+LOW~Hayden Schimoler~2B/3B~Active~UMaine
+LOW~Caden Smith~LHP~Active~Saint Anselm
+LOW~Zeno Illes~LHP~Active~
+LOW~Zander Bratspis~SS~Active~Kansas State
+LOW~Grant McCubrey~LHP~Active~LaSalle
+LOW~Elliot Medlock~UTL~Inactive~Rider
+LOW~Seamus Scott~RHP~Active~UMass Lowell
+LOW~Lorenzo Camilleri~1B~Active~NJIT
+LOW~Dylan Lawrence~LHP~Inactive~Bentley
+LOW~Charlie Beauregard~UTL~Active~Bard
+LOW~Chris Klueber~RHP~Active~UMass Lowell
+LOW~Jake Zawatsky~RHP/OF~Active~UMass Lowell
+LOW~Reese Heigle~LHP~Active~Mount Saint Mary's
+LOW~Henry Hebert~RHP~Active~Merrimack
+LOW~Cam Biller~1B/RHP~Active~Mount Saint Mary's
+LOW~Brett McKinnon~OF~Inactive~Merrimack
+LOW~Quinn Murphy~OF~Active~UMaine
+LOW~Ian Keusch~RHP~Active~Brown
+LOW~Ryan O'Leary~SS~Active~Rhode Island College
+LOW~James McDermott~C~Inactive~Assumption
+LOW~David Vanderzouwen~OF~Active~Bentley
+LOW~Sean McNamara~RHP~Active~Westfield State
+LOW~Liam O'Neil~1B~Inactive~William & Mary
+LOW~Matt Pappalardo~RHP~Active~Endicott
+LOW~Aidan Driscoll~OF~Active~Maryland
+LOW~Spencer Warfield~OF~Inactive~USC Upstate
+LOW~Graham Gavin~RHP~Active~Bentley
+LOW~Cal Chance~C~Inactive~UMass Lowell
+LOW~Fletcher Waterman~C~Active~Holy Cross
+LOW~Jordan Henriquez~SS~Active~Dayton
+LOW~Esteban Dessureault~INF~Active~Stetson
+LOW~Aaron Masson~RHP~Inactive~Wentworth
+LOW~Graham Willerer~RHP~Active~Sacred Heart
+LOW~Ryan Ruggerio~OF~Inactive~
+LOW~Nic Lembo~OF~Active~High Point
+LOW~Danny Ditullio~LHP~Active~Northeastern
+NSH~Tyson Gill~UTIL~Inactive~Clarion University
+NSH~Max Dantoni~IF~Inactive~Lehigh University
+NSH~Aaron Forgues~RHP~Active~William & Mary
+NSH~AJ Kolb~IF~Active~Towson University
+NSH~Hunter Troiano~IF~Active~Gannon University
+NSH~Phoenix Williams~OF~Active~Mount St. Mary's Univ
+NSH~Mason Wilson~IF~Active~Penn State
+NSH~Andrew Chenevert~RHP~Inactive~Saint Anselm College
+NSH~Ty Lohsen~RHP~Active~Lasell University
+NSH~Noah Stead~IF~Inactive~Navy
+NSH~Peter Keblinsky~IF~Active~Univ of Southern Maine
+NSH~Nate Kearney~1B~Active~Stonehill College
+NSH~Brody Bump~RHP~Active~Millersville University
+NSH~Mike Villani~IF~Active~Stony Brook University
+NSH~Mason Campagna~C~Active~Penn State
+NSH~Brendan Horne~UTIL~Active~VCU
+NSH~Max Forgione~OF~Active~St. Joseph's PA
+NSH~Cam Piwnicki~RHP~Inactive~Brown University
+NSH~Sachin Gopal~RHP~Inactive~Navy
+NSH~Peter Fischer~C~Active~Saint Anselm College
+NSH~Hudson Story~1B~Active~Bryant University
+NSH~Tommy Martorano~LHP~Inactive~ECSU
+NSH~Connor Smith~OF~Active~Gannon University
+NSH~Ryan Maiorano~RHP~Active~Fairfield University
+NSH~Declan Wilkes~RHP~Active~Lehigh University
+NSH~Noah Durham~RHP~Inactive~Southern NH
+NSH~Josh Martino~RHP~Active~Southern NH
+NSH~Lucas Collins~LHP~Inactive~University of Dayton
+NSH~Josh Florence~RHP~Active~Stonehill College
+NSH~Dimitri Skourides~LHP~Inactive~Brandeis University
+NSH~Caleb Vacchiano~IF~Active~Univ of Southern Maine
+NSH~Nathan Rodriguez~RHP~Inactive~Mount St. Mary's University
+NSH~Jordan Welch~1B~Active~Stony Brook University
+NSH~Ben Peterson~C~Active~St. Joseph's PA
+NSH~Robby Grasso~OF~Active~Lehigh University
+NSH~Jackson Pecor~RHP~Active~ECSU
+NSH~Matthew Donovan~RHP~Active~Roger Williams
+NSH~Colten Shaffer~RHP~Active~Millersville University
+NSH~Neil MacKinnon~RHP~Active~Brown University
+NSH~Brandon Metivier~RHP~Active~Wheeling University
+NSH~Bryce McCleland~LHP~Active~Fisher College
+NSH~Malcolm Klingler~RHP~Active~Northeastern University
+NSH~Michael Cobb~LHP~Active~Johnson & Wales
+NSH~Will Perkowski~RHP~Active~Southern NH
+NSH~Jameson Dobis~RHP~Active~Bryant University
+NSH~Jet Jones~C~Inactive~Utah Valley
+NSH~Sam Gettinger~C~Active~Hofstra University
+NSH~Nigel Cross~RHP~Active~Wentworth IT
+NSH~Michael Crowley~LHP~Active~Assumption University
+NB~James Fagnant~INF~Active~UCONN Avery Point
+NB~William Margolies~P~Inactive~Bryant University
+NB~Tyler Garbooshian~INF~Active~Rutgers University
+NB~Jack Kane~INF~Inactive~University of St Joseph
+NB~Matthew Shea~P~Active~Sacred Heart University
+NB~Braden Young~P~Active~Wheaton College
+NB~Deacon Brown~OF~Active~St. John's University
+NB~Grant Werdesheim~INF~Inactive~Princeton University
+NB~Garrett McGovern~C~Active~Merrimack College
+NB~Myles Gythfeldt~Utility~Active~Lafayette
+NB~Nico Amecangelo~INF~Active~Lasalle University
+NB~Rafael Rodriguez Rosa~Utility~Active~Franklin Pierce University
+NB~Noah Berge~INF~Inactive~Winthrop University
+NB~Owen Rich~INF~Active~Binghamton University
+NB~George Slauson~INF~Active~UCONN
+NB~Brady Paul~Utility~Active~Winthrop
+NB~Owen Pike~P~Inactive~CCSU
+NB~Alex Casey~P~Active~Union College
+NB~Yammy Perez~C~Inactive~Bryant University
+NB~Cam Freeman~P~Active~Fairfield University
+NB~Colby Dimenna~P~Active~Western New England
+NB~Christian Robitaille~P~Inactive~Fordham University
+NB~Max Jarvie~P~Active~Endicott College
+NB~Tanner Wall~P~Inactive~Western New England
+NB~Robbie Lamond~OF~Inactive~Wheaton College
+NB~Fayz Baig~P~Active~CCSU
+NB~Tim Hennig~INF~Active~Binghamton University
+NB~Matt McDowell~P~Inactive~UCONN
+NB~Grady Schopps~INF~Active~Salve Regina University
+NB~Danny Rogers~OF~Active~Salve Regina University
+NB~Kacin Robinson~OF~Active~Stonehill College
+NB~Dylan Swarts~Utility~Active~Union College
+NB~Jackson Wein~OF~Inactive~Stevens Institute of Technolo
+NB~Carson Morgan~P~Inactive~University of New Haven
+NB~Leo Vitarelli~P~Active~Towson
+NB~Landon Penfield~INF~Inactive~College of Charleston
+NB~Garret Garbinski~P~Active~UCONN
+NB~Isaac Cabral~P~Active~Salve Regina University
+NB~Harry Roy~P~Inactive~
+NB~Brenden Kline~P~Active~Brown University
+NB~Jake Gladu~Utility~Inactive~Franklin Pierce University
+NB~Amato Civitello~Utility~Active~UCONN
+NB~Brady Chernovetz~C~Active~Southern Ct State
+NB~Ben Kuja~INF~Active~Brandeis University
+NB~Tommy Conley~P~Active~St. John's University
+NB~Miles Cherico~P~Active~Arcadia University
+NB~Sean Moleti~P~Active~Salve Regina
+NB~Robby Wunsch~P~Active~UMASS Boston
+NB~Dominic Carollo~P~Active~Salve Regina University
+NB~Jake Harmony~P~Active~Endicott College
+NB~Braydon Sturino~P~Inactive~Assumption University
+NB~Thomas Harding~P~Active~St. John's University
+NB~Will Parkhouse~P~Inactive~UMASS Lowell
+NB~Trey LaMay~P~Active~Stonehill
+NB~Nicolas Scillia~P~Inactive~URI
+NB~Nathan Kempton~P~Inactive~Brown University
+NB~Michael Olender~OF~Inactive~Lasalle University
+NOR~Eric Mathewson~RHP~Active~ECSU
+NOR~Brandon O'Neill~INF~Active~CCSU
+NOR~Matt Tabet~RHP~Active~Amherst College
+NOR~Adam Carpenter~RHP~Active~URI
+NOR~Peter Glidden~RHP~Active~SCSU
+NOR~Jackson Powers~UTL~Active~St. Anslem
+NOR~Jacob Schrage~RHP~Active~Post University
+NOR~Luke Maltacea~C~Active~GWU
+NOR~Janvier Diaz~RHP~Active~ECSU
+NOR~Sean McGettigan~RHP~Active~Monmouth
+NOR~Jackson Pray~RHP~Active~UCONN AP
+NOR~Paul Calandrelli~C~Active~URi
+NOR~Mike Fiatarone~INF~Active~Bryant
+NOR~Sean Connolly~RHP~Active~Stonehill
+NOR~Sam Hutchinson~LHP~Active~
+NOR~Aidan Cochrane~RHP~Active~UCONN
+NOR~Jack Scholz~RHP~Active~Catholic
+NOR~Kenny Noe~INF~Active~Monmouth
+NOR~Shaun Flannery~RHP~Active~UCONN
+NOR~Tyler Jones~INF~Active~Stony Brook
+NOR~CJ Nolan~INF~Active~SHU
+NOR~TJ Baer~OF~Active~Marist
+NOR~Jake Howlett~INF~Active~Monmouth
+NOR~Joe Pitts~RHP~Active~UCONN
+NOR~John Bureau~INF~Active~Stonehill
+NOR~Henry Ayers~C~Active~Middlebury
+NOR~Zion Fraser~RHP~Active~Post University
+NOR~David Pengel~OF~Active~Northeastern
+NOR~Elijah Wells~RHP~Active~JWU
+NOR~Matt Park~INF~Active~Quinnipiac
+NOR~Carter Grande~INF~Active~Fairfield
+NOR~Charlie Bushley~RHP~Active~Bates
+NOR~Jacob Snyder~OF~Active~
+NOR~Bryce Miller~C~Active~Yale
+NOR~Alex D'Ambrosio~RHP~Active~Rider
+NOR~Taylor Kaufman~OF~Active~Fordham
+NOR~Dylan Cimini~OF~Inactive~Salve Regina
+NOR~Jack Treat~INF~Active~Bryant
+NOR~Tiarnan Doyle~RHP~Active~Stonehill
+NOR~Charlie Cariello~RHP~Active~Bates
+NOR~John Devine~RHP~Inactive~CCSU
+NOR~Matt Shampine~RHP~Inactive~Yale
+NOR~Joe Carucci~OF~Inactive~Monmouth
+NOR~Reece McCarthy~INF~Inactive~UMASS
+NOR~Dom Scalia~OF~Inactive~USJ
+NOR~Charles Ennis~RHP~Inactive~Montclair ST
+NOR~Caden Williamson~OF~Inactive~Quinnipiac
+NOR~Graydon Vyse~RHP~Inactive~Babson
+NOR~Tyler Fahey~RHP~Inactive~Trinity College
+NOR~Brian Goglia~RHP~Inactive~ECSU
+VT~Tyler Wiltsey~OF~Active~Rutgers
+VT~Patrick Shrake~INF~Active~Colby
+VT~Brenden Walsh~OF~Active~Endicott
+VT~Chase Burrows~LHP~Active~Babson
+VT~Thomas Moss~C/INF/OF~Active~Trinity TX
+VT~Brandon Rovinelli~RHP~Active~Columbia
+VT~Alvin Gomez~RHP~Active~AIC
+VT~Elias Huber~INF~Active~Arizona Western
+VT~Cory Pascarella~RHP~Active~Monmouth
+VT~Kevin Rusinak~RHP~Active~Quinnipiac
+VT~Ethan Freed~RHP~Active~Quinnipiac
+VT~Bryan Richman~INF~Active~Cal Poly Pomona
+VT~Jack Richburg~RHP~Active~Springfield
+VT~Jake Taylor~RHP~Active~Columbia
+VT~Albert Savino~LHP~Active~UConn Avery Point
+VT~Brad Johnston~INF~Active~Swarthmore
+VT~James Henshon~INF~Active~Tufts
+VT~Brady Lane~RHP~Active~Brandeis
+VT~Keller Vogt~RHP~Active~Colby
+VT~Travis Stroh~OF~Active~Fairleigh Dickinson
+VT~Jake Lopez~OF~Active~Seton Hall
+VT~Declan Musselman~LHP~Active~Hood
+VT~Vinny Wagoner~RHP~Active~Quinnipiac
+VT~Zach Geertsma~INF~Active~Mississippi State
+VT~Justin Sweeney~RHP~Active~Saint Joseph's
+VT~Finn Haines~LHP~Active~Rutgers
+VT~Langdon Hazen~RHP~Active~Quinnipiac
+VT~Hunter Strohm~C/INF~Active~Mississippi State
+VT~Jack Fitzgerald~INF/OF~Active~Montevallo
+VT~Tommy Popoff~C~Active~Binghamton
+VT~Jake Dunlap~OF~Active~Catawba
+VT~Emmet Christian~RHP~Active~Tufts
+VT~Isaac Jensen~RHP~Active~Southern Maine
+VT~Brett Gable~LHP~Active~Harvard
+VT~Reed Stygles~RHP~Active~USC-Aiken
+VT~Quinn Dashefsky~C~Inactive~Hobart
+VT~Evan Dennis~INF~Inactive~Colby Sawyer
+VT~Joe Dunham~RHP~Inactive~Hobart
+VT~Luke Fithian~RHP~Inactive~Rutgers
+VT~Bennett Hewett~OF~Inactive~Clark
+VT~Jack Kelleher~RHP~Inactive~James Madison
+VT~Shamus Kelly~RHP~Inactive~Wesleyan
+VT~Sam Labrecque~RHP~Inactive~Oberlin
+VT~Aaron Larose~RHP~Inactive~St. Joseph's CT
+VT~Nick Lescarbeau~RHP~Inactive~Castleton
+VT~John MacDonald~RHP~Inactive~Saint Michael's
+VT~Kaiden McCarthy~RHP~Inactive~
+VT~Danny O'Brien~INF~Inactive~Montclair State
+VT~Cole Perkin~RHP~Inactive~Wesleyan
+VT~Doug Pyle~RHP~Inactive~Azuza Pacific
+VT~James Schaffer~INF~Inactive~Stony Brook
+VT~A.J. Seidel~C/INF/OF~Inactive~Tufts
+VT~Matt Speicher~LHP~Inactive~Saint Joseph's PA
+VT~Marcus Tarfano~RHP~Inactive~St. Joseph's CT
+VT~Cage Thompson~RHP~Inactive~Franklin Pierce
+VT~Billy Tigar~INF~Inactive~Montclair State
+VT~Malcolm Whitfield~C/OF~Inactive~Tufts
+WF~States Farr~SS/2B~Active~Coastal Carolina
+WF~Anthony Armenia~CF~Active~Bridgeport
+WF~Tripp Woytowicz~RHP~Inactive~Richmond
+WF~Sullivan Quirk~LHP~Active~Western New England
+WF~Nic Frink~C/OF~Active~Saint Joseph's-ME
+WF~Jayden Ortiz~IF/RHP~Active~Franklin Pierce
+WF~Traigh Skiffington~RHP~Inactive~American International
+WF~Nick Fox~OF~Active~Central Connecticut
+WF~Mike Cervoni~INF~Active~Stony Brook
+WF~Ryan Ventrelle~SS~Active~Notre Dame
+WF~Wilkin Lurie~OF~Inactive~Coastal Carolina
+WF~Jamison Howland~OF~Active~Stonehill
+WF~JJ Fox~SS/2B~Inactive~William & Mary
+WF~Dillon Harding~RHP~Active~UMass-Dartmouth
+WF~Cam Fisher~RHP~Active~UMass-Boston
+WF~CJ DiBenedetto~RHP~Active~Central Connecticut
+WF~Easton Sanders~1B/OF/RHP~Active~Louisiana Tech
+WF~Will Briggs~C~Injured~Massachusetts
+WF~Zach Ruffing~RHP~Active~American International
+WF~Jett Vindiola~C~Active~Kansas State
+WF~Tommy Hennessey~INF~Active~Massachusetts
+WF~Tanyon Weber~RHP~Injured~Stonehill
+WF~Jack O'Neil~SS/2B~Inactive~Hobart
+WF~Wyatt Raymond~OF~Active~Columbia
+WF~Chace Earle~RHP~Injured~Southern Connecticut
+WF~Noah Farrell~RHP~Active~Connecticut
+WF~Tyler Dunlea~RHP~Active~UMass-Lowell
+WF~Logan Martel~C~Active~Rutgers
+WF~Will Dionne~RHP~Active~St. Joseph's-ME
+WF~Chris Strout~LHP~Active~Fairleigh Dickinson
+WF~James Rabuse~RHP~Inactive~Northeastern
+WF~Patrick Weaving~LHP~Active~Princeton
+WF~Nate Pirog~LHP~Active~Keene State
+WF~Aidan Gilbert~RHP~Inactive~Holy Cross
+WF~Simon Mele~RHP~Active~UMass-Lowell
+WF~Aiden Barclay~3B/OF~Active~Cornell
+WF~Josh Mayo~RHP~Active~Springfield College
+WF~Aaron Little~RHP~Active~Springfield College
+WF~Logan Charboneau~1B~Injured~UConn-Avery Point
+WF~Cole Silvia~2B/OF~Active~Iona
+WF~Vance Bonior~OF~Active~Massachusetts
+WF~Leo Lyons~LHP~Injured~St. John's
+WF~Jack Dyer~RHP~Active~St. Joseph's-ME
+WF~Casey Williams~LHP~Inactive~Rhode Island College
+WF~Josh Wagner~RHP~Active~Merrimack
+WF~Trent Jenks~OF/RHP~Inactive~Hofstra
+WF~Cooper Smith~C~Active~Louisiana Tech
+WF~Zach Worzel~LHP~Inactive~Central Connecticut
+WF~Thomas Pirog~RHP~Active~Keene State
+WF~Kyle Wilson~RHP~Active~Castleton State
+WF~Morrie Fried~1B/3B~Active~Brown
+WF~Ethan Slowk~LHP~Active~St Joseph's-CT
+WF~Alex Cook~LHP~Active~Stonehill
+WF~Alan Choo~1B/OF~Active~Orange Coast College
+WF~John Calabrese~OF~Active~Bucknell
+WF~Walker Carroll~LHP~Active~Connecticut
+WOR~Noah Basgaard~RHP~Inactive~Stonehill
+WOR~Curt Boyd~C~Inactive~Franklin Pierce
+WOR~Brady Shea~LHP~Inactive~Salve
+WOR~Gavin Price~RHP~Active~Worcester State
+WOR~Brayden Cali~UTIL~Active~Umass Lowell
+WOR~Dylan Prince~IF~Inactive~Bryant
+WOR~Ryan Keating~OF~Inactive~Nichols
+WOR~Jake Yang~IF~Active~Northwestern
+WOR~Connor Herlihy~RHP~Active~Stevens
+WOR~Erik Swenson~RHP~Active~University of Maine
+WOR~Will Kraemer~IF~Active~Pepperdine
+WOR~Aiden Cardoza~LHP~Active~Wheaton
+WOR~Gill Dolan~UTIL~Inactive~Post
+WOR~Owen Sullivan~RHP~Inactive~Indiana
+WOR~Davis Kahn~RHP~Inactive~Harvard
+WOR~Alan Carpenter~C~Active~Worcester State
+WOR~Dante Ruby~IF~Inactive~Keystone
+WOR~Jake Shaughnessy~LHP~Active~Eastern CT State Universit
+WOR~Kyle McLaughlin~RHP~Active~Umass Boston
+WOR~Gabe Malaret~OF~Active~Boston College
+WOR~Tate Bannish~OF~Inactive~Tufts
+WOR~James Anastasopoulos~IF~Active~Salve
+WOR~Cordell Clinkingbeard~RHP/1B~Inactive~Kansas State
+WOR~Stephen Rickert~RHP~Inactive~Eastern CT State Universi
+WOR~John Ramsey~IF~Active~Trinity TX
+WOR~Ian Carter~RHP~Active~Bryant
+WOR~Jeylem Sepulveda~RHP/IF~Active~LA Tech
+WOR~Cole Taylor~RHP~Inactive~Elon
+WOR~Aaron Bock~Utility~Active~Chapman
+WOR~Mason Bordelon~OF~Inactive~LSU Eunice
+WOR~Danny Tambascia~1B~Inactive~Brandies
+WOR~Andrew Schmit~OF~Active~Salve
+WOR~Lane Leclair~RHP~Active~Franklin Pierce
+WOR~Greg Strite~RHP~Active~Wheaton
+WOR~Zach Duke~RHP~Inactive~UCONN
+WOR~Jack Murray~UTIL~Active~USC
+WOR~Cole Travers~IF~Inactive~Stetson
+WOR~Justin Orridge~OF~Inactive~Amherst College
+WOR~Talen Rosborough~C~Active~Quinnipiac
+WOR~Benny Hess~C~Active~Keystone
+WOR~Cole Hambly~1B/OF~Inactive~Siena
+WOR~Jack Gamache~OF~Inactive~WNE
+WOR~Chris Mondesir~OF~Active~Maine
+WOR~Andrew Hardin~RHP~Active~Post
+WOR~Miles Blake~LHP~Inactive~Quinsigamond CC
+WOR~Luke Martinez~RHP~Active~SUNY Maritime
+WOR~Jacob Malfant~IF~Active~UCONN
+WOR~Sebastian Velasquez~RHP~Inactive~Post
+WOR~Riggs Catlin~UTIL~Inactive~Worcester State
+WOR~Jordan Luna~IF~Inactive~LSU Eunice
+WOR~Julian Mercado~1B~Active~Stetson
+WOR~Christian Cepin~IF~Active~SNHU
+WOR~Max Dushney~C~Inactive~Bates
+WOR~Cade Centracchio~IF~Active~Stetson
+WOR~Mitchell Hwang~IF/P~Inactive~Tufts
+WOR~Steven Parent~RHP~Active~Franklin Pierce
+WOR~Andre Arthur~OF~Inactive~SNHU
+WOR~Jeremy Krendel~LHP~Active~Endicott
+WOR~Jacob Klien~RHP~Active~Clark
+WOR~Jake Schoenberg~RHP~Inactive~St. A's
+WOR~Liam Childs~RHP~Active~Bowdoin
+WOR~Joey Hagen~RHP~Active~Trinity TX
+WOR~Colton Cravens~RHP~Active~Northwestern
+WOR~Joey Benoit~IF~Active~Brown
+WOR~Hunter St. Denis~1B~Active~University of Maine
+WOR~Luke Waldeck~RHP~Active~Harvard
+WOR~Brady Ericson~LHP / UTIL~Inactive~UCONN
+WOR~Ryan Garner~LHP~Active~Husson
+=== STATS ===
+H~P Williams~Nashua Silver Knights~30~116~34~8~-~-~14~3~25
+H~B Richman~Vermont Lake Monsters~30~111~35~5~-~-~18~6~16
+H~C Smith~Nashua Silver Knights~29~110~38~6~-~3~15~3~13
+H~E Dessureault~Lowell Spinners~27~103~28~4~1~3~9~4~26
+H~E Huber~Vermont Lake Monsters~29~103~32~4~-~1~22~5~20
+H~P Shrake~Vermont Lake Monsters~29~101~23~1~-~-~7~3~14
+H~M Fiatarone~Norwich Sea Unicorns~29~97~33~5~1~-~21~6~21
+H~P Keblinsky~Nashua Silver Knights~25~91~25~1~-~1~13~3~12
+H~A Barclay~Westfield Starfires~29~89~26~8~-~1~9~9~10
+H~C Williamson~Norwich Sea Unicorns~23~86~26~5~1~-~8~2~17
+H~H Troiano~Nashua Silver Knights~25~85~21~4~-~-~12~5~15
+H~J Fitzgerald~Vermont Lake Monsters~23~84~29~8~1~3~5~7~21
+H~J Henshon~Vermont Lake Monsters~25~83~24~1~2~1~18~-~10
+H~N Kearney~Nashua Silver Knights~21~83~25~2~3~-~8~-~11
+H~T Baer~Norwich Sea Unicorns~25~82~24~4~-~-~14~6~9
+H~G Slauson~New Britain Bees~25~82~23~6~-~1~22~5~7
+H~L Camilleri~Lowell Spinners~23~81~17~3~-~1~9~-~25
+H~J Henriquez~Lowell Spinners~25~81~23~4~-~2~7~4~26
+H~J Howland~Westfield Starfires~24~81~23~1~-~1~15~2~19
+H~A Kolb~Nashua Silver Knights~22~81~30~2~-~-~8~1~9
+H~T Moss~Vermont Lake Monsters~25~81~25~5~-~-~6~4~16
+H~E Sanders~Westfield Starfires~26~81~18~3~-~1~10~2~24
+H~Q Murphy~Lowell Spinners~23~80~20~8~-~-~7~2~11
+H~Z Bratspis~Lowell Spinners~26~78~23~-~-~-~12~4~18
+H~T Bannish~Worcester Bravehearts~19~77~27~3~-~1~8~1~10
+H~C Biller~Lowell Spinners~20~77~22~7~-~1~8~1~19
+H~W Kraemer~Worcester Bravehearts~23~77~22~2~1~1~8~1~11
+H~A Armenia~Westfield Starfires~25~75~15~3~1~-~9~1~29
+H~V Bonior~Westfield Starfires~25~74~19~5~2~-~9~6~11
+H~M Cervoni~Westfield Starfires~21~74~13~1~-~-~2~1~13
+H~K Noe~Norwich Sea Unicorns~22~74~25~6~-~2~10~5~13
+H~J O'Neil~Westfield Starfires~21~72~25~3~-~-~3~5~9
+H~T Wiltsey~Vermont Lake Monsters~25~71~16~3~-~-~15~2~20
+H~Q Kerr~Lowell Spinners~23~70~15~4~-~1~12~-~19
+H~B Kuja~New Britain Bees~22~70~21~1~1~1~14~5~12
+H~H Story~Nashua Silver Knights~21~70~21~2~-~-~11~1~15
+H~M Park~Norwich Sea Unicorns~19~69~16~1~-~2~6~1~19
+H~G Dolan~Worcester Bravehearts~21~68~21~3~2~-~11~1~13
+H~B McCafferty~Lowell Spinners~20~68~22~6~-~1~6~4~22
+H~J Fagnant~New Britain Bees~21~67~10~2~-~-~7~1~9
+H~J Lopez~Vermont Lake Monsters~22~67~20~1~-~-~14~4~7
+H~J Mercado~Worcester Bravehearts~19~67~21~4~-~4~14~5~14
+H~B Peterson~Nashua Silver Knights~22~67~14~5~-~1~7~1~27
+H~K Robinson~New Britain Bees~19~67~20~4~1~-~5~3~21
+H~B Hess~Worcester Bravehearts~19~66~18~5~3~1~11~8~23
+H~T Stroh~Vermont Lake Monsters~22~66~19~-~1~1~6~8~19
+H~J Powers~Norwich Sea Unicorns~20~65~16~1~-~2~6~-~9
+H~C Vacchiano~Nashua Silver Knights~22~65~16~5~-~2~12~11~12
+H~R Grasso~Nashua Silver Knights~22~64~18~1~-~-~11~1~25
+H~H Strohm~Vermont Lake Monsters~19~64~21~4~1~-~12~5~13
+H~J Fox~Westfield Starfires~23~63~14~2~-~-~7~1~10
+H~C Travers~Worcester Bravehearts~20~63~16~4~-~-~8~1~12
+H~A Carpenter~Worcester Bravehearts~18~62~25~3~-~-~7~-~5
+H~C Nolan~Norwich Sea Unicorns~23~60~10~1~-~2~15~10~15
+H~J Schaffer~Vermont Lake Monsters~16~60~18~2~1~-~8~2~10
+H~D Pengel~Norwich Sea Unicorns~20~59~15~1~-~-~5~-~11
+H~R Lamond~New Britain Bees~18~58~12~1~-~1~5~3~13
+H~B Paul~New Britain Bees~14~57~13~2~1~1~1~1~5
+H~J Quigley~Lowell Spinners~16~57~15~2~1~-~15~1~10
+H~A Schmit~Worcester Bravehearts~18~57~16~2~-~-~8~1~16
+H~H Ayers~Norwich Sea Unicorns~17~56~14~1~-~-~14~-~11
+H~J Dunlap~Vermont Lake Monsters~15~56~18~2~-~-~10~1~9
+H~N Amecangelo~New Britain Bees~22~55~7~1~-~-~15~4~12
+H~C Centracchio~Worcester Bravehearts~19~55~13~-~2~-~6~4~14
+H~N Frink~Westfield Starfires~19~55~12~4~-~-~6~1~16
+H~B Cali~Worcester Bravehearts~21~54~9~1~-~-~14~2~22
+H~M Gythfeldt~New Britain Bees~15~54~20~1~-~-~6~-~11
+H~H St. Denis~Worcester Bravehearts~15~54~17~3~-~1~7~1~4
+H~S Farr~Westfield Starfires~20~53~10~-~1~-~8~1~15
+H~T Popoff~Vermont Lake Monsters~15~53~10~2~-~-~4~-~14
+H~B O'Neill~Norwich Sea Unicorns~16~52~11~2~-~-~7~-~19
+H~R Rodriguez Rosa~New Britain Bees~16~51~12~3~-~1~7~3~19
+H~C Smith~Westfield Starfires~19~51~10~-~-~1~7~5~12
+H~Z Geertsma~Vermont Lake Monsters~13~50~17~1~-~4~6~-~8
+H~R O'Leary~Lowell Spinners~17~49~8~1~-~-~6~2~15
+H~C Silvia~Westfield Starfires~15~49~11~-~-~-~1~-~7
+H~M Bordelon~Worcester Bravehearts~13~48~11~2~-~1~6~1~13
+H~J Bureau~Norwich Sea Unicorns~17~48~10~-~-~-~9~7~20
+H~B Chernovetz~New Britain Bees~15~48~11~1~-~-~2~2~12
+H~P Fischer~Nashua Silver Knights~16~47~6~-~-~-~13~-~4
+H~M Zirpolo~Lowell Spinners~15~47~9~1~-~-~9~-~13
+H~A Civitello~New Britain Bees~15~46~13~2~-~-~7~4~7
+H~T Kaufman~Norwich Sea Unicorns~12~46~10~1~1~-~7~2~7
+H~G McGovern~New Britain Bees~15~46~11~-~-~-~5~4~14
+H~J Kane~New Britain Bees~14~45~11~1~-~-~4~1~2
+H~R McCarthy~Norwich Sea Unicorns~17~45~6~1~-~-~7~1~11
+H~A Driscoll~Lowell Spinners~13~44~11~1~-~1~4~-~14
+H~N Lembo~Lowell Spinners~13~44~13~5~1~-~3~4~13
+H~P Calandrelli~Norwich Sea Unicorns~13~43~6~1~-~-~6~1~10
+H~T Hennig~New Britain Bees~12~43~16~2~-~1~5~5~6
+H~D Vanderzouwen~Lowell Spinners~15~43~9~2~-~-~6~1~8
+H~J Luna~Worcester Bravehearts~15~42~13~1~-~1~5~4~11
+H~J Yang~Worcester Bravehearts~11~42~11~4~-~1~4~1~13
+H~B Gallo~Lowell Spinners~13~41~10~1~-~-~3~1~15
+H~C Chance~Lowell Spinners~11~40~11~1~-~1~2~1~3
+H~L Martel~Westfield Starfires~11~39~5~2~-~-~6~1~13
+H~J Ramsey~Worcester Bravehearts~14~39~4~-~-~-~11~5~15
+H~M Fried~Westfield Starfires~10~37~7~1~-~-~2~-~11
+H~L Maltacea~Norwich Sea Unicorns~13~36~7~-~-~-~4~-~8
+H~D Prince~Worcester Bravehearts~11~36~8~1~1~1~1~1~12
+H~L Penfield~New Britain Bees~11~35~8~2~-~-~8~1~10
+H~L Charboneau~Westfield Starfires~13~34~8~2~-~-~10~-~16
+H~D Ruby~Worcester Bravehearts~10~34~10~3~-~3~7~3~10
+H~C Grande~Norwich Sea Unicorns~14~33~5~1~1~-~8~3~12
+H~B Horne~Nashua Silver Knights~12~33~7~1~-~-~4~3~7
+H~T Jenks~Westfield Starfires~9~32~11~1~-~-~2~3~9
+H~G Malaret~Worcester Bravehearts~11~32~9~1~2~-~5~-~6
+H~D Swarts~New Britain Bees~9~32~7~1~-~-~4~-~9
+H~C Beauregard~Lowell Spinners~15~31~6~1~1~-~4~2~5
+H~J Murray~Worcester Bravehearts~10~30~6~1~-~-~5~1~14
+H~G Werdesheim~New Britain Bees~8~30~7~1~-~-~7~1~12
+H~O Rich~New Britain Bees~9~29~9~1~-~-~3~1~10
+H~D Rogers~New Britain Bees~9~29~9~1~-~-~7~2~15
+H~G Schopps~New Britain Bees~10~29~11~1~-~-~2~2~1
+H~J Vindiola~Westfield Starfires~13~29~4~-~1~-~5~-~12
+H~J Welch~Nashua Silver Knights~10~29~6~1~-~-~2~1~8
+H~J Howlett~Norwich Sea Unicorns~8~28~2~-~1~1~2~-~10
+H~J Treat~Norwich Sea Unicorns~10~27~5~2~-~-~4~3~13
+H~W Briggs~Westfield Starfires~9~26~11~3~-~4~3~7~4
+H~M Forgione~Nashua Silver Knights~11~26~2~-~-~-~9~-~18
+H~T Gill~Nashua Silver Knights~10~25~3~1~-~-~5~-~12
+H~C Hambly~Worcester Bravehearts~10~25~5~-~-~-~6~1~4
+H~S Warfield~Lowell Spinners~8~25~5~2~-~-~2~1~9
+H~R Keating~Worcester Bravehearts~7~24~5~1~-~-~3~-~5
+H~D O'Brien~Vermont Lake Monsters~7~24~7~-~-~-~3~-~2
+P~C Smith~Lowell Spinners~7~32.0~33~13~12~10~20~-
+P~G Garbinski~New Britain Bees~5~30.1~16~7~3~5~19~-
+P~J Shaughnessy~Worcester Bravehearts~6~28.2~13~12~11~17~30~-
+P~D Izenman~Lowell Spinners~7~27.2~19~11~9~14~27~-
+P~W Perkowski~Nashua Silver Knights~6~27.2~16~12~12~12~27~1
+P~I Keusch~Lowell Spinners~7~27.1~42~23~19~4~16~1
+P~M Tabet~Norwich Sea Unicorns~7~26.0~20~16~12~14~20~-
+P~C Fisher~Westfield Starfires~5~25.2~23~15~10~6~32~3
+P~N Cross~Nashua Silver Knights~6~25.1~27~12~7~7~25~-
+P~A Gomez~Vermont Lake Monsters~6~25.0~19~8~8~8~19~1
+P~J Mayo~Westfield Starfires~5~25.0~20~10~7~4~16~1
+P~D Kahn~Worcester Bravehearts~5~24.1~33~19~14~4~18~2
+P~G Price~Worcester Bravehearts~7~24.0~23~12~12~11~29~1
+P~H Schimoler~Lowell Spinners~8~23.2~27~25~23~16~16~2
+P~K Vogt~Vermont Lake Monsters~6~23.1~21~14~12~12~17~-
+P~M Klingler~Nashua Silver Knights~6~23.0~26~13~13~7~22~1
+P~R Wunsch~New Britain Bees~5~22.2~20~11~7~7~14~-
+P~J Zawatsky~Lowell Spinners~7~22.1~22~14~9~12~18~1
+P~J Florence~Nashua Silver Knights~8~22.0~17~8~6~7~6~1
+P~C Piwnicki~Nashua Silver Knights~5~21.2~24~11~9~5~15~-
+P~S Rickert~Worcester Bravehearts~6~21.2~15~7~5~11~12~-
+P~J Diaz~Norwich Sea Unicorns~6~21.1~24~14~13~12~16~-
+P~T Dunlea~Westfield Starfires~5~21.0~26~16~15~10~19~2
+P~G Strite~Worcester Bravehearts~9~21.0~29~15~12~4~13~2
+P~T LaMay~New Britain Bees~5~20.2~21~10~8~7~16~-
+P~G Willerer~Lowell Spinners~9~20.2~21~17~16~18~17~1
+P~Z Worzel~Westfield Starfires~5~20.2~15~8~5~9~16~-
+P~M Pappalardo~Lowell Spinners~4~20.0~21~7~7~6~28~-
+P~T Pirog~Westfield Starfires~9~19.2~10~4~3~5~25~1
+P~Z Ruffing~Westfield Starfires~7~19.1~23~14~12~6~21~-
+P~T Fahey~Norwich Sea Unicorns~8~18.1~15~6~3~8~12~1
+P~C Herlihy~Worcester Bravehearts~11~18.0~13~5~4~5~12~-
+P~J Hagen~Worcester Bravehearts~6~17.2~13~14~9~11~13~-
+P~J Bryant~Lowell Spinners~10~17.0~15~14~12~12~14~-
+P~D Pyle~Vermont Lake Monsters~11~17.0~18~5~4~5~10~1
+P~O Sullivan~Worcester Bravehearts~5~17.0~14~12~9~15~13~-
+P~E Freed~Vermont Lake Monsters~9~16.1~14~7~5~11~21~-
+P~R Heigle~Lowell Spinners~9~16.1~12~6~5~11~17~-
+P~S Kelly~Vermont Lake Monsters~5~16.0~23~10~8~8~13~2
+P~S Labrecque~Vermont Lake Monsters~14~16.0~8~6~4~4~21~-
+P~B Metivier~Nashua Silver Knights~10~16.0~8~8~5~12~13~2
+P~J Schrage~Norwich Sea Unicorns~7~16.0~11~6~6~8~14~-
+P~F Haines~Vermont Lake Monsters~9~15.2~8~4~3~9~18~-
+P~J Sweeney~Vermont Lake Monsters~6~15.2~6~2~1~4~21~-
+P~A Cardoza~Worcester Bravehearts~9~15.1~22~13~10~4~16~1
+P~C Dimenna~New Britain Bees~4~15.1~11~2~2~6~6~1
+P~L Leclair~Worcester Bravehearts~10~15.1~8~3~-~2~12~-
+P~C DiBenedetto~Westfield Starfires~12~15.0~16~11~8~10~13~-
+P~L Vitarelli~New Britain Bees~6~15.0~23~18~17~7~13~1
+P~D Wilkes~Nashua Silver Knights~10~15.0~13~9~9~13~23~1
+P~D Harding~Westfield Starfires~9~14.2~15~11~10~8~12~-
+P~E Mathewson~Norwich Sea Unicorns~7~14.2~16~10~10~6~11~-
+P~J Pray~Norwich Sea Unicorns~6~14.2~17~10~8~6~18~-
+P~K Rusinak~Vermont Lake Monsters~11~14.1~17~9~9~5~6~-
+P~C Burrows~Vermont Lake Monsters~10~14.0~19~11~9~5~9~-
+P~D Lawrence~Lowell Spinners~6~13.2~21~12~12~4~11~1
+P~B Bump~Nashua Silver Knights~9~13.1~22~14~9~7~12~-
+P~C Bushley~Norwich Sea Unicorns~5~13.1~15~16~12~3~7~-
+P~K McLaughlin~Worcester Bravehearts~9~13.1~11~14~13~13~16~-
+P~M Shampine~Norwich Sea Unicorns~6~13.1~20~12~11~5~12~2
+P~A Carpenter~Norwich Sea Unicorns~10~13.0~12~6~4~5~13~-
+P~J Scholz~Norwich Sea Unicorns~10~13.0~7~4~3~7~15~-
+P~F Baig~New Britain Bees~8~12.2~14~8~7~9~15~-
+P~D Carollo~New Britain Bees~8~12.2~14~11~7~8~20~-
+P~P Glidden~Norwich Sea Unicorns~8~12.2~10~7~5~8~11~-
+P~H Hebert~Lowell Spinners~9~12.2~22~24~16~11~14~2
+P~C Klueber~Lowell Spinners~6~12.2~23~19~17~8~12~1
+P~B Rovinelli~Vermont Lake Monsters~11~12.2~9~6~5~6~10~-
+P~C Freeman~New Britain Bees~4~12.0~11~5~5~5~9~-
+P~C Strout~Westfield Starfires~5~12.0~13~17~15~16~16~1
+P~D Ditullio~Lowell Spinners~5~11.2~14~7~5~5~4~-
+P~S Quirk~Westfield Starfires~12~11.2~12~11~8~13~6~-
+P~I Cabral~New Britain Bees~7~11.1~8~11~9~9~5~2
+P~L Collins~Nashua Silver Knights~4~11.1~9~6~4~5~17~-
+P~C Shaffer~Nashua Silver Knights~11~11.1~3~7~6~13~11~-
+P~I Carter~Worcester Bravehearts~7~11.0~11~12~10~11~3~2
+P~B Lane~Vermont Lake Monsters~11~11.0~13~12~12~5~8~2
+P~J Schoenberg~Worcester Bravehearts~9~11.0~10~4~4~4~12~1
+P~B Young~New Britain Bees~10~11.0~11~8~7~7~10~1
+P~S Flannery~Norwich Sea Unicorns~8~10.2~10~5~5~6~17~-
+P~S Hutchinson~Norwich Sea Unicorns~4~10.2~18~18~17~4~6~1
+P~R Maiorano~Nashua Silver Knights~7~10.2~11~8~8~4~15~-
+P~M Shea~New Britain Bees~6~10.2~12~10~8~8~9~-
+P~I Jensen~Vermont Lake Monsters~9~10.1~8~5~3~9~10~-
+P~C Williams~Westfield Starfires~11~10.1~17~18~15~6~8~1
+P~T Conley~New Britain Bees~3~10.0~7~8~3~3~6~-
+P~J Dobis~Nashua Silver Knights~8~10.0~7~6~4~7~8~-
+P~J Dunham~Vermont Lake Monsters~3~10.0~8~5~4~2~2~-
+P~N Kempton~New Britain Bees~6~10.0~8~5~5~4~9~-
+P~J Ortiz~Westfield Starfires~7~10.0~16~14~13~7~10~3
+P~J Pitts~Norwich Sea Unicorns~6~10.0~22~12~6~1~9~1
+P~E Wells~Norwich Sea Unicorns~7~9.2~6~6~6~14~7~-
+P~S McGettigan~Norwich Sea Unicorns~5~9.1~9~6~6~4~11~2
+P~M Cobb~Nashua Silver Knights~7~9.0~15~12~6~4~4~-
+P~S Connolly~Norwich Sea Unicorns~10~9.0~14~13~11~5~13~1
+P~Z Duke~Worcester Bravehearts~4~9.0~7~4~3~6~9~-
+P~T Harding~New Britain Bees~3~9.0~6~4~1~4~18~-
+P~M Jarvie~New Britain Bees~3~9.0~7~3~2~-~3~1
+P~T Lohsen~Nashua Silver Knights~2~9.0~8~3~3~4~5~-
+P~J Richburg~Vermont Lake Monsters~10~8.2~12~12~10~6~7~-
+P~A Savino~Vermont Lake Monsters~7~8.2~14~11~8~8~3~-
+P~T Wall~New Britain Bees~3~8.2~9~5~2~1~10~-
+P~A Casey~New Britain Bees~3~8.1~7~2~0~2~10~-
+P~A Little~Westfield Starfires~6~8.1~9~7~6~7~7~1
+P~O Pike~New Britain Bees~6~8.1~15~10~10~3~8~-
+P~B McCleland~Nashua Silver Knights~7~8.0~11~6~6~6~3~-
+P~D Musselman~Vermont Lake Monsters~8~8.0~7~7~7~8~8~-
+P~E Swenson~Worcester Bravehearts~5~8.0~5~3~3~8~9~-
+P~A D'Ambrosio~Norwich Sea Unicorns~6~7.2~7~8~5~5~6~1
+P~J Devine~Norwich Sea Unicorns~4~7.2~11~7~7~2~10~1
+P~G Gavin~Lowell Spinners~6~7.2~4~6~5~9~9~-
+P~S Gopal~Nashua Silver Knights~5~7.1~6~2~1~4~5~-
+P~M Hwang~Worcester Bravehearts~6~7.1~6~11~4~8~11~-
+P~S Mele~Westfield Starfires~3~7.1~4~2~2~8~3~-
+P~S Moleti~New Britain Bees~7~7.1~3~6~5~12~7~-
+P~T Woytowicz~Westfield Starfires~8~7.1~4~12~8~9~8~-
+P~M Donovan~Nashua Silver Knights~4~7.0~8~3~1~5~4~-
+P~Z Fraser~Norwich Sea Unicorns~6~7.0~9~6~6~1~6~-
+P~D Skourides~Nashua Silver Knights~3~7.0~13~6~4~4~7~1
+P~C Cariello~Norwich Sea Unicorns~7~6.2~9~3~2~8~3~-
+P~L Fithian~Vermont Lake Monsters~3~6.2~6~4~2~3~12~-
+P~B Gable~Vermont Lake Monsters~9~6.2~6~5~5~12~10~-
+P~B Kline~New Britain Bees~5~6.2~9~6~5~2~5~-
+P~K Wilson~Westfield Starfires~9~6.1~8~8~6~7~9~4
+P~N MacKinnon~Nashua Silver Knights~4~6.0~11~8~6~3~7~-

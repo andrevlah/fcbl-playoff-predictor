@@ -18,7 +18,8 @@
     "streak": "W1",
     "derbyLosses": 0,
     "gamesRemaining": 23,
-    "asOf": "2026-07-09T03:37:20.687Z"
+    "rqi": 0.471,
+    "asOf": "2026-07-09T04:08:20.763Z"
   },
   {
     "abbr": "NSH",
@@ -39,7 +40,8 @@
     "streak": "L2",
     "derbyLosses": 0,
     "gamesRemaining": 25,
-    "asOf": "2026-07-09T03:37:20.687Z"
+    "rqi": 0.519,
+    "asOf": "2026-07-09T04:08:20.763Z"
   },
   {
     "abbr": "NB",
@@ -60,7 +62,8 @@
     "streak": "L1",
     "derbyLosses": 0,
     "gamesRemaining": 28,
-    "asOf": "2026-07-09T03:37:20.687Z"
+    "rqi": 0.514,
+    "asOf": "2026-07-09T04:08:20.763Z"
   },
   {
     "abbr": "NOR",
@@ -81,7 +84,8 @@
     "streak": "L3",
     "derbyLosses": 0,
     "gamesRemaining": 26,
-    "asOf": "2026-07-09T03:37:20.687Z"
+    "rqi": 0.503,
+    "asOf": "2026-07-09T04:08:20.763Z"
   },
   {
     "abbr": "VT",
@@ -102,7 +106,8 @@
     "streak": "W8",
     "derbyLosses": 0,
     "gamesRemaining": 24,
-    "asOf": "2026-07-09T03:37:20.687Z"
+    "rqi": 0.558,
+    "asOf": "2026-07-09T04:08:20.763Z"
   },
   {
     "abbr": "WF",
@@ -123,7 +128,8 @@
     "streak": "L1",
     "derbyLosses": 0,
     "gamesRemaining": 27,
-    "asOf": "2026-07-09T03:37:20.687Z"
+    "rqi": 0.427,
+    "asOf": "2026-07-09T04:08:20.763Z"
   },
   {
     "abbr": "WOR",
@@ -144,6 +150,7 @@
     "streak": "L1",
     "derbyLosses": 0,
     "gamesRemaining": 25,
-    "asOf": "2026-07-09T03:37:20.687Z"
+    "rqi": 0.545,
+    "asOf": "2026-07-09T04:08:20.763Z"
   }
 ]
