@@ -14,7 +14,7 @@ import { fileURLToPath } from "node:url";
 import { TEAMS, ABBRS, derbyLossOverrides } from "../config/teams.js";
 import { simulate } from "../src/sim.js";
 import { politeFetch } from "./lib/fetch.js";
-import { parseSchedulePage, parseStatsPage, parsePlayersPage, parseLeagueHitting } from "./lib/parse.js";
+import { parseSchedulePage, parseStatsPage } from "./lib/parse.js";
 import { assignSeq, dedupeSchedule, dedupeResults, detectNewlyFinal, validate } from "./lib/data.js";
 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -27,10 +27,6 @@ const SCHEDULE_URL = (teamId) =>
   `https://thefuturesleague.com/sports/bsb/2026/schedule?teamId=${teamId}&dec=printer-decorator`;
 const STATS_URL = "https://thefuturesleague.com/sports/bsb/2026/teams?sort=r&r=0&pos=br";
 const COMPOSITE_URL = (d) => `https://thefuturesleague.com/composite?d=${d}`;
-// Lowell player hitting lines (monospace print template = static HTML),
-// feeding the Props Lab panel
-const PLAYERS_URL =
-  "https://thefuturesleague.com/sports/bsb/2026/teams/lowellspinners?tmpl=teaminfo-network-monospace-template&sort=ab&pos=h";
 
 const readJSON = (name, fallback) => {
   try {
@@ -66,19 +62,7 @@ async function main() {
 
   // --- 2) fetch + parse team run totals --------------------------------------
   console.log("fetching team stats (RS/RA)");
-  const statsHtml = await politeFetch(STATS_URL);
-  const stats = parseStatsPage(statsHtml);
-  const leagueHitting = parseLeagueHitting(statsHtml);
-
-  // --- 2b) Lowell player hitting lines (non-fatal: Props Lab just hides) ----
-  let lowellHitters = [];
-  try {
-    console.log("fetching Lowell player stats");
-    lowellHitters = parsePlayersPage(await politeFetch(PLAYERS_URL));
-    console.log(`  ${lowellHitters.length} hitters parsed`);
-  } catch (err) {
-    console.warn(`player stats unavailable (non-fatal): ${err.message}`);
-  }
+  const stats = parseStatsPage(await politeFetch(STATS_URL));
 
   // --- 3) composite pages (corroborating signal only; never authoritative) ---
   for (const d of [etDate(0), etDate(-1)]) {
@@ -168,9 +152,6 @@ async function main() {
   writeJSON("schedule.json", schedule.map(({ seq, ...g }) => g));
   writeJSON("results.json", results);
   writeJSON("odds.json", odds);
-  if (lowellHitters.length && leagueHitting) {
-    writeJSON("players.json", { asOf, team: "LOW", hitters: lowellHitters, league: leagueHitting });
-  }
 
   if (newlyFinal.length > 0 || history.length === 0) {
     history.push({

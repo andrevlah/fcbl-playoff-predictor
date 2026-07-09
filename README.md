@@ -19,10 +19,6 @@ don't have to touch anything.**
 - **Play GM**: sliders to ask "what if?" What if Vermont loses their ace to the draft?
   What if Lowell sweeps Norwich? What if Lowell goes 18–7 the rest of the way?
   These run instantly in your browser and never change the official numbers.
-- **Props Lab**: hypothetical fair-value player props for the next Spinners game
-  (to record a hit, 2+ hits, 2+ total bases, home run), priced from each hitter's
-  season line, opponent pitching, and Trackman contact data when you've imported it.
-  For fun and dugout arguments, not for wagering.
 
 ---
 
@@ -60,21 +56,34 @@ AND runs the auto-updates, all on the free tier.
 - **Settings → Actions → General** → scroll to "Workflow permissions" →
   choose **Read and write permissions** → **Save**.
 
-**5. Run the first update**
-- Click the **Actions** tab → **Update FCBL data** (left sidebar) →
-  **Run workflow** button → green **Run workflow**.
-- Wait ~2 minutes. It scrapes the league site, checks its own math, and publishes
-  fresh numbers. From now on this happens automatically **every 30 minutes during
-  game hours** (10 AM–11:30 PM Eastern).
-
-Done. The site now maintains itself.
+**5. You're live.** The site is now published and will stay up forever.
 
 ---
 
-## Everyday things you might want to do
+## Keeping the numbers current (the important part)
 
-**Force a refresh right now** (say, right after a Spinners walk-off):
-Actions tab → **Update FCBL data** → **Run workflow**.
+The league website added bot protection in July 2026, so the site can no longer
+scrape scores automatically and reliably. **You keep it current by typing in final
+scores yourself.** It takes about 15 seconds per game and requires no coding:
+
+1. Open the **Terminal** app (it's on your Mac; search "Terminal" in Spotlight).
+2. Type this and press return:
+   ```
+   cd ~/Desktop/fcbl-playoff-predictor
+   npm run enter
+   ```
+3. It prints a link like `http://localhost:4600`. Open that in your browser.
+4. You'll see every upcoming game. Type in the two final scores for any game that's
+   finished, click **Save**, and it recomputes all the odds and publishes to the live
+   site automatically (about a minute to appear). Enter as many games as you like.
+5. Made a typo? Click **Undo last entry**.
+6. When you're done, go back to Terminal and press **Control + C** to stop.
+
+That's the whole workflow. You can enter any team's games, not just Lowell's.
+
+> The automated updater still runs a few times a day in the background, in case the
+> league ever drops its bot block. If it starts working again, great; if not, the
+> hand-entry above is all you need. Either way the site keeps working.
 
 **Edit the roster news notes** (the box next to the strength dials):
 open `docs/js/teams.js`, find `newsNotes`, and edit the quoted lines. Commit the change
@@ -84,16 +93,6 @@ open `docs/js/teams.js`, find `newsNotes`, and edit the quoted lines. Commit the
 mark these, so it's manual): in the same file, find `derbyLossOverrides` and follow the
 example in the comment. E.g. if Westfield loses a derby game:
 `export const derbyLossOverrides = { WF: 1 };`
-
-**Feed the Props Lab with Trackman data** (optional, but it makes the props smarter):
-1. Export game CSVs from Trackman (the standard pitch-by-pitch export).
-2. Create a folder named `trackman` next to this file and drop the CSVs in.
-3. Run `npm run trackman` in a terminal from this folder.
-4. Commit and push the updated `docs/data/trackman.json`.
-Hitters with 25+ tracked batted balls get a contact-quality adjustment
-(hard-hit rate vs a 35% baseline, capped at ±15%) and a 📡 marker on the site.
-The `trackman/` folder itself stays on your machine; only the anonymous
-summary file is published.
 
 **Turn it off after the season** (playoffs start Aug 10):
 Actions tab → **Update FCBL data** → the **···** menu (top right) → **Disable workflow**.
@@ -105,15 +104,13 @@ GitHub's free allowance for public repos.)
 
 ## If the numbers look stale
 
-1. Check the **Actions** tab. Green checkmarks = updates are running.
-2. A **red X**? Click it and read the log. The scraper is deliberately paranoid:
-   if the league site is down, changes its page layout, or anything doesn't add up
-   (it re-checks every team's record against the official schedule page before
-   publishing), it **keeps the previous good data and stops** rather than publish
-   garbage. Usually the next run fixes itself.
-3. Red X's for days in a row means the league site changed something structural.
-   That's the one case that needs a developer (or Claude) to look at
-   `scripts/lib/parse.js`.
+The site only updates when scores get entered. If it looks behind:
+1. **Enter the finals yourself** — `npm run enter` (see above). This is the normal way
+   to keep it current now that automatic scraping is blocked.
+2. If a hand-entry didn't seem to publish, the tool will have told you (e.g. an internet
+   problem). Just click **Save** again once you're back online.
+3. The background auto-updater running red or skipping is expected — it's blocked by the
+   league's bot protection and simply does nothing. It won't hurt anything.
 4. Also note: the odds only *change* when a game goes final. A quiet Tuesday
    afternoon with no new finals = no new history point. That's normal.
 
@@ -149,8 +146,10 @@ exactly what the "Play GM" strength dials are for.
 | `docs/data/` | The published data: `teams`, `schedule`, `results`, `odds`, `history` (all JSON). |
 | `docs/js/sim.js` | The simulation engine: the **same file** runs on the server and in your browser. |
 | `docs/js/teams.js` | Team config + the two manual overrides described above. |
-| `scripts/scrape.js` | The scraper (Node 20 + cheerio). Polite: 1 request/second, identifies itself, 8–10 pages per run. |
-| `.github/workflows/update.yml` | The every-30-minutes schedule. |
+| `scripts/enter.js` | The hand-entry tool (`npm run enter`). A tiny local web form; recomputes and publishes. |
+| `scripts/lib/recompute.js` | Rebuilds every team stat + odds from the results log alone (shared, tested). |
+| `scripts/scrape.js` | The best-effort scraper (Node 20 + cheerio). Currently blocked by the site's bot protection. |
+| `.github/workflows/update.yml` | Light background schedule (a few times a day) in case scraping starts working again. |
 | `test/` | `npm test`: the automated test suite, including the locked worked-example from the model spec. |
 
 Local development: `npm install`, `npm test`, `npm run scrape` (fetches live data),

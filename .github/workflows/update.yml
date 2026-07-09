@@ -1,6 +1,11 @@
-# Auto-updates the predictor's data. Runs every 30 minutes during game hours
-# (roughly 10:00 AM – 11:30 PM Eastern) and can be triggered by hand from the
-# Actions tab ("Run workflow" button).
+# Best-effort auto-update of the predictor's data.
+#
+# IMPORTANT (July 2026): the league site added CloudFront bot protection that
+# blocks automated scraping, so most of these runs will "skip" (they finish
+# green but change nothing). That is expected, not a failure. The reliable way
+# to keep the site current is to record final scores by hand with
+# `npm run enter` (see the README). This job stays around, at a light cadence,
+# only to catch up automatically if the league ever drops the bot block.
 #
 # After the season ends (Aug 10, 2026), disable this workflow:
 # GitHub -> Actions -> "Update FCBL data" -> "..." menu -> Disable workflow.
@@ -10,10 +15,11 @@ name: Update FCBL data
 on:
   workflow_dispatch: {}
   schedule:
-    # GitHub cron is UTC. The league plays in EDT (UTC-4), so:
-    # 14:00–23:30 UTC = 10:00 AM–7:30 PM ET, 00:00–03:30 UTC = 8:00–11:30 PM ET.
-    - cron: "*/30 14-23 * * *"
-    - cron: "*/30 0-3 * * *"
+    # A few times a day (UTC) instead of every 30 min, so we're not hammering
+    # the site's bot protection. Late morning, afternoon, and late evening ET.
+    - cron: "0 15 * * *"   # ~11:00 AM ET
+    - cron: "0 20 * * *"   # ~4:00 PM ET
+    - cron: "30 2 * * *"   # ~10:30 PM ET (post-game)
 
 permissions:
   contents: write

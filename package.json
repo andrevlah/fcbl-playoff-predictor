@@ -7,7 +7,7 @@
   "scripts": {
     "scrape": "node scripts/scrape.js",
     "seed": "node scripts/seed.js",
-    "trackman": "node scripts/trackman-import.js",
+    "enter": "node scripts/enter.js",
     "test": "node --test",
     "serve": "npx serve docs"
   },

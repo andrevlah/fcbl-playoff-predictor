@@ -5,13 +5,11 @@
 import { TEAMS, ABBRS, logoURL, newsNotes, chartColor, isDarkTheme } from "./teams.js";
 import { DEFAULT_SETTINGS } from "./sim.js";
 import { renderHistoryChart, renderLowellCurve, hideTip } from "./charts.js";
-import { computeProps } from "./props.js";
 
 const $ = (id) => document.getElementById(id);
 
 const state = {
   teams: [], schedule: [], results: [], history: [],
-  players: null, trackman: {},
   serverOdds: null,   // official numbers from odds.json
   odds: null,         // what's currently displayed (server or what-if)
   prevShown: {},      // last displayed pcts, for count-up animation
@@ -287,48 +285,6 @@ function renderLowell() {
 }
 
 // ---------------------------------------------------------------------------
-// Props Lab
-// ---------------------------------------------------------------------------
-
-function renderProps() {
-  const panel = $("props-panel");
-  const data = computeProps({
-    players: state.players,
-    teams: state.teams,
-    schedule: state.schedule,
-    trackman: state.trackman,
-  });
-  if (!data) { panel.hidden = true; return; }
-  panel.hidden = false;
-
-  const fmt = state.oddsFormat === "american" ? fmtAmerican : fmtPct;
-  $("props-game").textContent =
-    `${fmtDate(data.game.date)} ${data.game.homeAway === "home" ? "vs" : "at"} ${TEAMS[data.game.opp].name}`;
-
-  const tbody = $("props-tbody");
-  tbody.innerHTML = "";
-  for (const r of data.rows) {
-    const tr = document.createElement("tr");
-    const flags = [
-      r.smallSample ? '<span class="mini-note" title="Under 60 plate appearances; heavily regressed">small sample</span>' : "",
-      r.usedTrackman ? '<span title="Includes Trackman contact-quality data">📡</span>' : "",
-    ].filter(Boolean).join(" ");
-    tr.innerHTML = `
-      <td><span class="team-name">${r.name}</span> ${flags}</td>
-      <td class="num-cell">${r.line}</td>
-      <td class="num-cell" title="${fmtPct(r.props.hit1)} (${fmtAmerican(r.props.hit1)})">${fmt(r.props.hit1)}</td>
-      <td class="num-cell" title="${fmtPct(r.props.hit2)} (${fmtAmerican(r.props.hit2)})">${fmt(r.props.hit2)}</td>
-      <td class="num-cell" title="${fmtPct(r.props.tb2)} (${fmtAmerican(r.props.tb2)})">${fmt(r.props.tb2)}</td>
-      <td class="num-cell" title="${fmtPct(r.props.hr1)} (${fmtAmerican(r.props.hr1)})">${fmt(r.props.hr1)}</td>`;
-    tbody.appendChild(tr);
-  }
-
-  $("props-footnote").textContent =
-    `Opponent pitching factor ${data.oppFactor.toFixed(2)} (over 1.00 = weaker-than-average staff inflates hitter odds). ` +
-    `Uses the Percent / American odds toggle from the standings table.`;
-}
-
-// ---------------------------------------------------------------------------
 // dials + scenario tool
 // ---------------------------------------------------------------------------
 
@@ -505,7 +461,6 @@ function wireControls() {
     // pure format switch "from" equals "to" and animateNumber renders the
     // new format immediately with no count-up motion
     renderTable();
-    renderProps();
   });
 
   window.addEventListener("resize", debounce(() => {
@@ -632,7 +587,6 @@ function updateAll() {
   $("whatif-banner").hidden = !whatIf;
   renderTable();
   renderLowell();
-  renderProps();
 }
 
 async function load(name) {
@@ -647,10 +601,6 @@ async function init() {
     load("odds.json"), load("history.json"),
   ]);
   Object.assign(state, { teams, schedule, results, history });
-  // optional data: player lines (Props Lab) and Trackman contact quality;
-  // both panels simply stay hidden until the files exist
-  state.players = await load("players.json").catch(() => null);
-  state.trackman = await load("trackman.json").catch(() => ({}));
   state.serverOdds = odds;
   state.odds = odds;
 
