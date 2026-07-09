@@ -4,14 +4,18 @@
 //   1. Every hitter gets a wOBA-style rate (walks and extra bases weighted
 //      properly), every pitcher a FIP-style rate (strikeouts, walks, homers;
 //      defense-independent).
-//   2. Small samples are regressed toward a prior. The prior is NOT the flat
-//      league average: it's the average of players from the same school
-//      tier (power D1 / other D1 / D2-JuCo / D3), measured IN THIS LEAGUE.
-//      That's where "school prestige" enters: a Power-4 hitter with 20 PA is
-//      probably better than his line; a D3 hitter slugging .700 in 25 PA is
-//      probably not that guy. And the tier averages are calibrated from the
-//      league's own data, so if prestige turns out not to predict FCBL
-//      performance, its influence shrinks automatically.
+//   2. Small samples are regressed toward a prior. The prior starts as the
+//      average of players from the same school tier (power D1 / other D1 /
+//      D2-JuCo / D3), measured IN THIS LEAGUE, then is refined per player by
+//      the BACKGROUND layer (config/player-backgrounds.js): recruiting
+//      pedigree shifts the prior LEVEL, and class year scales how much the
+//      summer sample is trusted vs the prior (freshmen regressed harder).
+//      A highly-recruited freshman's hot 60-AB start is believed more than a
+//      walk-on's; a senior's line is believed more than a freshman's. Players
+//      with no background entry use the plain tier prior (unchanged). The tier
+//      averages are calibrated from the league's own data, so if prestige
+//      turns out not to predict FCBL performance, its influence shrinks
+//      automatically.
 //   3. Only ACTIVE players count (the roster page marks Inactive/Injured),
 //      weighted by playing-time share. A team that lost its best arm to the
 //      draft loses his innings from the rating immediately.
@@ -24,6 +28,7 @@
 import { TEAMS, ABBRS } from "../../config/teams.js";
 import { schoolTier } from "../../config/schools.js";
 import { departed, returned } from "../../config/roster-moves.js";
+import { backgrounds, CLASS_YEAR_TRUST } from "../../config/player-backgrounds.js";
 
 // wOBA-style linear weights and priors
 const W = { walk: 0.69, single: 0.88, double: 1.25, triple: 1.58, hr: 2.05 };
@@ -34,6 +39,20 @@ const TIER_PRIOR_IP = 250;
 const RUNS_PER_WOBA = 1.15; // wOBA points -> runs, standard scale
 const TEAM_PA_PER_GAME = 38; // this league scores a lot
 const WPCT_PER_RUN = 0.09;  // pythagenpat slope at ~11.5 runs/game
+
+// background layer: a pedigree point moves a player's PRIOR by this much
+// (pedigree 3 = neutral, so unknown players are unchanged)
+const PEDIGREE_WOBA = 0.010; // wOBA per pedigree point above/below 3
+const PEDIGREE_FIP = 0.10;   // FIP-core per pedigree point (higher pedigree = lower core = better)
+
+// resolve a player's background: explicit pedigree, else draft => 5, else
+// neutral 3; plus class-year trust multiplier on the prior weight
+export function backgroundFor(bg) {
+  if (!bg) return { pedigree: 3, trust: 1 };
+  const pedigree = bg.pedigree != null ? bg.pedigree : (bg.drafted ? 5 : 3);
+  const trust = bg.classYr && CLASS_YEAR_TRUST[bg.classYr] ? CLASS_YEAR_TRUST[bg.classYr] : 1;
+  return { pedigree, trust };
+}
 
 const num = (s) => {
   if (s === "-" || s === "" || s == null) return 0;
@@ -111,6 +130,14 @@ export function computeRosterQuality(snapshotText) {
     return info;
   };
 
+  // background layer keyed the same way (team|first-initial+lastname)
+  const bgByKey = new Map();
+  for (const [key, bg] of Object.entries(backgrounds)) {
+    const [team, ...rest] = key.split("|");
+    bgByKey.set(team + "|" + nameKey(rest.join("|")), bg);
+  }
+  const bgFor = (team, name) => backgroundFor(bgByKey.get(team + "|" + nameKey(name)));
+
   // ---- hitters ----
   const hs = hitters
     .map((h) => {
@@ -120,9 +147,11 @@ export function computeRosterQuality(snapshotText) {
       const woba = (W.walk * (h.bb + h.hbp) + W.single * singles + W.double * h.d2 +
         W.triple * h.t3 + W.hr * h.hr) / pa;
       const info = lookup(h.team, h.name);
+      const bg = bgFor(h.team, h.name);
       return {
         ...h, pa, woba,
         tier: info ? info.tier : 0,
+        pedigree: bg.pedigree, trust: bg.trust,
         active: info ? /^active$/i.test(info.status) : true, // unmatched: assume active
         matched: !!info,
       };
@@ -143,7 +172,10 @@ export function computeRosterQuality(snapshotText) {
   hitTier[0] = lgWOBA;
 
   for (const h of hs) {
-    h.est = (h.woba * h.pa + hitTier[h.tier] * HIT_PRIOR_PA) / (h.pa + HIT_PRIOR_PA);
+    // prior LEVEL shifts with pedigree; prior WEIGHT scales with class-year trust
+    const prior = hitTier[h.tier] + (h.pedigree - 3) * PEDIGREE_WOBA;
+    const w = HIT_PRIOR_PA * h.trust;
+    h.est = (h.woba * h.pa + prior * w) / (h.pa + w);
   }
 
   // ---- pitchers ----
@@ -152,9 +184,11 @@ export function computeRosterQuality(snapshotText) {
       if (p.ip < 3) return null;
       const core = (13 * p.hr + 3 * p.bb - 2 * p.k) / p.ip; // FIP core, lower = better
       const info = lookup(p.team, p.name);
+      const bg = bgFor(p.team, p.name);
       return {
         ...p, core,
         tier: info ? info.tier : 0,
+        pedigree: bg.pedigree, trust: bg.trust,
         active: info ? /^active$/i.test(info.status) : true,
         matched: !!info,
       };
@@ -174,7 +208,10 @@ export function computeRosterQuality(snapshotText) {
   pitTier[0] = lgCore;
 
   for (const p of ps) {
-    p.est = (p.core * p.ip + pitTier[p.tier] * PIT_PRIOR_IP) / (p.ip + PIT_PRIOR_IP);
+    // higher pedigree -> lower (better) FIP prior; class-year trust scales weight
+    const prior = pitTier[p.tier] - (p.pedigree - 3) * PEDIGREE_FIP;
+    const w = PIT_PRIOR_IP * p.trust;
+    p.est = (p.core * p.ip + prior * w) / (p.ip + w);
   }
 
   // ---- aggregate to teams -------------------------------------------------
@@ -235,11 +272,12 @@ export function computeRosterQuality(snapshotText) {
   }
 
   const matched = [...hs, ...ps].filter((x) => x.matched).length;
+  const withBg = [...hs, ...ps].filter((x) => x.pedigree !== 3 || x.trust !== 1).length;
   return {
     teams,
     league: { woba: lgWOBA, fipCore: lgCore },
     tierCalibration: { hitting: hitTier, pitching: pitTier },
     matchRate: Math.round((matched / (hs.length + ps.length)) * 100) / 100,
-    counts: { hitters: hs.length, pitchers: ps.length, roster: roster.length },
+    counts: { hitters: hs.length, pitchers: ps.length, roster: roster.length, backgrounds: Object.keys(backgrounds).length, playersWithBackground: withBg },
   };
 }
