@@ -1390,5 +1390,50 @@
     "innings": null,
     "time": null,
     "seq": 1
+  },
+  {
+    "date": "2026-07-06",
+    "home": "NSH",
+    "away": "LOW",
+    "homeR": 8,
+    "awayR": 5,
+    "winner": "NSH",
+    "gameId": "manual_2026-07-06_LOW_NSH_0",
+    "innings": null,
+    "manual": true
+  },
+  {
+    "date": "2026-07-06",
+    "home": "VT",
+    "away": "NOR",
+    "homeR": 9,
+    "awayR": 7,
+    "winner": "VT",
+    "gameId": "manual_2026-07-06_NOR_VT_1",
+    "innings": null,
+    "manual": true
+  },
+  {
+    "date": "2026-07-08",
+    "home": "NSH",
+    "away": "VT",
+    "homeR": 0,
+    "awayR": 4,
+    "winner": "VT",
+    "note": "Postponed from 7/7",
+    "gameId": "manual_2026-07-08_VT_NSH_2",
+    "innings": null,
+    "manual": true
+  },
+  {
+    "date": "2026-07-08",
+    "home": "NSH",
+    "away": "VT",
+    "homeR": 2,
+    "awayR": 10,
+    "winner": "VT",
+    "gameId": "manual_2026-07-08_VT_NSH_3",
+    "innings": null,
+    "manual": true
   }
 ]

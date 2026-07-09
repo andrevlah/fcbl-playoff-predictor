@@ -320,12 +320,25 @@ function buildDials() {
     newsNotes.map((n) => `<p>· ${n}</p>`).join("");
 }
 
+// today's calendar date in the league's timezone, for hiding games that have
+// already been played from the "what-if" scenario list
+function leagueToday() {
+  return new Date().toLocaleDateString("en-CA", { timeZone: "America/New_York" });
+}
+
 function buildScenarioList() {
   const list = $("scenario-list");
   list.innerHTML = "";
   const filter = state.scenarioFilter;
+  const today = leagueToday();
+  let pastHidden = 0;
+
   state.schedule.forEach((g, i) => {
     if (filter !== "ALL" && g.home !== filter && g.away !== filter) return;
+    // a scenario is a what-if about a game still to be played; once a game's
+    // date has passed it has already happened, so drop it from the list
+    // (its real result gets recorded via `npm run enter`)
+    if (g.date < today) { pastHidden++; return; }
     const row = document.createElement("div");
     row.className = "sgame";
     row.innerHTML = `<div class="sgame-date">${fmtDate(g.date)}</div>
@@ -354,6 +367,18 @@ function buildScenarioList() {
     row.appendChild(toggle);
     list.appendChild(row);
   });
+
+  if (pastHidden > 0) {
+    const note = document.createElement("div");
+    note.className = "sgame-note";
+    note.style.padding = "8px 10px";
+    note.textContent = `${pastHidden} game${pastHidden > 1 ? "s have" : " has"} already been played and ` +
+      `${pastHidden > 1 ? "are" : "is"} awaiting a final score (run "npm run enter" to record ${pastHidden > 1 ? "them" : "it"}).`;
+    list.prepend(note);
+  }
+  if (!list.children.length) {
+    list.innerHTML = `<div class="sgame-note" style="padding:8px 10px">No upcoming games to play with.</div>`;
+  }
 }
 
 function wireControls() {
