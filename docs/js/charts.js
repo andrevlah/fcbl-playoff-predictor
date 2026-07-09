@@ -2,7 +2,7 @@
 // curve. D3 v7 is vendored (docs/vendor/) and loaded as a classic script by
 // app.js before these functions run, so `d3` is a global here.
 
-import { TEAMS, logoURL, chartColor } from "./teams.js?v=10";
+import { TEAMS, logoURL, chartColor } from "./teams.js?v=11";
 
 // grayscale palette read from the live CSS variables so charts follow the
 // active theme; called at render time, and charts re-render on theme toggle

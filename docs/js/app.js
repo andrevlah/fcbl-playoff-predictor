@@ -2,9 +2,9 @@
 // Loads the published data, renders everything, and re-simulates client-side
 // (in a Web Worker running the identical engine) whenever a dial moves.
 
-import { TEAMS, ABBRS, logoURL, newsNotes, chartColor, isDarkTheme } from "./teams.js?v=10";
-import { DEFAULT_SETTINGS, remainingSoS } from "./sim.js?v=10";
-import { renderHistoryChart, renderLowellCurve, hideTip } from "./charts.js?v=10";
+import { TEAMS, ABBRS, logoURL, newsNotes, chartColor, isDarkTheme } from "./teams.js?v=11";
+import { DEFAULT_SETTINGS, remainingSoS } from "./sim.js?v=11";
+import { renderHistoryChart, renderLowellCurve, hideTip } from "./charts.js?v=11";
 
 const $ = (id) => document.getElementById(id);
 
@@ -242,10 +242,12 @@ function renderTable() {
       tr.insertAdjacentHTML("beforeend", `<td class="seed-cell">${(r[s] * 100).toFixed(0)}%</td>`);
     }
 
-    // projection
+    // projected final record: round expected wins, keep the total games fixed
     const td = document.createElement("td");
     td.className = "num-cell";
-    td.innerHTML = `${r.expWins.toFixed(1)}–${r.expLosses.toFixed(1)}
+    const projGP = Math.round(r.expWins + r.expLosses);
+    const projW = Math.round(r.expWins);
+    td.innerHTML = `${projW}–${projGP - projW}
       <span class="proj-band">${r.winsP10}–${r.winsP90} win range</span>`;
     tr.appendChild(td);
 
@@ -649,7 +651,7 @@ function resetToOfficial() {
 // worker plumbing
 // ---------------------------------------------------------------------------
 
-const worker = new Worker("js/worker.js?v=10", { type: "module" });
+const worker = new Worker("js/worker.js?v=11", { type: "module" });
 let simId = 0;
 let simTimer = null;
 
