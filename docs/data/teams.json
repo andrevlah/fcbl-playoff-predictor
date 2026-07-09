@@ -3,22 +3,22 @@
     "abbr": "LOW",
     "name": "Lowell Spinners",
     "teamId": "t5qjkc7rx8vjsu24",
-    "W": 13,
+    "W": 14,
     "L": 23,
-    "GP": 36,
-    "homeW": 8,
+    "GP": 37,
+    "homeW": 9,
     "homeL": 7,
     "awayW": 5,
     "awayL": 16,
-    "RS": 182,
-    "RA": 247,
-    "recentRS": 80,
-    "recentRA": 62,
+    "RS": 190,
+    "RA": 249,
+    "recentRS": 81,
+    "recentRA": 61,
     "recentGP": 12,
-    "streak": "L1",
+    "streak": "W1",
     "derbyLosses": 0,
-    "gamesRemaining": 24,
-    "asOf": "2026-07-08T21:20:00.000Z"
+    "gamesRemaining": 23,
+    "asOf": "2026-07-09T03:37:20.687Z"
   },
   {
     "abbr": "NSH",
@@ -39,7 +39,7 @@
     "streak": "L2",
     "derbyLosses": 0,
     "gamesRemaining": 25,
-    "asOf": "2026-07-08T21:20:00.000Z"
+    "asOf": "2026-07-09T03:37:20.687Z"
   },
   {
     "abbr": "NB",
@@ -60,7 +60,7 @@
     "streak": "L1",
     "derbyLosses": 0,
     "gamesRemaining": 28,
-    "asOf": "2026-07-08T21:20:00.000Z"
+    "asOf": "2026-07-09T03:37:20.687Z"
   },
   {
     "abbr": "NOR",
@@ -81,7 +81,7 @@
     "streak": "L3",
     "derbyLosses": 0,
     "gamesRemaining": 26,
-    "asOf": "2026-07-08T21:20:00.000Z"
+    "asOf": "2026-07-09T03:37:20.687Z"
   },
   {
     "abbr": "VT",
@@ -102,7 +102,7 @@
     "streak": "W8",
     "derbyLosses": 0,
     "gamesRemaining": 24,
-    "asOf": "2026-07-08T21:20:00.000Z"
+    "asOf": "2026-07-09T03:37:20.687Z"
   },
   {
     "abbr": "WF",
@@ -123,27 +123,27 @@
     "streak": "L1",
     "derbyLosses": 0,
     "gamesRemaining": 27,
-    "asOf": "2026-07-08T21:20:00.000Z"
+    "asOf": "2026-07-09T03:37:20.687Z"
   },
   {
     "abbr": "WOR",
     "name": "Worcester Bravehearts",
     "teamId": "dz3zpsm7jzrzugyv",
     "W": 19,
-    "L": 15,
-    "GP": 34,
+    "L": 16,
+    "GP": 35,
     "homeW": 10,
     "homeL": 8,
     "awayW": 9,
-    "awayL": 7,
-    "RS": 243,
-    "RA": 193,
-    "recentRS": 83,
-    "recentRA": 62,
+    "awayL": 8,
+    "RS": 245,
+    "RA": 201,
+    "recentRS": 79,
+    "recentRA": 68,
     "recentGP": 12,
-    "streak": "W1",
+    "streak": "L1",
     "derbyLosses": 0,
-    "gamesRemaining": 26,
-    "asOf": "2026-07-08T21:20:00.000Z"
+    "gamesRemaining": 25,
+    "asOf": "2026-07-09T03:37:20.687Z"
   }
 ]

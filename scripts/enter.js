@@ -17,6 +17,7 @@ import { fileURLToPath } from "node:url";
 import { TEAMS } from "../config/teams.js";
 import { rebuild } from "./lib/recompute.js";
 import { dedupeResults, detectNewlyFinal } from "./lib/data.js";
+import { parseCompositePaste } from "./lib/parse.js";
 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dataDir = path.join(root, "docs", "data");
@@ -67,6 +68,53 @@ function saveResult(index, homeR, awayR) {
   const newSchedule = schedule.filter((_, i) => i !== index);
   const { pushNote } = publish(newResults, newSchedule);
   return `Recorded: ${nm(g.away)} ${awayR} at ${nm(g.home)} ${homeR}. Winner: ${nm(result.winner)}.${pushNote}`;
+}
+
+// Import a batch of finals from text copied off the league's composite page.
+// Each final consumes its matching schedule entry (same date + teams first,
+// then a TBD-makeup placeholder for the same pairing); already-recorded games
+// are skipped so pasting the same day twice is harmless.
+function importPaste(text) {
+  const finals = parseCompositePaste(text || "");
+  if (!finals.length) {
+    throw new Error("Couldn't find any final scores in that paste. Copy the whole composite-schedule page (Cmd+A, Cmd+C) and try again.");
+  }
+  let schedule = readJSON("schedule.json");
+  const results = readJSON("results.json");
+  const added = [];
+  let skipped = 0, unscheduled = 0;
+
+  for (const f of finals) {
+    const already =
+      results.some((r) => r.date === f.date && r.home === f.home && r.away === f.away && r.homeR === f.homeR && r.awayR === f.awayR) ||
+      added.some((r) => r.date === f.date && r.home === f.home && r.away === f.away && r.homeR === f.homeR && r.awayR === f.awayR);
+    if (already) { skipped++; continue; }
+
+    // consume the matching schedule entry
+    let idx = schedule.findIndex((g) => g.date === f.date && g.home === f.home && g.away === f.away);
+    if (idx === -1) {
+      idx = schedule.findIndex((g) => g.home === f.home && g.away === f.away && /TBD/i.test(g.note || ""));
+    }
+    if (idx === -1) unscheduled++;
+    else schedule = schedule.filter((_, i) => i !== idx);
+
+    added.push({
+      ...f,
+      gameId: `manual_${f.date}_${f.away}_${f.home}_${added.length + 1}`,
+      innings: null,
+      manual: true,
+    });
+  }
+
+  if (!added.length) {
+    return `Nothing new: all ${skipped} game${skipped === 1 ? " was" : "s were"} already recorded.`;
+  }
+  const { pushNote } = publish(dedupeResults([...results, ...added]), schedule);
+  const bits = [`Imported ${added.length} final${added.length === 1 ? "" : "s"}: ` +
+    added.map((r) => `${nm(r.away)} ${r.awayR} at ${nm(r.home)} ${r.homeR}`).join("; ") + "."];
+  if (skipped) bits.push(`${skipped} already recorded.`);
+  if (unscheduled) bits.push(`${unscheduled} had no matching scheduled game (recorded anyway; check the schedule looks right).`);
+  return bits.join(" ") + pushNote;
 }
 
 function undoLast() {
@@ -205,6 +253,17 @@ function page(message, isError) {
 <h1>FCBL Playoff Predictor</h1>
 <p class="sub">Enter a final score for any game. When you click Save, the website updates automatically in about a minute.</p>
 ${message ? `<div class="msg ${isError ? "err" : "ok"}">${message}</div>` : ""}
+<details style="margin:14px 0">
+  <summary style="cursor:pointer; font-weight:600">Import a whole day at once (fastest)</summary>
+  <p style="font-size:13px; color:#666; margin:8px 0">Open
+    <a href="https://thefuturesleague.com/composite" target="_blank">thefuturesleague.com/composite</a>
+    in your browser, select the whole page (Cmd+A), copy it (Cmd+C), paste it below, click Import.
+    Every final score on the page gets recorded in one shot; games already entered are skipped.</p>
+  <form method="POST" action="/paste">
+    <textarea name="text" rows="5" style="width:100%; font: 12px monospace; border:1px solid #bbb; border-radius:6px; padding:8px" placeholder="Paste the copied page here..."></textarea>
+    <button type="submit" style="margin-top:6px">Import scores</button>
+  </form>
+</details>
 ${gameRows || "<p>No remaining games on the schedule.</p>"}
 <div class="cols" style="margin-top:28px">
   <div class="side">
@@ -242,6 +301,12 @@ const server = http.createServer(async (req, res) => {
     if (req.method === "POST" && req.url === "/save") {
       const b = await parseBody(req);
       const msg = saveResult(Number(b.index), Number(b.homeR), Number(b.awayR));
+      res.writeHead(303, { Location: "/?m=" + encodeURIComponent(msg) });
+      return res.end();
+    }
+    if (req.method === "POST" && req.url === "/paste") {
+      const b = await parseBody(req);
+      const msg = importPaste(b.text || "");
       res.writeHead(303, { Location: "/?m=" + encodeURIComponent(msg) });
       return res.end();
     }

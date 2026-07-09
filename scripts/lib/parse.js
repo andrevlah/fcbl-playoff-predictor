@@ -202,6 +202,63 @@ export function parseSchedulePage(html, teamAbbr) {
   return { record, home, away, streak, completed, remaining };
 }
 
+// Parse text copied from the league's composite-schedule page (the page a
+// human can open in a browser even though automated scraping is blocked).
+// The copied text looks like:
+//   Wed. July 08, 2026
+//   4 events
+//   Final
+//   Worcester Bravehearts
+//   2
+//   at Lowell Spinners
+//   8
+//   Box Score
+//   ...
+//   Postponed
+//   Westfield Starfires
+//   at Norwich Sea Unicorns
+// Returns finals only: [{ date, home, away, homeR, awayR, winner }].
+// Postponed and in-progress blocks are skipped; multiple days can be pasted
+// at once (each date header switches the current date).
+const FULL_MONTHS = {
+  january: "01", february: "02", march: "03", april: "04", may: "05", june: "06",
+  july: "07", august: "08", september: "09", october: "10", november: "11", december: "12",
+};
+
+export function parseCompositePaste(text) {
+  const lines = text.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
+  const finals = [];
+  let date = null;
+
+  for (let i = 0; i < lines.length; i++) {
+    const dm = lines[i].match(/^\w{3}\.?\s+(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2}),\s+(\d{4})$/i);
+    if (dm) {
+      date = `${dm[3]}-${FULL_MONTHS[dm[1].toLowerCase()]}-${dm[2].padStart(2, "0")}`;
+      continue;
+    }
+    if (!/^final$/i.test(lines[i]) || !date) continue;
+
+    // expect: awayName / awayRuns / "at homeName" / homeRuns
+    const awayName = lines[i + 1] || "";
+    const awayRuns = parseInt(lines[i + 2] || "", 10);
+    const atLine = lines[i + 3] || "";
+    const homeRuns = parseInt(lines[i + 4] || "", 10);
+    const away = matchTeamAbbr(awayName);
+    const homeM = atLine.match(/^at\s+(.+)$/i);
+    const home = homeM ? matchTeamAbbr(homeM[1]) : null;
+    if (!away || !home || !Number.isFinite(awayRuns) || !Number.isFinite(homeRuns)) continue;
+    if (awayRuns === homeRuns) continue; // ties impossible; malformed block
+
+    finals.push({
+      date, home, away,
+      homeR: homeRuns, awayR: awayRuns,
+      winner: homeRuns > awayRuns ? home : away,
+    });
+    i += 4;
+  }
+  return finals;
+}
+
 // Parse the all-teams stats page. RS = "R" column of the baserunning table,
 // RA = "R" column of the pitching table.
 // Returns { ABBR: { RS, RA, GP } }

@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { parseSchedulePage, parseStatsPage, matchTeamAbbr } from "../scripts/lib/parse.js";
+import { parseSchedulePage, parseStatsPage, matchTeamAbbr, parseCompositePaste } from "../scripts/lib/parse.js";
 import { assignSeq, dedupeSchedule, dedupeResults, detectNewlyFinal, validate } from "../scripts/lib/data.js";
 
 const fixtures = path.join(path.dirname(fileURLToPath(import.meta.url)), "fixtures");
@@ -121,6 +121,53 @@ test("REAL live-site stats page parses all 7 teams (captured Jul 5, 2026)", () =
   assert.equal(Object.keys(stats).length, 7);
   assert.equal(stats.LOW.RS, 177);
   assert.equal(stats.LOW.RA, 239);
+});
+
+test("composite paste import: finals parsed, postponed and in-progress skipped", () => {
+  // verbatim shape of text copied from the live composite page (Jul 8, 2026)
+  const paste = `
+Wed. July 08, 2026
+4 events
+Final
+Vermont Lake Monsters
+4
+at Nashua Silver Knights
+0
+Postponed from 7/7
+Box Score
+Video
+Final
+Vermont Lake Monsters
+10
+at Nashua Silver Knights
+2
+Box Score
+Video
+Postponed
+Westfield Starfires
+at Norwich Sea Unicorns
+Video
+Live stats
+Bottom of 7th
+Worcester Bravehearts
+2
+at Lowell Spinners
+8
+Video
+Live stats
+Final
+Worcester Bravehearts
+2
+at Lowell Spinners
+8
+Box Score
+Video
+`;
+  const finals = parseCompositePaste(paste);
+  assert.equal(finals.length, 3, "two VT finals + the WOR@LOW final; postponed and live blocks skipped");
+  assert.deepEqual(finals[0], { date: "2026-07-08", home: "NSH", away: "VT", homeR: 0, awayR: 4, winner: "VT" });
+  assert.deepEqual(finals[1], { date: "2026-07-08", home: "NSH", away: "VT", homeR: 2, awayR: 10, winner: "VT" });
+  assert.deepEqual(finals[2], { date: "2026-07-08", home: "LOW", away: "WOR", homeR: 8, awayR: 2, winner: "LOW" });
 });
 
 test("stats page: RS from baserunning table, RA from pitching table", () => {

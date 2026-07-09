@@ -1435,5 +1435,16 @@
     "gameId": "manual_2026-07-08_VT_NSH_3",
     "innings": null,
     "manual": true
+  },
+  {
+    "date": "2026-07-08",
+    "home": "LOW",
+    "away": "WOR",
+    "homeR": 8,
+    "awayR": 2,
+    "winner": "LOW",
+    "gameId": "manual_2026-07-08_WOR_LOW_1",
+    "innings": null,
+    "manual": true
   }
 ]

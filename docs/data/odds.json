@@ -1,6 +1,6 @@
 {
-  "asOf": "2026-07-08T21:20:00.000Z",
-  "gamesCompleted": 120,
+  "asOf": "2026-07-09T03:37:20.687Z",
+  "gamesCompleted": 121,
   "nSims": 25000,
   "settings": {
     "hfaGlobal": 0.035,
@@ -14,400 +14,388 @@
   },
   "teams": {
     "LOW": {
-      "playoffPct": 0.1726,
-      "titlePct": 0.04912,
+      "playoffPct": 0.2072,
+      "titlePct": 0.05856,
       "seedPct": [
-        0.00168,
-        0.0174,
-        0.04968,
-        0.10384
+        0.0016,
+        0.02056,
+        0.05808,
+        0.12696
       ],
-      "expWins": 24.64332,
-      "expLosses": 35.35668,
-      "winsP10": 20,
+      "expWins": 25.30524,
+      "expLosses": 34.69476,
+      "winsP10": 21,
       "winsP90": 30
     },
     "NSH": {
-      "playoffPct": 0.67852,
-      "titlePct": 0.17068,
+      "playoffPct": 0.68048,
+      "titlePct": 0.16952,
       "seedPct": [
-        0.02528,
-        0.15932,
-        0.23948,
-        0.25444
+        0.02548,
+        0.1792,
+        0.23684,
+        0.23896
       ],
-      "expWins": 29.9334,
-      "expLosses": 30.0666,
+      "expWins": 29.97604,
+      "expLosses": 30.02396,
       "winsP10": 25,
       "winsP90": 35
     },
     "NB": {
-      "playoffPct": 0.79168,
-      "titlePct": 0.16728,
+      "playoffPct": 0.78136,
+      "titlePct": 0.16312,
       "seedPct": [
-        0.09004,
-        0.26232,
-        0.24956,
-        0.18976
+        0.08964,
+        0.27392,
+        0.23512,
+        0.18268
       ],
-      "expWins": 31.96168,
-      "expLosses": 28.03832,
+      "expWins": 31.88836,
+      "expLosses": 28.11164,
       "winsP10": 26,
-      "winsP90": 38
+      "winsP90": 37
     },
     "NOR": {
-      "playoffPct": 0.31388,
-      "titlePct": 0.07512,
+      "playoffPct": 0.31852,
+      "titlePct": 0.07668,
       "seedPct": [
-        0.0036,
-        0.04392,
-        0.1002,
-        0.16616
+        0.00336,
+        0.05012,
+        0.10564,
+        0.1594
       ],
-      "expWins": 26.43144,
-      "expLosses": 33.568560000000005,
+      "expWins": 26.4218,
+      "expLosses": 33.578199999999995,
       "winsP10": 21,
       "winsP90": 32
     },
     "VT": {
-      "playoffPct": 0.99704,
-      "titlePct": 0.28728,
+      "playoffPct": 0.99636,
+      "titlePct": 0.28876,
       "seedPct": [
-        0.78864,
-        0.15684,
-        0.04004,
-        0.01152
+        0.80792,
+        0.1402,
+        0.03788,
+        0.01036
       ],
-      "expWins": 39.69708,
-      "expLosses": 20.30292,
+      "expWins": 39.67024,
+      "expLosses": 20.32976,
       "winsP10": 35,
       "winsP90": 45
     },
     "WF": {
-      "playoffPct": 0.1916,
-      "titlePct": 0.04976,
+      "playoffPct": 0.19224,
+      "titlePct": 0.05012,
       "seedPct": [
-        0.00352,
-        0.02104,
-        0.05556,
-        0.11148
+        0.00392,
+        0.02468,
+        0.05776,
+        0.10588
       ],
-      "expWins": 24.59264,
-      "expLosses": 35.40736,
+      "expWins": 24.65036,
+      "expLosses": 35.34964,
       "winsP10": 19,
       "winsP90": 30
     },
     "WOR": {
-      "playoffPct": 0.85468,
-      "titlePct": 0.20076,
+      "playoffPct": 0.82384,
+      "titlePct": 0.19324,
       "seedPct": [
-        0.08724,
-        0.33916,
-        0.26548,
-        0.1628
+        0.06808,
+        0.31132,
+        0.26868,
+        0.17576
       ],
-      "expWins": 32.74044,
-      "expLosses": 27.25956,
-      "winsP10": 28,
-      "winsP90": 38
+      "expWins": 32.08796,
+      "expLosses": 27.912039999999998,
+      "winsP10": 27,
+      "winsP90": 37
     }
   },
   "lowell": {
     "oddsByFinalWins": {
-      "13": {
-        "pct": 0,
-        "sims": 7,
-        "lowConfidence": true
-      },
       "14": {
         "pct": 0,
-        "sims": 41,
+        "sims": 5,
         "lowConfidence": true
       },
       "15": {
         "pct": 0,
-        "sims": 84,
+        "sims": 28,
         "lowConfidence": true
       },
       "16": {
         "pct": 0,
-        "sims": 167,
-        "lowConfidence": false
+        "sims": 95,
+        "lowConfidence": true
       },
       "17": {
         "pct": 0,
-        "sims": 336,
+        "sims": 197,
         "lowConfidence": false
       },
       "18": {
         "pct": 0,
-        "sims": 618,
+        "sims": 428,
         "lowConfidence": false
       },
       "19": {
         "pct": 0,
-        "sims": 972,
+        "sims": 668,
         "lowConfidence": false
       },
       "20": {
         "pct": 0,
-        "sims": 1317,
+        "sims": 1030,
         "lowConfidence": false
       },
       "21": {
         "pct": 0,
-        "sims": 1743,
+        "sims": 1429,
         "lowConfidence": false
       },
       "22": {
         "pct": 0,
-        "sims": 2068,
+        "sims": 1838,
         "lowConfidence": false
       },
       "23": {
-        "pct": 0.00042319085907744394,
-        "sims": 2363,
+        "pct": 0,
+        "sims": 2181,
         "lowConfidence": false
       },
       "24": {
-        "pct": 0,
-        "sims": 2558,
+        "pct": 0.0004091653027823241,
+        "sims": 2444,
         "lowConfidence": false
       },
       "25": {
-        "pct": 0.013034623217922607,
-        "sims": 2455,
+        "pct": 0.007636502481863307,
+        "sims": 2619,
         "lowConfidence": false
       },
       "26": {
-        "pct": 0.046795952782462055,
-        "sims": 2372,
+        "pct": 0.04689807976366322,
+        "sims": 2708,
         "lowConfidence": false
       },
       "27": {
-        "pct": 0.15794481446241673,
-        "sims": 2102,
+        "pct": 0.14509306260575297,
+        "sims": 2364,
         "lowConfidence": false
       },
       "28": {
-        "pct": 0.37051569506726456,
-        "sims": 1784,
+        "pct": 0.3737275811924382,
+        "sims": 2063,
         "lowConfidence": false
       },
       "29": {
-        "pct": 0.5822695035460993,
-        "sims": 1410,
+        "pct": 0.6029055690072639,
+        "sims": 1652,
         "lowConfidence": false
       },
       "30": {
-        "pct": 0.8027079303675049,
-        "sims": 1034,
+        "pct": 0.7858861267040899,
+        "sims": 1247,
         "lowConfidence": false
       },
       "31": {
-        "pct": 0.9389312977099237,
-        "sims": 655,
+        "pct": 0.9403669724770642,
+        "sims": 872,
         "lowConfidence": false
       },
       "32": {
-        "pct": 0.9954954954954955,
-        "sims": 444,
+        "pct": 0.9838420107719928,
+        "sims": 557,
         "lowConfidence": false
       },
       "33": {
-        "pct": 1,
-        "sims": 251,
+        "pct": 0.9967845659163987,
+        "sims": 311,
         "lowConfidence": false
       },
       "34": {
         "pct": 1,
-        "sims": 141,
+        "sims": 172,
         "lowConfidence": false
       },
       "35": {
         "pct": 1,
-        "sims": 60,
+        "sims": 65,
         "lowConfidence": true
       },
       "36": {
         "pct": 1,
-        "sims": 17,
+        "sims": 22,
         "lowConfidence": true
       },
       "37": {
         "pct": 1,
-        "sims": 1,
+        "sims": 5,
         "lowConfidence": true
       }
     },
     "gameProbs": [
       {
-        "date": "2026-07-08",
-        "opp": "WOR",
+        "date": "2026-07-09",
+        "opp": "NB",
         "homeAway": "home",
-        "winProb": 0.4922937207928756,
-        "leverage": 0.06224
+        "winProb": 0.5183684075596935,
+        "leverage": 0.07856
       },
       {
         "date": "2026-07-09",
         "opp": "NB",
         "homeAway": "home",
-        "winProb": 0.5121161414711153,
-        "leverage": 0.06772
-      },
-      {
-        "date": "2026-07-09",
-        "opp": "NB",
-        "homeAway": "home",
-        "winProb": 0.5121161414711153,
-        "leverage": 0.06592
+        "winProb": 0.5183684075596935,
+        "leverage": 0.07816
       },
       {
         "date": "2026-07-11",
         "opp": "NSH",
         "homeAway": "home",
-        "winProb": 0.5044047441885844,
-        "leverage": 0.06384
+        "winProb": 0.5106471246570972,
+        "leverage": 0.07552
       },
       {
         "date": "2026-07-12",
         "opp": "NOR",
         "homeAway": "home",
-        "winProb": 0.5466702210581066,
-        "leverage": 0.06296
+        "winProb": 0.5529412137565228,
+        "leverage": 0.0734
       },
       {
         "date": "2026-07-13",
         "opp": "NOR",
         "homeAway": "away",
-        "winProb": 0.4704040524534008,
-        "leverage": 0.0646
+        "winProb": 0.4747755316372124,
+        "leverage": 0.0722
       },
       {
         "date": "2026-07-14",
         "opp": "WF",
         "homeAway": "home",
-        "winProb": 0.5589076077836164,
-        "leverage": 0.0616
+        "winProb": 0.5651752167256899,
+        "leverage": 0.072
       },
       {
         "date": "2026-07-15",
         "opp": "NOR",
         "homeAway": "home",
-        "winProb": 0.5466702210581066,
-        "leverage": 0.06432
+        "winProb": 0.5529412137565228,
+        "leverage": 0.07384
       },
       {
         "date": "2026-07-17",
         "opp": "NB",
         "homeAway": "away",
-        "winProb": 0.44547150168749117,
-        "leverage": 0.06832
+        "winProb": 0.44982425426146466,
+        "leverage": 0.08068
       },
       {
         "date": "2026-07-18",
         "opp": "NOR",
         "homeAway": "away",
-        "winProb": 0.4704040524534008,
-        "leverage": 0.06468
+        "winProb": 0.4747755316372124,
+        "leverage": 0.07584
       },
       {
         "date": "2026-07-23",
         "opp": "VT",
         "homeAway": "home",
-        "winProb": 0.46729390958927586,
-        "leverage": 0.05232
+        "winProb": 0.47345955216087493,
+        "leverage": 0.06
       },
       {
         "date": "2026-07-24",
         "opp": "NB",
         "homeAway": "away",
-        "winProb": 0.44547150168749117,
-        "leverage": 0.0676
+        "winProb": 0.44982425426146466,
+        "leverage": 0.08048
       },
       {
         "date": "2026-07-26",
         "opp": "NOR",
         "homeAway": "away",
-        "winProb": 0.4704040524534008,
-        "leverage": 0.06488
+        "winProb": 0.4747755316372124,
+        "leverage": 0.07488
       },
       {
         "date": "2026-07-27",
         "opp": "WOR",
         "homeAway": "home",
-        "winProb": 0.4922937207928756,
-        "leverage": 0.0604
+        "winProb": 0.5047865755976022,
+        "leverage": 0.07416
       },
       {
         "date": "2026-07-28",
         "opp": "NOR",
         "homeAway": "home",
-        "winProb": 0.5466702210581066,
-        "leverage": 0.06392
+        "winProb": 0.5529412137565228,
+        "leverage": 0.0746
       },
       {
         "date": "2026-07-29",
         "opp": "NSH",
         "homeAway": "home",
-        "winProb": 0.5044047441885844,
-        "leverage": 0.06512
+        "winProb": 0.5106471246570972,
+        "leverage": 0.07616
       },
       {
         "date": "2026-07-31",
         "opp": "NB",
         "homeAway": "home",
-        "winProb": 0.5121161414711153,
-        "leverage": 0.06768
+        "winProb": 0.5183684075596935,
+        "leverage": 0.07776
       },
       {
         "date": "2026-08-01",
         "opp": "WF",
         "homeAway": "home",
-        "winProb": 0.5589076077836164,
-        "leverage": 0.0616
+        "winProb": 0.5651752167256899,
+        "leverage": 0.07088
       },
       {
         "date": "2026-08-02",
         "opp": "VT",
         "homeAway": "away",
-        "winProb": 0.38134821552217524,
-        "leverage": 0.05328
+        "winProb": 0.38561434457916977,
+        "leverage": 0.06208
       },
       {
         "date": "2026-08-03",
         "opp": "VT",
         "homeAway": "away",
-        "winProb": 0.38134821552217524,
-        "leverage": 0.05308
+        "winProb": 0.38561434457916977,
+        "leverage": 0.06128
       },
       {
         "date": "2026-08-04",
         "opp": "VT",
         "homeAway": "away",
-        "winProb": 0.38134821552217524,
-        "leverage": 0.05032
+        "winProb": 0.38561434457916977,
+        "leverage": 0.06028
       },
       {
         "date": "2026-08-05",
         "opp": "WOR",
         "homeAway": "home",
-        "winProb": 0.4922937207928756,
-        "leverage": 0.06224
+        "winProb": 0.5047865755976022,
+        "leverage": 0.07624
       },
       {
         "date": "2026-08-07",
         "opp": "NB",
         "homeAway": "home",
-        "winProb": 0.5121161414711153,
-        "leverage": 0.06716
+        "winProb": 0.5183684075596935,
+        "leverage": 0.0806
       },
       {
         "date": "2026-08-08",
         "opp": "WOR",
         "homeAway": "away",
-        "winProb": 0.4141437282609325,
-        "leverage": 0.06332
+        "winProb": 0.42311173155277526,
+        "leverage": 0.07624
       }
     ]
   }

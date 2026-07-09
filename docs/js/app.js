@@ -2,9 +2,9 @@
 // Loads the published data, renders everything, and re-simulates client-side
 // (in a Web Worker running the identical engine) whenever a dial moves.
 
-import { TEAMS, ABBRS, logoURL, newsNotes, chartColor, isDarkTheme } from "./teams.js?v=7";
-import { DEFAULT_SETTINGS, remainingSoS } from "./sim.js?v=7";
-import { renderHistoryChart, renderLowellCurve, hideTip } from "./charts.js?v=7";
+import { TEAMS, ABBRS, logoURL, newsNotes, chartColor, isDarkTheme } from "./teams.js?v=8";
+import { DEFAULT_SETTINGS, remainingSoS } from "./sim.js?v=8";
+import { renderHistoryChart, renderLowellCurve, hideTip } from "./charts.js?v=8";
 
 const $ = (id) => document.getElementById(id);
 
@@ -52,6 +52,8 @@ function toAmericanOdds(p) {
   return "+" + Math.min(Math.round(100 * ((1 - p) / p)), AMERICAN_CAP);
 }
 const fmtAmerican = (p) => toAmericanOdds(p);
+// games-behind numbers are halves: show "2" not "2.0", but "1.5" as-is
+const fmtGB = (v) => (Number.isInteger(v) ? String(v) : v.toFixed(1));
 const fmtDate = (iso) => {
   const [y, m, d] = iso.split("-").map(Number);
   return new Date(y, m - 1, d).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
@@ -103,9 +105,14 @@ function isOfficialSettings(s) {
 // ---------------------------------------------------------------------------
 
 function tableRows() {
-  const leader = state.teams
-    .map((t) => ({ t, pct: (2 * t.W + (t.derbyLosses || 0)) / (2 * t.GP) }))
-    .sort((a, b) => b.pct - a.pct)[0].t;
+  const ptsPctOf = (t) => (2 * t.W + (t.derbyLosses || 0)) / (2 * t.GP);
+  const byPct = [...state.teams].sort((a, b) => ptsPctOf(b) - ptsPctOf(a));
+  const leader = byPct[0];
+  const fourth = byPct[3];
+  const fifth = byPct[4];
+  const inPlayoffs = new Set(byPct.slice(0, 4).map((t) => t.abbr));
+  // standard games-behind between a trailing team A and a leading team B
+  const gbVs = (A, B) => ((B.W - A.W) + (A.L - B.L)) / 2;
 
   return state.teams.map((t) => {
     const o = state.odds.teams[t.abbr];
@@ -114,8 +121,12 @@ function tableRows() {
       name: TEAMS[t.abbr].name,
       record: `${t.W}-${t.L}`,
       streak: t.streak,
-      ptsPct: (2 * t.W + (t.derbyLosses || 0)) / (2 * t.GP),
-      gb: ((leader.W - t.W) + (t.L - leader.L)) / 2,
+      ptsPct: ptsPctOf(t),
+      gb: gbVs(t, leader),
+      // distance to the playoff cut line: teams holding a spot show their
+      // cushion over the first team out (+); teams below show games behind
+      // the 4th seed
+      cutGB: inPlayoffs.has(t.abbr) ? gbVs(fifth, t) : -gbVs(t, fourth),
       runDiff: t.RS - t.RA,
       playoffPct: o.playoffPct,
       titlePct: o.titlePct,
@@ -163,7 +174,9 @@ function renderTable() {
     // record / pts% / GB
     tr.insertAdjacentHTML("beforeend", `<td class="num-cell">${r.record}</td>`);
     tr.insertAdjacentHTML("beforeend", `<td class="num-cell">${r.ptsPct.toFixed(3).replace(/^0/, "")}</td>`);
-    tr.insertAdjacentHTML("beforeend", `<td class="num-cell">${r.gb === 0 ? "-" : r.gb}</td>`);
+    tr.insertAdjacentHTML("beforeend", `<td class="num-cell">${r.gb === 0 ? "-" : fmtGB(r.gb)}</td>`);
+    tr.insertAdjacentHTML("beforeend",
+      `<td class="num-cell ${r.cutGB >= 0 ? "rd-pos" : "rd-neg"}" title="${r.cutGB >= 0 ? "Cushion ahead of the first team outside the playoffs" : "Games behind the 4th playoff spot"}">${r.cutGB >= 0 ? "+" + fmtGB(r.cutGB) : fmtGB(-r.cutGB)}</td>`);
     tr.insertAdjacentHTML("beforeend",
       `<td class="num-cell ${r.runDiff > 0 ? "rd-pos" : r.runDiff < 0 ? "rd-neg" : ""}">${r.runDiff > 0 ? "+" : ""}${r.runDiff}</td>`);
 
@@ -613,7 +626,7 @@ function resetToOfficial() {
 // worker plumbing
 // ---------------------------------------------------------------------------
 
-const worker = new Worker("js/worker.js?v=7", { type: "module" });
+const worker = new Worker("js/worker.js?v=8", { type: "module" });
 let simId = 0;
 let simTimer = null;
 
