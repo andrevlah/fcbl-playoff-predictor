@@ -2,9 +2,9 @@
 // Loads the published data, renders everything, and re-simulates client-side
 // (in a Web Worker running the identical engine) whenever a dial moves.
 
-import { TEAMS, ABBRS, logoURL, newsNotes, chartColor, isDarkTheme } from "./teams.js?v=9";
-import { DEFAULT_SETTINGS, remainingSoS } from "./sim.js?v=9";
-import { renderHistoryChart, renderLowellCurve, hideTip } from "./charts.js?v=9";
+import { TEAMS, ABBRS, logoURL, newsNotes, chartColor, isDarkTheme } from "./teams.js?v=10";
+import { DEFAULT_SETTINGS, remainingSoS } from "./sim.js?v=10";
+import { renderHistoryChart, renderLowellCurve, hideTip } from "./charts.js?v=10";
 
 const $ = (id) => document.getElementById(id);
 
@@ -130,7 +130,8 @@ function tableRows() {
       // the 4th seed
       cutGB: inPlayoffs.has(t.abbr) ? gbVs(fifth, t) : -gbVs(t, fourth),
       runDiff: t.RS - t.RA,
-      rqi: t.rqi ?? null,
+      rosterShift: t.rosterShift ?? null,
+      activePA: t.activePA ?? null,
       playoffPct: o.playoffPct,
       titlePct: o.titlePct,
       seed1: o.seedPct[0], seed2: o.seedPct[1], seed3: o.seedPct[2], seed4: o.seedPct[3],
@@ -182,10 +183,16 @@ function renderTable() {
       `<td class="num-cell ${r.cutGB >= 0 ? "rd-pos" : "rd-neg"}" title="${r.cutGB >= 0 ? "Cushion ahead of the first team outside the playoffs" : "Games behind the 4th playoff spot"}">${r.cutGB >= 0 ? "+" + fmtGB(r.cutGB) : fmtGB(-r.cutGB)}</td>`);
     tr.insertAdjacentHTML("beforeend",
       `<td class="num-cell ${r.runDiff > 0 ? "rd-pos" : r.runDiff < 0 ? "rd-neg" : ""}">${r.runDiff > 0 ? "+" : ""}${r.runDiff}</td>`);
-    tr.insertAdjacentHTML("beforeend",
-      r.rqi == null
-        ? `<td class="num-cell">-</td>`
-        : `<td class="num-cell ${r.rqi > 0.5 ? "rd-pos" : r.rqi < 0.5 ? "rd-neg" : ""}">${r.rqi.toFixed(3).replace(/^0/, "")}</td>`);
+    if (r.rosterShift == null) {
+      tr.insertAdjacentHTML("beforeend", `<td class="num-cell">-</td>`);
+    } else {
+      const pts = r.rosterShift * 100;
+      const cls = pts > 0.15 ? "rd-pos" : pts < -0.15 ? "rd-neg" : "";
+      const shown = Math.abs(pts) < 0.15 ? "even" : `${pts > 0 ? "+" : ""}${pts.toFixed(1)}%`;
+      const share = r.activePA == null ? "" :
+        `<span class="proj-band">${Math.round(r.activePA * 100)}% intact</span>`;
+      tr.insertAdjacentHTML("beforeend", `<td class="num-cell ${cls}">${shown}${share}</td>`);
+    }
 
     // big prob cells
     const fmt = state.oddsFormat === "american" ? fmtAmerican : fmtPct;
@@ -499,7 +506,7 @@ function wireControls() {
 
   $("roster-slider").addEventListener("input", (e) => {
     state.settings.rosterWeight = +e.target.value;
-    $("roster-val").textContent = Math.round(state.settings.rosterWeight * 100) + "%";
+    $("roster-val").textContent = state.settings.rosterWeight.toFixed(1) + "×";
     queueSim();
   });
 
@@ -623,7 +630,7 @@ function resetToOfficial() {
   $("recency-slider").value = DEFAULT_SETTINGS.recencyWeight;
   $("recency-val").textContent = Math.round(DEFAULT_SETTINGS.recencyWeight * 100) + "%";
   $("roster-slider").value = DEFAULT_SETTINGS.rosterWeight;
-  $("roster-val").textContent = Math.round(DEFAULT_SETTINGS.rosterWeight * 100) + "%";
+  $("roster-val").textContent = DEFAULT_SETTINGS.rosterWeight.toFixed(1) + "×";
   $("sims-slider").value = 10000;
   $("sims-val").textContent = "10,000";
   $("lowell-force-slider").value = -1;
@@ -642,7 +649,7 @@ function resetToOfficial() {
 // worker plumbing
 // ---------------------------------------------------------------------------
 
-const worker = new Worker("js/worker.js?v=9", { type: "module" });
+const worker = new Worker("js/worker.js?v=10", { type: "module" });
 let simId = 0;
 let simTimer = null;
 

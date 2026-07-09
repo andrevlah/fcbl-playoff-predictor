@@ -94,6 +94,18 @@ mark these, so it's manual): in the same file, find `derbyLossOverrides` and fol
 example in the comment. E.g. if Westfield loses a derby game:
 `export const derbyLossOverrides = { WF: 1 };`
 
+**Keep the roster ratings current** (the "Roster" column and its effect on the odds).
+This tracks who has left or joined each team. Two ways to maintain it, easiest first:
+- **When you hear a player left or signed** (you'll usually know before the website does):
+  open `config/roster-moves.js` and add them to the `departed` or `returned` list, e.g.
+  `export const departed = [{ team: "WF", name: "Thomas Pirog" }];`. Commit and push;
+  the roster numbers update on the next data refresh. This is the fast, everyday way.
+- **Occasionally, for a full refresh** (new rosters, lots of changes at once): just ask
+  Claude to "pull a fresh roster snapshot." It reads every team's roster and player stats
+  through a browser (the only thing that gets past the site's bot block), drops a new
+  `scripts/data/snapshot-*.txt` in, and the ratings rebuild from it. Rosters change slowly,
+  so this is a once-in-a-while thing, not a daily chore.
+
 **Turn it off after the season** (playoffs start Aug 10):
 Actions tab → **Update FCBL data** → the **···** menu (top right) → **Disable workflow**.
 The site stays up forever; it just stops checking for new games.

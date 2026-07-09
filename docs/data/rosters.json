@@ -3,6 +3,7 @@
   "teams": {
     "LOW": {
       "rqi": 0.471,
+      "rosterShift": -0.007,
       "dHit": -0.27,
       "dPitch": -0.06,
       "activePAShare": 0.88,
@@ -12,6 +13,7 @@
     },
     "NSH": {
       "rqi": 0.519,
+      "rosterShift": 0,
       "dHit": 0.19,
       "dPitch": 0.02,
       "activePAShare": 0.97,
@@ -21,6 +23,7 @@
     },
     "NB": {
       "rqi": 0.514,
+      "rosterShift": 0.008,
       "dHit": 0.06,
       "dPitch": 0.09,
       "activePAShare": 0.83,
@@ -30,6 +33,7 @@
     },
     "NOR": {
       "rqi": 0.503,
+      "rosterShift": 0.01,
       "dHit": -0.04,
       "dPitch": 0.08,
       "activePAShare": 0.88,
@@ -39,6 +43,7 @@
     },
     "VT": {
       "rqi": 0.558,
+      "rosterShift": 0.001,
       "dHit": 0.58,
       "dPitch": 0.07,
       "activePAShare": 0.92,
@@ -48,6 +53,7 @@
     },
     "WF": {
       "rqi": 0.427,
+      "rosterShift": -0.025,
       "dHit": -0.71,
       "dPitch": -0.1,
       "activePAShare": 0.77,
@@ -57,6 +63,7 @@
     },
     "WOR": {
       "rqi": 0.545,
+      "rosterShift": 0.005,
       "dHit": 0.44,
       "dPitch": 0.05,
       "activePAShare": 0.61,

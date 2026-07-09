@@ -23,6 +23,7 @@
 
 import { TEAMS, ABBRS } from "../../config/teams.js";
 import { schoolTier } from "../../config/schools.js";
+import { departed, returned } from "../../config/roster-moves.js";
 
 // wOBA-style linear weights and priors
 const W = { walk: 0.69, single: 0.88, double: 1.25, triple: 1.58, hr: 2.05 };
@@ -95,7 +96,20 @@ export function computeRosterQuality(snapshotText) {
     if (existing && /^active$/i.test(existing.status) && !/^active$/i.test(r.status)) continue;
     byKey.set(key, { status: r.status, tier: schoolTier(r.school) });
   }
-  const lookup = (team, name) => byKey.get(team + "|" + nameKey(name));
+  // manual overrides (config/roster-moves.js): Andre's front-office knowledge
+  // beats the last snapshot's status. A departed player is forced inactive; a
+  // returned player is forced active.
+  const override = new Map();
+  for (const m of departed) override.set(m.team + "|" + nameKey(m.name), "inactive");
+  for (const m of returned) override.set(m.team + "|" + nameKey(m.name), "active");
+
+  const lookup = (team, name) => {
+    const info = byKey.get(team + "|" + nameKey(name));
+    const ov = override.get(team + "|" + nameKey(name));
+    if (!info) return ov ? { status: ov, tier: 0 } : undefined;
+    if (ov) return { ...info, status: ov };
+    return info;
+  };
 
   // ---- hitters ----
   const hs = hitters
@@ -163,35 +177,60 @@ export function computeRosterQuality(snapshotText) {
     p.est = (p.core * p.ip + pitTier[p.tier] * PIT_PRIOR_IP) / (p.ip + PIT_PRIOR_IP);
   }
 
-  // ---- aggregate to teams (ACTIVE players only, playing-time weighted) ----
+  // ---- aggregate to teams -------------------------------------------------
+  // Two views per team:
+  //   FULL   = every player who logged stats (what the RESULTS already reflect)
+  //   ACTIVE = only players still on the roster (what's available GOING FORWARD)
+  // The FULL rating is ~collinear with run differential (they're the same
+  // information decomposed to players), so feeding it to the model just
+  // double-counts run diff. The orthogonal, results-independent signal is the
+  // DIFFERENCE: rosterShift = how much better/worse the active roster is than
+  // the one that produced the season's numbers. Intact team -> ~0. Lost its
+  // ace -> negative. Only shed scrubs -> ~0 or positive.
+  const runsFor = (hitters, pitchers) => {
+    const paSum = hitters.reduce((s, h) => s + h.pa, 0);
+    const ipSum = pitchers.reduce((s, p) => s + p.ip, 0);
+    const wobA = paSum ? hitters.reduce((s, h) => s + h.est * h.pa, 0) / paSum : lgWOBA;
+    const core = ipSum ? pitchers.reduce((s, p) => s + p.est * p.ip, 0) / ipSum : lgCore;
+    return {
+      dHit: ((wobA - lgWOBA) / RUNS_PER_WOBA) * TEAM_PA_PER_GAME,
+      dPitch: lgCore - core,
+      pa: paSum, ip: ipSum,
+    };
+  };
+
   const teams = {};
   for (const abbr of ABBRS) {
-    const th = hs.filter((h) => h.team === abbr && h.active);
-    const tp = ps.filter((p) => p.team === abbr && p.active);
-    const paSum = th.reduce((s, h) => s + h.pa, 0);
-    const ipSum = tp.reduce((s, p) => s + p.ip, 0);
-
-    const teamWOBA = paSum ? th.reduce((s, h) => s + h.est * h.pa, 0) / paSum : lgWOBA;
-    const teamCore = ipSum ? tp.reduce((s, p) => s + p.est * p.ip, 0) / ipSum : lgCore;
-
-    const dHit = ((teamWOBA - lgWOBA) / RUNS_PER_WOBA) * TEAM_PA_PER_GAME;
-    const dPitch = lgCore - teamCore; // runs per 9 ~ per game
-    const rqi = Math.min(0.65, Math.max(0.35, 0.5 + WPCT_PER_RUN * (dHit + dPitch)));
-
-    // what fraction of season-to-date production is still on the active roster
     const allTh = hs.filter((h) => h.team === abbr);
     const allTp = ps.filter((p) => p.team === abbr);
-    const paAll = allTh.reduce((s, h) => s + h.pa, 0) || 1;
-    const ipAll = allTp.reduce((s, p) => s + p.ip, 0) || 1;
+    const actTh = allTh.filter((h) => h.active);
+    const actTp = allTp.filter((p) => p.active);
+
+    const full = runsFor(allTh, allTp);
+    const active = runsFor(actTh, actTp);
+
+    // absolute roster level (for display/reference; correlates with run diff)
+    const dHit = active.dHit, dPitch = active.dPitch;
+    const rqi = Math.min(0.65, Math.max(0.35, 0.5 + WPCT_PER_RUN * (dHit + dPitch)));
+
+    // the signal that actually feeds the model: talent-scale adjustment for
+    // how the current roster differs from the one that earned the results
+    const rosterShift = WPCT_PER_RUN *
+      ((active.dHit - full.dHit) + (active.dPitch - full.dPitch));
+
+    const paAll = full.pa || 1;
+    const ipAll = full.ip || 1;
+    const paSum = active.pa, ipSum = active.ip;
 
     teams[abbr] = {
       rqi: Math.round(rqi * 1000) / 1000,
+      rosterShift: Math.round(rosterShift * 1000) / 1000,
       dHit: Math.round(dHit * 100) / 100,
       dPitch: Math.round(dPitch * 100) / 100,
       activePAShare: Math.round((paSum / paAll) * 100) / 100,
       activeIPShare: Math.round((ipSum / ipAll) * 100) / 100,
-      hitters: th.length,
-      pitchers: tp.length,
+      hitters: actTh.length,
+      pitchers: actTp.length,
     };
   }
 

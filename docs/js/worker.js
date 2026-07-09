@@ -1,6 +1,6 @@
 // Web Worker: runs the exact same simulation engine as the server, off the
 // main thread so the dials feel instant.
-import { simulate } from "./sim.js?v=9";
+import { simulate } from "./sim.js?v=10";
 
 self.onmessage = (e) => {
   const { id, payload } = e.data;

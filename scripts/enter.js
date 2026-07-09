@@ -140,13 +140,14 @@ function undoLast() {
 function publish(results, schedule) {
   const prevResults = readJSON("results.json");
   const asOf = new Date().toISOString();
-  // roster quality indexes ride along when rosters.json exists
-  let rqiByTeam = {};
+  // roster signal rides along when rosters.json exists
+  let rosterByTeam = {};
   try {
     const rosters = readJSON("rosters.json");
-    rqiByTeam = Object.fromEntries(Object.entries(rosters.teams).map(([a, t]) => [a, t.rqi]));
+    rosterByTeam = Object.fromEntries(Object.entries(rosters.teams).map(([a, t]) =>
+      [a, { rosterShift: t.rosterShift, rqi: t.rqi, activePA: t.activePAShare }]));
   } catch { /* optional file */ }
-  const { teams, odds } = rebuild(results, schedule, { asOf, nSims: 25000, rqiByTeam });
+  const { teams, odds } = rebuild(results, schedule, { asOf, nSims: 25000, rosterByTeam });
 
   writeJSON("teams.json", teams.map((t) => ({ ...t, asOf })));
   writeJSON("schedule.json", schedule);

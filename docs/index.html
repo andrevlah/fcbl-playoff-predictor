@@ -15,7 +15,7 @@
 })();
 </script>
 <link rel="preconnect" href="https://cdn.prestosports.com">
-<link rel="stylesheet" href="css/style.css?v=9">
+<link rel="stylesheet" href="css/style.css?v=10">
 <link rel="icon" href="https://cdn.prestosports.com/action/cdn/logos/id/t5qjkc7rx8vjsu24.png">
 </head>
 <body>
@@ -58,7 +58,7 @@
           <th data-sort="gb">GB</th>
           <th data-sort="cutGB" title="Games behind the 4th and final playoff spot; + means a cushion ahead of the cut line">Playoff GB</th>
           <th data-sort="runDiff" title="Runs scored minus runs allowed, the main driver of the model's team strength">Run diff</th>
-          <th data-sort="rqi" title="Roster quality index: player-by-player production (regressed, school-tier priors), ACTIVE players only. .500 = average roster">Roster</th>
+          <th data-sort="rosterShift" title="Roster adjustment: how much better (+) or worse (-) the CURRENT active roster is than the one that produced the season's stats. Departures of good players push it negative; it is independent of run differential. Sub-line shows the share of season production still active.">Roster</th>
           <th class="th-big" data-sort="playoffPct">Make playoffs</th>
           <th class="th-big" data-sort="titlePct">Win championship</th>
           <th class="th-seed" data-sort="seed1">1st</th>
@@ -162,12 +162,13 @@
         <input type="range" id="recency-slider" min="0" max="0.6" step="0.05" value="0.3">
       </label>
       <label class="slider-row">
-        <span class="slider-label">Roster quality weight <b id="roster-val">15%</b></span>
-        <input type="range" id="roster-slider" min="0" max="0.4" step="0.05" value="0.15">
+        <span class="slider-label">Roster-departures impact <b id="roster-val">1.0×</b></span>
+        <input type="range" id="roster-slider" min="0" max="2.5" step="0.25" value="1">
       </label>
-      <p class="mini-note">How much strength leans on who is actually on the roster right now:
-        every player's production, regressed with school-tier priors, counting only players still
-        marked Active. Departures hit here before they show in the record.</p>
+      <p class="mini-note">How hard departures and signings move a team, on top of the record. The
+        model marks a team down when it loses GOOD players (not just any players), independent of run
+        differential. 1.0× applies the measured effect as-is; raise it if you think roster churn
+        matters more than the box score shows yet.</p>
       <p class="mini-note">How much strength leans on the last 12 games vs. the full season.
         Rosters change; a team's June stats may describe players who already left.</p>
       <label class="slider-row">
@@ -229,14 +230,16 @@
       simulated season, each team's strength gets a random mid-summer swing (the "roster churn" dial,
       default ±12%). Most seasons it's small; sometimes it's a full-on collapse or a hot-roster surge.
       That's why nobody here gets a 99.9% and nobody gets a 0.1% while there's still a month of baseball left.</p>
-      <p><strong>The roster itself is graded:</strong> every player's hitting (wOBA-style) and
-      pitching (FIP-style) rates are computed, small samples get regressed toward the average of
-      players from the same school tier (power D1, other D1, D2/JuCo, D3) as measured in this league,
-      and only players still marked Active on the roster count, weighted by playing time. The result
-      is a roster quality index (.500 = average) that feeds team strength. This is how a team that
-      quietly lost half its lineup to departures gets marked down before the losses pile up. Fun
-      fact from calibrating it: school prestige barely predicts FCBL hitting, but power-conference
-      pitchers really are different.</p>
+      <p><strong>Roster changes are graded:</strong> every player's hitting (wOBA-style) and
+      pitching (FIP-style) rate is computed, small samples regressed toward the average of players
+      from the same school tier (power D1, other D1, D2/JuCo, D3) as measured in this league. Then
+      the key move: we compare a team's ACTIVE roster to the full group that produced its season
+      stats. A team's overall roster quality is basically its run differential in disguise (same
+      information), so feeding that in would just double-count it. What run differential can't see is
+      the DIFFERENCE, when a team loses (or adds) good players. That difference is the "Roster"
+      column, and it is what actually moves the odds: lose your ace and you get marked down before
+      the losses pile up; lose bench players and nothing changes. (Calibration fun fact: school
+      prestige barely predicts FCBL hitting, but power-conference pitchers really are different.)</p>
       <p><strong>Recent form counts:</strong> team strength leans partly on each club's last 12 games
       (30% by default, adjustable), because in a summer league the roster playing tonight is not always
       the roster that played in June. When a team genuinely changes mid-season, the model starts to see
@@ -261,6 +264,6 @@
 <div id="tooltip" class="tooltip" hidden></div>
 
 <script src="vendor/d3.v7.min.js"></script>
-<script type="module" src="js/app.js?v=9"></script>
+<script type="module" src="js/app.js?v=10"></script>
 </body>
 </html>

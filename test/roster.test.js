@@ -67,15 +67,38 @@ test("inactive players are excluded from a team's rating", () => {
     `LOW keeps its slugger (${rq.teams.LOW.rqi}), NSH lost theirs (${rq.teams.NSH.rqi})`);
 });
 
-test("rqi shifts sim talent by rosterWeight", () => {
+test("rosterShift moves sim talent by the weight multiplier, not the level", () => {
   const base = { abbr: "X", W: 16, L: 16, GP: 32, RS: 190, RA: 190 };
-  const strongRoster = { ...base, rqi: 0.56 };
-  const weakRoster = { ...base, rqi: 0.44 };
-  const t0 = talentFor(base, 0, { rosterWeight: 0.15 });
-  const tUp = talentFor(strongRoster, 0, { rosterWeight: 0.15 });
-  const tDn = talentFor(weakRoster, 0, { rosterWeight: 0.15 });
-  assert.ok(Math.abs(tUp - t0 - 0.15 * 0.06) < 1e-9, `up shift ${tUp - t0}`);
-  assert.ok(Math.abs(t0 - tDn - 0.15 * 0.06) < 1e-9, `down shift ${t0 - tDn}`);
+  const lostAce = { ...base, rosterShift: -0.025 };
+  const addedBat = { ...base, rosterShift: +0.01 };
+  const t0 = talentFor(base, 0, { rosterWeight: 1 });
+  assert.ok(Math.abs(talentFor(lostAce, 0, { rosterWeight: 1 }) - (t0 - 0.025)) < 1e-9);
+  assert.ok(Math.abs(talentFor(addedBat, 0, { rosterWeight: 2 }) - (t0 + 0.02)) < 1e-9);
   // weight 0 disables it
-  assert.equal(talentFor(strongRoster, 0, { rosterWeight: 0 }), t0);
+  assert.equal(talentFor(lostAce, 0, { rosterWeight: 0 }), t0);
+  // an intact team (no shift) is unaffected regardless of weight
+  assert.equal(talentFor(base, 0, { rosterWeight: 2.5 }), t0);
+});
+
+test("rosterShift is near zero for an intact team and negative when good players leave", () => {
+  const roster = [
+    // LOW keeps everyone; NSH loses its ace (via roster-moves would be manual,
+    // here via Inactive status)
+    "LOW~Ace Arm~RHP~Active~Boston College",
+    "LOW~Depth Arm~RHP~Active~Colby",
+    "NSH~Ace Arm~RHP~Inactive~Boston College",
+    "NSH~Depth Arm~RHP~Active~Colby",
+    "P~A Arm~Lowell Spinners~8~30.0~15~4~4~5~40~1",   // dominant
+    "P~D Arm~Lowell Spinners~8~30.0~35~25~24~12~12~4", // poor
+    "P~A Arm~Nashua Silver Knights~8~30.0~15~4~4~5~40~1",
+    "P~D Arm~Nashua Silver Knights~8~30.0~35~25~24~12~12~4",
+    // give both teams hitters so the hit side is identical/neutral
+    "LOW~Bat One~OF~Active~Colby", "NSH~Bat One~OF~Active~Colby",
+    "H~B One~Lowell Spinners~20~80~20~4~0~1~8~1~15",
+    "H~B One~Nashua Silver Knights~20~80~20~4~0~1~8~1~15",
+  ].join("\n");
+  const rq = computeRosterQuality(roster);
+  assert.ok(Math.abs(rq.teams.LOW.rosterShift) < 0.01, `intact LOW shift ${rq.teams.LOW.rosterShift}`);
+  assert.ok(rq.teams.NSH.rosterShift < rq.teams.LOW.rosterShift,
+    `NSH lost its ace: ${rq.teams.NSH.rosterShift} < ${rq.teams.LOW.rosterShift}`);
 });

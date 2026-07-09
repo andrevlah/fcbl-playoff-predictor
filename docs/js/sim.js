@@ -28,11 +28,15 @@ export const DEFAULT_SETTINGS = {
                          //   James-Stein shrinkage implies a prior of ~85-90
                          //   games. This league is far more even than its
                          //   standings look.
-  rosterWeight: 0.15,    // pull toward each team's roster-quality index (RQI:
-                         //   player-by-player production regressed with
-                         //   school-tier priors, ACTIVE players only). This is
-                         //   how mid-season departures reach the odds before
-                         //   the record shows them.
+  rosterWeight: 1.0,     // multiplier on rosterShift, the talent-scale
+                         //   adjustment for how a team's CURRENT active roster
+                         //   differs from the one that produced its results
+                         //   (departures of good players push it negative).
+                         //   Deliberately NOT the roster-quality LEVEL, which
+                         //   is ~collinear with run differential and would just
+                         //   double-count it. 1.0 = apply the measured shift
+                         //   as-is; raise it if you think departures matter
+                         //   more than the box score yet shows.
   recencyWeight: 0.30,   // weight on each team's LAST-12-GAMES run rates vs
                          //   full-season rates when estimating strength. Summer
                          //   rosters change, so who a team is NOW can differ
@@ -102,10 +106,11 @@ export function talentFor(team, dial = 0, opts = {}) {
   const raw = w * pyth + (1 - w) * winPct;
   let talent = 0.5 + (raw - 0.5) * (team.GP / (team.GP + prior));
 
-  // roster quality: shifts talent toward what the CURRENT active roster is
-  // worth (team.rqi, from docs/data/rosters.json), independent of results
+  // roster shift: talent adjustment for departures/additions the results
+  // haven't caught up to yet (team.rosterShift, from docs/data/rosters.json).
+  // Orthogonal to run differential by construction.
   const rw = opts.rosterWeight ?? DEFAULT_SETTINGS.rosterWeight;
-  if (rw > 0 && team.rqi != null) talent += rw * (team.rqi - 0.5);
+  if (rw > 0 && team.rosterShift) talent += rw * team.rosterShift;
 
   return clamp(talent + dial, 0.05, 0.95);
 }

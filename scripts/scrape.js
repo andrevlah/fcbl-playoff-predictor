@@ -97,11 +97,12 @@ async function main() {
     return { recentRS, recentRA, recentGP: games.length };
   };
 
-  // roster quality indexes (optional; published by npm run rosters)
-  let rqiByTeam = {};
+  // roster signal (optional; published by npm run rosters)
+  let rosterByTeam = {};
   try {
     const rosters = readJSON("rosters.json", null);
-    if (rosters) rqiByTeam = Object.fromEntries(Object.entries(rosters.teams).map(([a, t]) => [a, t.rqi]));
+    if (rosters) rosterByTeam = Object.fromEntries(Object.entries(rosters.teams).map(([a, t]) =>
+      [a, { rosterShift: t.rosterShift, rqi: t.rqi, activePA: t.activePAShare }]));
   } catch { /* optional */ }
 
   const teams = ABBRS.map((abbr) => {
@@ -124,7 +125,7 @@ async function main() {
       RS: stats[abbr].RS,
       RA: stats[abbr].RA,
       ...recentForm(abbr),
-      ...(rqiByTeam[abbr] != null ? { rqi: rqiByTeam[abbr] } : {}),
+      ...(rosterByTeam[abbr] || {}),
       streak: p.streak || "",
       derbyLosses: derbyLossOverrides[abbr] || 0,
       gamesRemaining: schedule.filter((g) => g.home === abbr || g.away === abbr).length,
