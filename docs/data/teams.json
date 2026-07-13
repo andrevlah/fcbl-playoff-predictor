@@ -19,9 +19,9 @@
     "derbyLosses": 0,
     "gamesRemaining": 19,
     "rosterShift": -0.007,
-    "rqi": 0.473,
+    "rqi": 0.476,
     "activePA": 0.88,
-    "asOf": "2026-07-12T22:00:00.000Z"
+    "asOf": "2026-07-13T01:30:14.297Z"
   },
   {
     "abbr": "NSH",
@@ -42,10 +42,10 @@
     "streak": "L1",
     "derbyLosses": 0,
     "gamesRemaining": 22,
-    "rosterShift": 0,
-    "rqi": 0.52,
+    "rosterShift": 0.001,
+    "rqi": 0.524,
     "activePA": 0.97,
-    "asOf": "2026-07-12T22:00:00.000Z"
+    "asOf": "2026-07-13T01:30:14.297Z"
   },
   {
     "abbr": "NB",
@@ -66,10 +66,10 @@
     "streak": "W2",
     "derbyLosses": 0,
     "gamesRemaining": 23,
-    "rosterShift": 0.008,
-    "rqi": 0.514,
+    "rosterShift": 0.009,
+    "rqi": 0.518,
     "activePA": 0.83,
-    "asOf": "2026-07-12T22:00:00.000Z"
+    "asOf": "2026-07-13T01:30:14.297Z"
   },
   {
     "abbr": "NOR",
@@ -91,9 +91,9 @@
     "derbyLosses": 0,
     "gamesRemaining": 22,
     "rosterShift": 0.01,
-    "rqi": 0.503,
+    "rqi": 0.505,
     "activePA": 0.88,
-    "asOf": "2026-07-12T22:00:00.000Z"
+    "asOf": "2026-07-13T01:30:14.297Z"
   },
   {
     "abbr": "VT",
@@ -117,7 +117,7 @@
     "rosterShift": 0.001,
     "rqi": 0.56,
     "activePA": 0.92,
-    "asOf": "2026-07-12T22:00:00.000Z"
+    "asOf": "2026-07-13T01:30:14.297Z"
   },
   {
     "abbr": "WF",
@@ -138,10 +138,10 @@
     "streak": "L4",
     "derbyLosses": 0,
     "gamesRemaining": 24,
-    "rosterShift": -0.025,
-    "rqi": 0.427,
+    "rosterShift": -0.023,
+    "rqi": 0.433,
     "activePA": 0.77,
-    "asOf": "2026-07-12T22:00:00.000Z"
+    "asOf": "2026-07-13T01:30:14.297Z"
   },
   {
     "abbr": "WOR",
@@ -163,8 +163,8 @@
     "derbyLosses": 0,
     "gamesRemaining": 21,
     "rosterShift": 0.005,
-    "rqi": 0.545,
+    "rqi": 0.547,
     "activePA": 0.61,
-    "asOf": "2026-07-12T22:00:00.000Z"
+    "asOf": "2026-07-13T01:30:14.297Z"
   }
 ]

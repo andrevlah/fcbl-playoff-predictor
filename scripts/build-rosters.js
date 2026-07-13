@@ -22,7 +22,14 @@ const snap = fs.readdirSync(dataDir)
 if (!snap) throw new Error("no snapshot file in scripts/data/");
 const asOf = snap.replace("snapshot-", "").replace(".txt", "");
 
-const rq = computeRosterQuality(fs.readFileSync(path.join(dataDir, snap), "utf8"));
+// newest bulk class-year file (optional)
+const cyFile = fs.readdirSync(dataDir)
+  .filter((f) => f.startsWith("class-years-") && f.endsWith(".txt"))
+  .sort()
+  .pop();
+const classYearText = cyFile ? fs.readFileSync(path.join(dataDir, cyFile), "utf8") : "";
+
+const rq = computeRosterQuality(fs.readFileSync(path.join(dataDir, snap), "utf8"), classYearText);
 
 const out = { asOf, ...rq };
 fs.writeFileSync(

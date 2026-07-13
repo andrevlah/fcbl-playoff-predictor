@@ -106,6 +106,14 @@ This tracks who has left or joined each team. Two ways to maintain it, easiest f
   `scripts/data/snapshot-*.txt` in, and the ratings rebuild from it. Rosters change slowly,
   so this is a once-in-a-while thing, not a daily chore.
 
+Player backgrounds (class year + recruiting pedigree) refine each player's rating. Class
+year for ~230 players is pulled in bulk into `scripts/data/class-years-*.txt`; curated
+pedigree for the standouts (and Lowell's class years, which the league doesn't publish)
+lives in `config/player-backgrounds.js`. To add or fix a player, edit that config file —
+`"TEAM|Full Name": { classYr: "SO", pedigree: 4 }`. Honest caveat: this barely moves the
+odds mid-season (a player's own stats dominate once he has 30+ games); its real value is
+new arrivals, thin samples, and next season from opening day.
+
 **Turn it off after the season** (playoffs start Aug 10):
 Actions tab → **Update FCBL data** → the **···** menu (top right) → **Disable workflow**.
 The site stays up forever; it just stops checking for new games.

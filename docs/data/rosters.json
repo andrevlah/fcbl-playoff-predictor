@@ -2,19 +2,19 @@
   "asOf": "2026-07-08",
   "teams": {
     "LOW": {
-      "rqi": 0.473,
+      "rqi": 0.476,
       "rosterShift": -0.007,
-      "dHit": -0.25,
-      "dPitch": -0.06,
+      "dHit": -0.22,
+      "dPitch": -0.04,
       "activePAShare": 0.88,
       "activeIPShare": 0.95,
       "hitters": 15,
       "pitchers": 13
     },
     "NSH": {
-      "rqi": 0.52,
-      "rosterShift": 0,
-      "dHit": 0.2,
+      "rqi": 0.524,
+      "rosterShift": 0.001,
+      "dHit": 0.25,
       "dPitch": 0.02,
       "activePAShare": 0.97,
       "activeIPShare": 0.82,
@@ -22,20 +22,20 @@
       "pitchers": 15
     },
     "NB": {
-      "rqi": 0.514,
-      "rosterShift": 0.008,
-      "dHit": 0.06,
-      "dPitch": 0.09,
+      "rqi": 0.518,
+      "rosterShift": 0.009,
+      "dHit": 0.1,
+      "dPitch": 0.1,
       "activePAShare": 0.83,
       "activeIPShare": 0.89,
       "hitters": 16,
       "pitchers": 17
     },
     "NOR": {
-      "rqi": 0.503,
+      "rqi": 0.505,
       "rosterShift": 0.01,
-      "dHit": -0.04,
-      "dPitch": 0.08,
+      "dHit": -0.01,
+      "dPitch": 0.07,
       "activePAShare": 0.88,
       "activeIPShare": 0.85,
       "hitters": 16,
@@ -44,7 +44,7 @@
     "VT": {
       "rqi": 0.56,
       "rosterShift": 0.001,
-      "dHit": 0.59,
+      "dHit": 0.6,
       "dPitch": 0.07,
       "activePAShare": 0.92,
       "activeIPShare": 0.74,
@@ -52,20 +52,20 @@
       "pitchers": 14
     },
     "WF": {
-      "rqi": 0.427,
-      "rosterShift": -0.025,
-      "dHit": -0.71,
-      "dPitch": -0.1,
+      "rqi": 0.433,
+      "rosterShift": -0.023,
+      "dHit": -0.67,
+      "dPitch": -0.07,
       "activePAShare": 0.77,
       "activeIPShare": 0.84,
       "hitters": 13,
       "pitchers": 13
     },
     "WOR": {
-      "rqi": 0.545,
+      "rqi": 0.547,
       "rosterShift": 0.005,
-      "dHit": 0.44,
-      "dPitch": 0.05,
+      "dHit": 0.45,
+      "dPitch": 0.07,
       "activePAShare": 0.61,
       "activeIPShare": 0.66,
       "hitters": 12,
@@ -97,7 +97,7 @@
     "hitters": 125,
     "pitchers": 125,
     "roster": 386,
-    "backgrounds": 8,
-    "playersWithBackground": 8
+    "backgrounds": 22,
+    "playersWithBackground": 228
   }
 }

@@ -45,12 +45,24 @@ const WPCT_PER_RUN = 0.09;  // pythagenpat slope at ~11.5 runs/game
 const PEDIGREE_WOBA = 0.010; // wOBA per pedigree point above/below 3
 const PEDIGREE_FIP = 0.10;   // FIP-core per pedigree point (higher pedigree = lower core = better)
 
-// resolve a player's background: explicit pedigree, else draft => 5, else
-// neutral 3; plus class-year trust multiplier on the prior weight
-export function backgroundFor(bg) {
-  if (!bg) return { pedigree: 3, trust: 1 };
-  const pedigree = bg.pedigree != null ? bg.pedigree : (bg.drafted ? 5 : 3);
-  const trust = bg.classYr && CLASS_YEAR_TRUST[bg.classYr] ? CLASS_YEAR_TRUST[bg.classYr] : 1;
+// normalize a roster-page class token ("So.", "R-Fr", "Gr", "FY") to FR/SO/JR/SR
+export function normalizeYr(raw) {
+  if (!raw) return null;
+  const s = raw.replace(/[^a-z]/gi, "").toLowerCase();
+  if (/^(fr|rfr|fy|first|redshirtfr)/.test(s)) return "FR";
+  if (/^(so|rso|soph)/.test(s)) return "SO";
+  if (/^(jr|rjr|jun)/.test(s)) return "JR";
+  if (/^(sr|rsr|sen|gr|grad)/.test(s)) return "SR"; // graduate students trusted like seniors
+  return null;
+}
+
+// resolve a player's background: config pedigree wins, else draft => 5, else
+// neutral 3; class year comes from the config first, then the bulk roster-page
+// data, and sets the trust multiplier on the prior weight.
+export function backgroundFor(bg, bulkYr) {
+  const pedigree = bg && bg.pedigree != null ? bg.pedigree : (bg && bg.drafted ? 5 : 3);
+  const classYr = (bg && bg.classYr) || bulkYr || null;
+  const trust = classYr && CLASS_YEAR_TRUST[classYr] ? CLASS_YEAR_TRUST[classYr] : 1;
   return { pedigree, trust };
 }
 
@@ -102,8 +114,21 @@ export function parseSnapshot(text) {
   return { roster, hitters, pitchers };
 }
 
-export function computeRosterQuality(snapshotText) {
+// classYearText: lines "TEAM~Full Name|Yr" from the bulk roster-page pull.
+export function computeRosterQuality(snapshotText, classYearText = "") {
   const { roster, hitters, pitchers } = parseSnapshot(snapshotText);
+
+  // bulk class years keyed team|first-initial+lastname (config still overrides)
+  const bulkYr = new Map();
+  for (const line of classYearText.split("\n")) {
+    const t = line.trim();
+    if (!t || t.startsWith("#")) continue;
+    const [team, rest] = t.split("~");
+    if (!rest) continue;
+    const [name, yr] = rest.split("|");
+    const norm = normalizeYr(yr);
+    if (team && name && norm) bulkYr.set(team + "|" + nameKey(name), norm);
+  }
 
   // roster lookup: (team, initial|lastname) -> { status, tier }. On the rare
   // same-team initial+lastname collision, prefer the Active entry: the player
@@ -136,7 +161,10 @@ export function computeRosterQuality(snapshotText) {
     const [team, ...rest] = key.split("|");
     bgByKey.set(team + "|" + nameKey(rest.join("|")), bg);
   }
-  const bgFor = (team, name) => backgroundFor(bgByKey.get(team + "|" + nameKey(name)));
+  const bgFor = (team, name) => {
+    const k = team + "|" + nameKey(name);
+    return backgroundFor(bgByKey.get(k), bulkYr.get(k));
+  };
 
   // ---- hitters ----
   const hs = hitters
