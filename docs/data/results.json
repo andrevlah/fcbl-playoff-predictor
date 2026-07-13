@@ -1446,5 +1446,148 @@
     "gameId": "manual_2026-07-08_WOR_LOW_1",
     "innings": null,
     "manual": true
+  },
+  {
+    "date": "2026-07-09",
+    "home": "NOR",
+    "away": "WOR",
+    "homeR": 8,
+    "awayR": 3,
+    "winner": "NOR",
+    "gameId": "manual_2026-07-09_WOR_NOR_1",
+    "innings": null,
+    "manual": true
+  },
+  {
+    "date": "2026-07-09",
+    "home": "LOW",
+    "away": "NB",
+    "homeR": 4,
+    "awayR": 13,
+    "winner": "NB",
+    "gameId": "manual_2026-07-09_NB_LOW_2",
+    "innings": null,
+    "manual": true
+  },
+  {
+    "date": "2026-07-09",
+    "home": "NOR",
+    "away": "WOR",
+    "homeR": 7,
+    "awayR": 4,
+    "winner": "NOR",
+    "gameId": "manual_2026-07-09_WOR_NOR_3",
+    "innings": null,
+    "manual": true
+  },
+  {
+    "date": "2026-07-09",
+    "home": "LOW",
+    "away": "NB",
+    "homeR": 7,
+    "awayR": 6,
+    "winner": "LOW",
+    "gameId": "manual_2026-07-09_NB_LOW_4",
+    "innings": null,
+    "manual": true
+  },
+  {
+    "date": "2026-07-10",
+    "home": "NSH",
+    "away": "NB",
+    "homeR": 9,
+    "awayR": 6,
+    "winner": "NSH",
+    "gameId": "manual_2026-07-10_NB_NSH_5",
+    "innings": null,
+    "manual": true
+  },
+  {
+    "date": "2026-07-10",
+    "home": "WOR",
+    "away": "NOR",
+    "homeR": 4,
+    "awayR": 5,
+    "winner": "NOR",
+    "gameId": "manual_2026-07-10_NOR_WOR_6",
+    "innings": null,
+    "manual": true
+  },
+  {
+    "date": "2026-07-10",
+    "home": "VT",
+    "away": "WF",
+    "homeR": 9,
+    "awayR": 4,
+    "winner": "VT",
+    "gameId": "manual_2026-07-10_WF_VT_7",
+    "innings": null,
+    "manual": true
+  },
+  {
+    "date": "2026-07-11",
+    "home": "LOW",
+    "away": "NSH",
+    "homeR": 9,
+    "awayR": 17,
+    "winner": "NSH",
+    "gameId": "manual_2026-07-11_NSH_LOW_8",
+    "innings": null,
+    "manual": true
+  },
+  {
+    "date": "2026-07-11",
+    "home": "VT",
+    "away": "WF",
+    "homeR": 5,
+    "awayR": 4,
+    "winner": "VT",
+    "gameId": "manual_2026-07-11_WF_VT_9",
+    "innings": null,
+    "manual": true
+  },
+  {
+    "date": "2026-07-11",
+    "home": "NB",
+    "away": "WOR",
+    "homeR": 3,
+    "awayR": 1,
+    "winner": "NB",
+    "gameId": "manual_2026-07-11_WOR_NB_10",
+    "innings": null,
+    "manual": true
+  },
+  {
+    "date": "2026-07-12",
+    "home": "NSH",
+    "away": "NB",
+    "homeR": 6,
+    "awayR": 7,
+    "winner": "NB",
+    "gameId": "manual_2026-07-12_NB_NSH_11",
+    "innings": null,
+    "manual": true
+  },
+  {
+    "date": "2026-07-12",
+    "home": "LOW",
+    "away": "NOR",
+    "homeR": 13,
+    "awayR": 0,
+    "winner": "LOW",
+    "gameId": "manual_2026-07-12_NOR_LOW_12",
+    "innings": null,
+    "manual": true
+  },
+  {
+    "date": "2026-07-12",
+    "home": "VT",
+    "away": "WF",
+    "homeR": 3,
+    "awayR": 2,
+    "winner": "VT",
+    "gameId": "manual_2026-07-12_WF_VT_13",
+    "innings": null,
+    "manual": true
   }
 ]
