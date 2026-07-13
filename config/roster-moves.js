@@ -12,7 +12,11 @@
 // Players who have LEFT (drafted, went back to school, injured for the year).
 // They stop counting toward their team's active roster immediately.
 //   departed: [{ team: "WF", name: "Thomas Pirog" }, ...]
-export const departed = [];
+export const departed = [
+  // 2026 MLB Draft (July 11-12). Both were already off the active roster
+  // before the draft, so these are for the record -- no ratings effect.
+  { team: "VT", name: "Kaiden McCarthy" }, // 2nd round; HS RHP, 2 June games then left for the combine
+];
 
 // Players who have RETURNED or newly SIGNED and belong on the active roster
 // even if the last snapshot marked them Inactive.
