@@ -2,9 +2,9 @@
 // Loads the published data, renders everything, and re-simulates client-side
 // (in a Web Worker running the identical engine) whenever a dial moves.
 
-import { TEAMS, ABBRS, logoURL, newsNotes, chartColor, isDarkTheme } from "./teams.js?v=11";
-import { DEFAULT_SETTINGS, remainingSoS } from "./sim.js?v=11";
-import { renderHistoryChart, renderLowellCurve, hideTip } from "./charts.js?v=11";
+import { TEAMS, ABBRS, logoURL, newsNotes, chartColor, isDarkTheme } from "./teams.js?v=12";
+import { DEFAULT_SETTINGS, remainingSoS, talentFor, powerRating } from "./sim.js?v=12";
+import { renderHistoryChart, renderLowellCurve, hideTip } from "./charts.js?v=12";
 
 const $ = (id) => document.getElementById(id);
 
@@ -55,6 +55,16 @@ function toAmericanOdds(p) {
 const fmtAmerican = (p) => toAmericanOdds(p);
 // games-behind numbers are halves: show "2" not "2.0", but "1.5" as-is
 const fmtGB = (v) => (Number.isInteger(v) ? String(v) : v.toFixed(1));
+
+// power-badge background: red (weak) -> slate (average, ~50) -> green (strong)
+function powerColor(p) {
+  const t = clampNum((p - 50) / 35, -1, 1); // -1 at ~15, +1 at ~85
+  const hue = t >= 0 ? 90 + t * 55 : 15 + (1 + t) * 20; // green side vs red side
+  const sat = 45 + Math.abs(t) * 25;
+  const light = 40 - Math.abs(t) * 6;
+  return `hsl(${hue}, ${sat}%, ${light}%)`;
+}
+const clampNum = (x, lo, hi) => Math.min(hi, Math.max(lo, x));
 const fmtDate = (iso) => {
   const [y, m, d] = iso.split("-").map(Number);
   return new Date(y, m - 1, d).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
@@ -130,6 +140,9 @@ function tableRows() {
       // the 4th seed
       cutGB: inPlayoffs.has(t.abbr) ? gbVs(fifth, t) : -gbVs(t, fourth),
       runDiff: t.RS - t.RA,
+      // 1-100 power rating from the model's strength estimate; reflects the
+      // current dials (talentFor sees dials + weights), schedule-independent
+      power: powerRating(talentFor(t, state.settings.dials[t.abbr] || 0, state.settings)),
       rosterShift: t.rosterShift ?? null,
       activePA: t.activePA ?? null,
       playoffPct: o.playoffPct,
@@ -175,8 +188,10 @@ function renderTable() {
     tdTeam.appendChild(cell);
     tr.appendChild(tdTeam);
 
-    // record / pts% / GB
+    // record / power / pts% / GB
     tr.insertAdjacentHTML("beforeend", `<td class="num-cell">${r.record}</td>`);
+    tr.insertAdjacentHTML("beforeend",
+      `<td><span class="power-badge" style="background:${powerColor(r.power)}">${r.power}</span></td>`);
     tr.insertAdjacentHTML("beforeend", `<td class="num-cell">${r.ptsPct.toFixed(3).replace(/^0/, "")}</td>`);
     tr.insertAdjacentHTML("beforeend", `<td class="num-cell">${r.gb === 0 ? "-" : fmtGB(r.gb)}</td>`);
     tr.insertAdjacentHTML("beforeend",
@@ -651,7 +666,7 @@ function resetToOfficial() {
 // worker plumbing
 // ---------------------------------------------------------------------------
 
-const worker = new Worker("js/worker.js?v=11", { type: "module" });
+const worker = new Worker("js/worker.js?v=12", { type: "module" });
 let simId = 0;
 let simTimer = null;
 

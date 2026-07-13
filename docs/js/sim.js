@@ -69,6 +69,15 @@ export function clamp(x, lo, hi) {
   return Math.min(hi, Math.max(lo, x));
 }
 
+// Power rating on a 1-100 scale for display. 50 = an exactly league-average
+// team; the spread is a fixed linear stretch of the model's talent estimate,
+// deliberately modest so it reflects real separation without exaggerating a
+// mid-major summer league into blowout territory. Schedule-independent (pure
+// strength), and it moves with the Play GM dials because talent does.
+export function powerRating(talent) {
+  return Math.round(clamp(50 + (talent - 0.5) * 450, 1, 99));
+}
+
 // --- team strength -----------------------------------------------------------
 
 // Pythagenpat: exponent adapts to the league's run environment.

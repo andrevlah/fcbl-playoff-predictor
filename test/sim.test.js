@@ -2,7 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
   pythagenpat, talentFor, log5, clamp, teamHFA, gameWinProb,
-  rankTeams, simulate, mulberry32, remainingSoS,
+  rankTeams, simulate, mulberry32, remainingSoS, powerRating,
 } from "../src/sim.js";
 import { SEED_TEAMS, SEED_SCHEDULE } from "../scripts/lib/seed-data.js";
 
@@ -35,6 +35,18 @@ test("worked example from the spec reproduces within ±0.001 (spec parameters)",
   // log5 of Lowell's side matches the spec's .315
   const l5 = log5(talentFor(LOWELL, 0, SPEC_PARAMS), talentFor(VERMONT, 0, SPEC_PARAMS));
   assert.ok(Math.abs(l5 - 0.315) < 0.001, `Lowell log5 = ${l5}`);
+});
+
+test("power rating: 50 = average, monotonic, clamped 1-99", () => {
+  assert.equal(powerRating(0.5), 50);
+  assert.ok(powerRating(0.56) > powerRating(0.5));
+  assert.ok(powerRating(0.43) < powerRating(0.5));
+  // integer, in range, even at extremes
+  assert.equal(powerRating(0.95), Math.round(powerRating(0.95)));
+  assert.ok(powerRating(0.99) <= 99 && powerRating(0.99) >= 1);
+  assert.ok(powerRating(0.01) >= 1 && powerRating(0.01) <= 99);
+  // a real top team lands high but not absurd (no Dodgers-Rockies inflation)
+  assert.ok(powerRating(0.563) >= 70 && powerRating(0.563) <= 85);
 });
 
 test("remaining SoS: tougher opponents and road games raise difficulty", () => {
