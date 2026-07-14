@@ -1589,5 +1589,41 @@
     "gameId": "manual_2026-07-12_WF_VT_13",
     "innings": null,
     "manual": true
+  },
+  {
+    "date": "2026-07-13",
+    "home": "NOR",
+    "away": "LOW",
+    "homeR": 1,
+    "awayR": 3,
+    "winner": "LOW",
+    "gameId": "manual_2026-07-13_LOW_NOR_1",
+    "innings": null,
+    "time": "6:30 PM",
+    "manual": true
+  },
+  {
+    "date": "2026-07-13",
+    "home": "WOR",
+    "away": "WF",
+    "homeR": 3,
+    "awayR": 6,
+    "winner": "WF",
+    "gameId": "manual_2026-07-13_WF_WOR_2",
+    "innings": null,
+    "time": "6:30 PM",
+    "manual": true
+  },
+  {
+    "date": "2026-07-13",
+    "home": "NB",
+    "away": "VT",
+    "homeR": 9,
+    "awayR": 4,
+    "winner": "NB",
+    "gameId": "manual_2026-07-13_VT_NB_3",
+    "innings": null,
+    "time": "6:35 PM",
+    "manual": true
   }
 ]

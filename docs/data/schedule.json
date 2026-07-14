@@ -1,29 +1,5 @@
 [
   {
-    "date": "2026-07-13",
-    "home": "NOR",
-    "away": "LOW",
-    "time": "6:30 PM",
-    "gameId": null,
-    "note": ""
-  },
-  {
-    "date": "2026-07-13",
-    "home": "WOR",
-    "away": "WF",
-    "time": "6:30 PM",
-    "gameId": null,
-    "note": ""
-  },
-  {
-    "date": "2026-07-13",
-    "home": "NB",
-    "away": "VT",
-    "time": "6:35 PM",
-    "gameId": null,
-    "note": ""
-  },
-  {
     "date": "2026-07-14",
     "home": "NOR",
     "away": "NSH",
