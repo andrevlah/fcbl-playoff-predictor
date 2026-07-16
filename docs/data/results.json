@@ -1625,5 +1625,41 @@
     "innings": null,
     "time": "6:35 PM",
     "manual": true
+  },
+  {
+    "date": "2026-07-14",
+    "home": "NOR",
+    "away": "NSH",
+    "homeR": 7,
+    "awayR": 6,
+    "winner": "NOR",
+    "gameId": "manual_2026-07-14_NSH_NOR_1",
+    "innings": null,
+    "time": "6:30 PM",
+    "manual": true
+  },
+  {
+    "date": "2026-07-14",
+    "home": "NB",
+    "away": "VT",
+    "homeR": 0,
+    "awayR": 2,
+    "winner": "VT",
+    "gameId": "manual_2026-07-14_VT_NB_2",
+    "innings": null,
+    "time": "6:35 PM",
+    "manual": true
+  },
+  {
+    "date": "2026-07-14",
+    "home": "LOW",
+    "away": "WF",
+    "homeR": 6,
+    "awayR": 4,
+    "winner": "LOW",
+    "gameId": "manual_2026-07-14_WF_LOW_3",
+    "innings": null,
+    "time": "7:00 PM",
+    "manual": true
   }
 ]
