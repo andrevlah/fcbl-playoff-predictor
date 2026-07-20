@@ -1,85 +1,5 @@
 [
   {
-    "date": "2026-07-15",
-    "home": "WF",
-    "away": "VT",
-    "time": "11:00 AM",
-    "gameId": null,
-    "note": ""
-  },
-  {
-    "date": "2026-07-15",
-    "home": "NSH",
-    "away": "WOR",
-    "time": "6:03 PM",
-    "gameId": null,
-    "note": ""
-  },
-  {
-    "date": "2026-07-15",
-    "home": "LOW",
-    "away": "NOR",
-    "time": "7:00 PM",
-    "gameId": null,
-    "note": ""
-  },
-  {
-    "date": "2026-07-16",
-    "home": "NOR",
-    "away": "VT",
-    "time": "6:30 PM",
-    "gameId": null,
-    "note": ""
-  },
-  {
-    "date": "2026-07-16",
-    "home": "WOR",
-    "away": "WF",
-    "time": "6:30 PM",
-    "gameId": null,
-    "note": ""
-  },
-  {
-    "date": "2026-07-16",
-    "home": "NB",
-    "away": "NSH",
-    "time": "6:35 PM",
-    "gameId": null,
-    "note": ""
-  },
-  {
-    "date": "2026-07-17",
-    "home": "NSH",
-    "away": "WOR",
-    "time": "6:03 PM",
-    "gameId": null,
-    "note": ""
-  },
-  {
-    "date": "2026-07-17",
-    "home": "NOR",
-    "away": "VT",
-    "time": "6:30 PM",
-    "gameId": null,
-    "note": ""
-  },
-  {
-    "date": "2026-07-17",
-    "home": "NB",
-    "away": "LOW",
-    "time": "6:35 PM",
-    "gameId": null,
-    "note": ""
-  },
-  {
-    "date": "2026-07-18",
-    "home": "NSH",
-    "away": "WF",
-    "time": "6:03 PM",
-    "gameId": null,
-    "note": ""
-  },
-  {
     "date": "2026-07-18",
     "home": "NOR",
     "away": "LOW",
@@ -91,38 +11,6 @@
     "date": "2026-07-18",
     "home": "NB",
     "away": "WOR",
-    "time": "6:35 PM",
-    "gameId": null,
-    "note": ""
-  },
-  {
-    "date": "2026-07-19",
-    "home": "NOR",
-    "away": "WF",
-    "time": "1:00 PM",
-    "gameId": null,
-    "note": ""
-  },
-  {
-    "date": "2026-07-19",
-    "home": "WOR",
-    "away": "NB",
-    "time": "4:00 PM",
-    "gameId": null,
-    "note": ""
-  },
-  {
-    "date": "2026-07-19",
-    "home": "VT",
-    "away": "NSH",
-    "time": "4:05 PM",
-    "gameId": null,
-    "note": "Makeup game"
-  },
-  {
-    "date": "2026-07-19",
-    "home": "VT",
-    "away": "NSH",
     "time": "6:35 PM",
     "gameId": null,
     "note": ""

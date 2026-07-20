@@ -348,5 +348,40 @@
         "titlePct": 0.1434
       }
     }
+  },
+  {
+    "timestamp": "2026-07-20T13:56:49.254Z",
+    "date": "2026-07-20",
+    "gamesCompleted": 154,
+    "teams": {
+      "LOW": {
+        "playoffPct": 0.12424,
+        "titlePct": 0.0334
+      },
+      "NSH": {
+        "playoffPct": 0.47648,
+        "titlePct": 0.11384
+      },
+      "NB": {
+        "playoffPct": 0.95672,
+        "titlePct": 0.20128
+      },
+      "NOR": {
+        "playoffPct": 0.53232,
+        "titlePct": 0.11572
+      },
+      "VT": {
+        "playoffPct": 1,
+        "titlePct": 0.32616
+      },
+      "WF": {
+        "playoffPct": 0.09168,
+        "titlePct": 0.02296
+      },
+      "WOR": {
+        "playoffPct": 0.81856,
+        "titlePct": 0.18664
+      }
+    }
   }
 ]
