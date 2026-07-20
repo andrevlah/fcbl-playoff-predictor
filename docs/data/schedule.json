@@ -1,21 +1,5 @@
 [
   {
-    "date": "2026-07-18",
-    "home": "NOR",
-    "away": "LOW",
-    "time": "6:30 PM",
-    "gameId": null,
-    "note": ""
-  },
-  {
-    "date": "2026-07-18",
-    "home": "NB",
-    "away": "WOR",
-    "time": "6:35 PM",
-    "gameId": null,
-    "note": ""
-  },
-  {
     "date": "2026-07-23",
     "home": "WOR",
     "away": "WF",
@@ -110,6 +94,14 @@
     "time": "12:00 PM",
     "gameId": null,
     "note": "Makeup game"
+  },
+  {
+    "date": "2026-07-26",
+    "home": "NOR",
+    "away": "LOW",
+    "time": "3:00 PM",
+    "gameId": null,
+    "note": "Postponed from 7/18"
   },
   {
     "date": "2026-07-26",
@@ -270,6 +262,14 @@
     "time": "1:35 PM",
     "gameId": null,
     "note": ""
+  },
+  {
+    "date": "2026-08-02",
+    "home": "NB",
+    "away": "WOR",
+    "time": "12:00 PM",
+    "gameId": null,
+    "note": "Postponed from 7/18"
   },
   {
     "date": "2026-08-02",
