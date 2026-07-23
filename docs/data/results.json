@@ -1829,5 +1829,17 @@
     "innings": null,
     "time": "6:35 PM",
     "manual": true
+  },
+  {
+    "date": "2026-07-23",
+    "home": "WOR",
+    "away": "WF",
+    "homeR": 7,
+    "awayR": 10,
+    "winner": "WF",
+    "gameId": "manual_2026-07-23_WF_WOR_1",
+    "innings": null,
+    "time": "10:30 AM",
+    "manual": true
   }
 ]

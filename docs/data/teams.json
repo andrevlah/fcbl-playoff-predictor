@@ -21,7 +21,7 @@
     "rosterShift": -0.007,
     "rqi": 0.476,
     "activePA": 0.88,
-    "asOf": "2026-07-20T14:13:12.064Z"
+    "asOf": "2026-07-23T20:42:28.357Z"
   },
   {
     "abbr": "NSH",
@@ -45,7 +45,7 @@
     "rosterShift": 0.001,
     "rqi": 0.524,
     "activePA": 0.97,
-    "asOf": "2026-07-20T14:13:12.064Z"
+    "asOf": "2026-07-23T20:42:28.357Z"
   },
   {
     "abbr": "NB",
@@ -69,7 +69,7 @@
     "rosterShift": 0.009,
     "rqi": 0.518,
     "activePA": 0.83,
-    "asOf": "2026-07-20T14:13:12.064Z"
+    "asOf": "2026-07-23T20:42:28.357Z"
   },
   {
     "abbr": "NOR",
@@ -93,7 +93,7 @@
     "rosterShift": 0.01,
     "rqi": 0.505,
     "activePA": 0.88,
-    "asOf": "2026-07-20T14:13:12.064Z"
+    "asOf": "2026-07-23T20:42:28.357Z"
   },
   {
     "abbr": "VT",
@@ -117,54 +117,54 @@
     "rosterShift": 0.001,
     "rqi": 0.56,
     "activePA": 0.92,
-    "asOf": "2026-07-20T14:13:12.064Z"
+    "asOf": "2026-07-23T20:42:28.357Z"
   },
   {
     "abbr": "WF",
     "name": "Westfield Starfires",
     "teamId": "8zu7i09aj67rkv31",
-    "W": 16,
+    "W": 17,
     "L": 26,
-    "GP": 42,
+    "GP": 43,
     "homeW": 8,
     "homeL": 13,
-    "awayW": 8,
+    "awayW": 9,
     "awayL": 13,
-    "RS": 208,
-    "RA": 275,
-    "recentRS": 45,
-    "recentRA": 69,
+    "RS": 218,
+    "RA": 282,
+    "recentRS": 54,
+    "recentRA": 73,
     "recentGP": 12,
-    "streak": "L1",
+    "streak": "W1",
     "derbyLosses": 0,
-    "gamesRemaining": 18,
+    "gamesRemaining": 17,
     "rosterShift": -0.023,
     "rqi": 0.433,
     "activePA": 0.77,
-    "asOf": "2026-07-20T14:13:12.064Z"
+    "asOf": "2026-07-23T20:42:28.357Z"
   },
   {
     "abbr": "WOR",
     "name": "Worcester Bravehearts",
     "teamId": "dz3zpsm7jzrzugyv",
     "W": 22,
-    "L": 22,
-    "GP": 44,
+    "L": 23,
+    "GP": 45,
     "homeW": 12,
-    "homeL": 10,
+    "homeL": 11,
     "awayW": 10,
     "awayL": 12,
-    "RS": 298,
-    "RA": 253,
-    "recentRS": 74,
-    "recentRA": 65,
+    "RS": 305,
+    "RA": 263,
+    "recentRS": 77,
+    "recentRA": 70,
     "recentGP": 12,
-    "streak": "W3",
+    "streak": "L1",
     "derbyLosses": 0,
-    "gamesRemaining": 16,
+    "gamesRemaining": 15,
     "rosterShift": 0.005,
     "rqi": 0.547,
     "activePA": 0.61,
-    "asOf": "2026-07-20T14:13:12.064Z"
+    "asOf": "2026-07-23T20:42:28.357Z"
   }
 ]
