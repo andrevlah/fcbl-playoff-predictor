@@ -1841,5 +1841,65 @@
     "innings": null,
     "time": "10:30 AM",
     "manual": true
+  },
+  {
+    "date": "2026-07-23",
+    "home": "NB",
+    "away": "NSH",
+    "homeR": 9,
+    "awayR": 8,
+    "winner": "NB",
+    "gameId": "manual_2026-07-23_NSH_NB_2",
+    "innings": null,
+    "time": "6:35 PM",
+    "manual": true
+  },
+  {
+    "date": "2026-07-23",
+    "home": "LOW",
+    "away": "VT",
+    "homeR": 2,
+    "awayR": 6,
+    "winner": "VT",
+    "gameId": "manual_2026-07-23_VT_LOW_3",
+    "innings": null,
+    "time": "7:00 PM",
+    "manual": true
+  },
+  {
+    "date": "2026-07-24",
+    "home": "NOR",
+    "away": "NSH",
+    "homeR": 3,
+    "awayR": 1,
+    "winner": "NOR",
+    "gameId": "manual_2026-07-24_NSH_NOR_1",
+    "innings": null,
+    "time": "6:30 PM",
+    "manual": true
+  },
+  {
+    "date": "2026-07-24",
+    "home": "WOR",
+    "away": "VT",
+    "homeR": 8,
+    "awayR": 5,
+    "winner": "WOR",
+    "gameId": "manual_2026-07-24_VT_WOR_2",
+    "innings": null,
+    "time": "6:30 PM",
+    "manual": true
+  },
+  {
+    "date": "2026-07-24",
+    "home": "NB",
+    "away": "LOW",
+    "homeR": 9,
+    "awayR": 3,
+    "winner": "NB",
+    "gameId": "manual_2026-07-24_LOW_NB_3",
+    "innings": null,
+    "time": "6:35 PM",
+    "manual": true
   }
 ]
